@@ -1,0 +1,117 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="form">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	 <p:panel id="search" header="Search Criteria" style="margin-bottom:20px">
+			        <h:panelGrid columns="10" columnClasses="label,value, label2,value, label2,value, label2,value, label2,value">
+			        	
+			        	<p:outputLabel value="Dispatch List No:" for="dispatchListNo"/>
+			        	<p:selectOneMenu id="dispatchListNo" value="#{licRnlBranchHubPodAction.dispatchListNo}" required="true" requiredMessage="Please Select">
+			        		<p:ajax event="change" partialSubmit="true"/>
+			        		<f:selectItem itemLabel="Please Select" itemValue=""/>
+			        		<f:selectItems value="#{licRnlBranchHubPodAction.dispatchList}"/>
+			        	</p:selectOneMenu>
+			        	
+			        	<p:outputLabel value="Mode of Delivery:" for="deliveryMode"/>
+			        	<p:selectOneMenu id="deliveryMode" value="#{licRnlBranchHubPodAction.deliveryMode}" required="true" requiredMessage="Please Select">
+			        		<f:selectItem itemLabel="Please Select" itemValue=""/>
+			        		<f:selectItem itemLabel="By Hand" itemValue="H" />
+			        		<f:selectItem itemLabel="By Post" itemValue="P"/>
+			        		<p:ajax listener="#{licRnlBranchHubPodAction.deliveryModeChange()}" event="change" update="search" />
+			        	</p:selectOneMenu>
+			        	
+			        	<p:outputLabel value="Employee Code:" for="empCode" rendered="#{licRnlBranchHubPodAction.handFlag}"/>
+			        	<p:inputText id="empCode" value="#{licRnlBranchHubPodAction.empCode}"  rendered="#{licRnlBranchHubPodAction.handFlag}" required="true" requiredMessage="Please Enter Employee Code" style="width: 150px">
+			        		<p:ajax listener="#{licRnlBranchHubPodAction.findEmployee()}" event="change" update="empName" />
+			        	</p:inputText>
+			        	
+			        	<p:outputLabel value="Employee Name:" rendered="#{licRnlBranchHubPodAction.handFlag}"/>
+			        	<p:outputLabel id="empName" value="#{licRnlBranchHubPodAction.empName}" rendered="#{licRnlBranchHubPodAction.handFlag}" disabled="true" />
+			        	
+			        	<p:outputLabel value="Pod No:" for="podNo" rendered="#{licRnlBranchHubPodAction.courierFlag}"/>
+			        	<p:inputText id="podNo" value="#{licRnlBranchHubPodAction.podNo}" rendered="#{licRnlBranchHubPodAction.courierFlag}" required="true" requiredMessage="Please Enter POD No" style="width: 150px"/>
+			        	
+			        	<p:outputLabel value="Courier Name:" for="courierName" rendered="#{licRnlBranchHubPodAction.courierFlag}"/>
+			        	<p:inputText id="courierName" value="#{licRnlBranchHubPodAction.courierName}" rendered="#{licRnlBranchHubPodAction.courierFlag}" required="true" requiredMessage="Please Enter Courier Name" style="width: 150px"/>
+			        	
+			        	<p:commandButton value="Generate" actionListener="#{licRnlBranchHubPodAction.searchForPod()}" update="searchOutputPanel, listOutputPanel" icon="ui-icon-clipboard" style="font-weight:bolder" onclick="processDialog.show();" oncomplete="$('.ui-state-error'); processDialog.hide();" />
+			        </h:panelGrid>
+			    </p:panel>
+			</p:outputPanel>
+
+	    	<p:outputPanel id="listOutputPanel">
+			    <p:panel id="list" style="margin-bottom:20px" rendered="#{licRnlBranchHubPodAction.renderedListPanel}">
+			    	<p:dataTable id="table" value="#{licRnlBranchHubPodAction.licPolicyDtlsDtoList}" var="row">
+			    	
+			    		<f:facet name="header">
+	                    		Renewal Dispatch List Generation
+	                    	<span style="float: right;">Record(s) Found : #{fn:length(licRnlBranchHubPodAction.licPolicyDtlsDtoList)}</span>
+						</f:facet>
+						
+						<p:column headerText="Policy No.">
+							<h:outputText value="#{row.policyNo}" />
+						</p:column>
+						
+						<p:column headerText="No of Due Years">
+							<h:outputText value="#{row.dueYears}" />
+						</p:column>
+						
+						<p:column headerText="From Due Date">
+						        <h:outputText value="#{row.fromDueDate}">
+						        	<f:convertDateTime pattern="dd/MM/yyyy"/>
+						        </h:outputText>
+					    </p:column>
+					    
+					    <p:column headerText="To Due Date">
+						        <h:outputText value="#{row.toDueDate}">
+						        	<f:convertDateTime pattern="dd/MM/yyyy"/>
+						        </h:outputText>
+					    </p:column>
+					    
+					    <p:column headerText="Pay Nature">
+						        <h:outputText value="#{row.payNature}"/>
+					    </p:column>
+						
+						<p:column headerText="Pay Date">
+						        <h:outputText value="#{row.payDate}" >
+						        	<f:convertDateTime pattern="dd/MM/yyyy"/>
+						        </h:outputText>
+					    </p:column>					    
+					    
+					    <p:column headerText="Insured Name">
+					        <h:outputText value="#{row.insuredName}" />
+					    </p:column>
+					    
+					    <p:column headerText="Proposer Name">
+					        <h:outputText value="#{row.proposerName}" />
+					    </p:column>					    
+					    
+					    <p:column headerText="Product">
+					        <h:outputText value="#{row.product}" />
+					    </p:column>
+					    
+					    <p:column headerText="Health Flag">
+					        <h:outputText value="#{row.healthFlag}" />
+					    </p:column>
+					    
+						<p:column headerText="Pay Mode">
+					        <h:outputText value="#{row.payMode}" />
+					    </p:column>
+					</p:dataTable>
+					
+			    	<f:facet name="footer">
+			    		<p:commandButton value="Save" actionListener="#{licRnlBranchHubPodAction.onSave()}" update="searchOutputPanel, listOutputPanel" icon="ui-icon-disk" style="font-weight:bolder" onclick="processDialog.show();" oncomplete="$('.ui-state-error'); processDialog.hide();"/>
+			    	</f:facet>
+			    </p:panel>
+			</p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/template/layout.xhtml">
+
+	<ui:define name="content">
+
+		<h:form id="saveForm">
+		 	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+		 	<p:outputPanel id="saveOutputPanel">
+				<p:panel id="savePanel" header="Assign Print Receipt To Branch" style="margin-bottom:20px">
+					<h:panelGrid columns="4" cellpadding="5" styleClass="grid" columnClasses="label,value, label2,value">
+						
+						<p:outputLabel value="Insurance Company : " for="insCompy"/>
+						<p:selectOneMenu id="insCompy" value="#{printRcptMstAction.printRcptMst.parentCompyMst}" required="true" requiredMessage="Please Select" converter="#{parentCompyMstConverter}" style="width: 200px">
+							<f:selectItem itemLabel="Select One" itemValue="#{null}"/>
+							<f:selectItems value="#{printRcptMstAction.parentCompyMsts}" var="row" itemLabel="#{row.prntCompyName}" itemValue="#{row}"/>
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="GTFS Branch : " for="branch"/>
+						<p:selectOneMenu id="branch" value="#{printRcptMstAction.printRcptMst.branchMst}" required="true" requiredMessage="Please Select" converter="#{branchMstConverter}" style="width: 200px">
+							<f:selectItem itemLabel="Select One" itemValue="#{null}"/>
+							<f:selectItems value="#{printRcptMstAction.branchMsts}" var="row" itemLabel="#{row.branchName}" itemValue="#{row}" />
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Tieup Company : " for="tieup"/>
+						<p:selectOneMenu id="tieup" value="#{printRcptMstAction.printRcptMst.tieupCompyMst}" required="true" requiredMessage="Please Select" converter="#{tieupCompyMstConverter}" style="width: 200px">
+							<f:selectItem itemLabel="Select One" itemValue="#{null}"/>
+							<f:selectItems value="#{printRcptMstAction.tieupCompyMsts}" var="row" itemLabel="#{row.tieCompyName}" itemValue="#{row}"/>
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Receipt No's Prefix : " for="prefix"/>
+						<p:inputText id="prefix" value="#{printRcptMstAction.printRcptMst.prefix}" required="true" requiredMessage="Please Enter Prefix" style="width: 200px">
+							<p:ajax event="keyup" update="receiptFrom" listener="#{printRcptMstAction.prefixChange()}"/>
+						</p:inputText>
+						
+						<p:outputLabel value="Receipt No. From : " for="receiptFrom"/>
+						<p:inputText id="receiptFrom" value="#{printRcptMstAction.printRcptMst.receiptFrom}" required="true" requiredMessage="Please Enter Receipt No. From" disabled="true" style="width: 200px" />
+						
+						<p:outputLabel value="Receipt No. To : " for="receiptTo"/>
+						<p:inputText id="receiptTo" value="#{printRcptMstAction.printRcptMst.receiptTo}" required="true" requiredMessage="Please Enter Receipt No. To" style="width: 200px" />
+						
+						<h:inputHidden>
+					        <f:validator validatorId="com.gtfs.validator.printReceiptValidator" />
+					    </h:inputHidden>
+					</h:panelGrid>
+					
+					<f:facet name="footer">
+						<p:commandButton value="Save" actionListener="#{printRcptMstAction.save()}" update=":saveForm:saveOutputPanel" icon="ui-icon-disk" style="font-weight:bolder"/>
+					</f:facet>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>		
+	</ui:define>
+</ui:composition>

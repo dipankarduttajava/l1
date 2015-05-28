@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+     
+    <h:head>
+        <title>Cars</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+     
+    <h:body>
+    	<h:form id="form1">
+	        <p:panel id="info" >
+	        	<p:panelGrid columns="2">
+	        		<p:outputLabel value="Total Receivable:"/>
+					<p:outputLabel id="totalReceivable" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.totalReceivable}" >
+						<f:convertNumber pattern="#.##" />
+					</p:outputLabel>
+					
+					<p:outputLabel value="Total DD/Cheque Amount:"/>
+					<p:outputLabel id="totalDdChq" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.totalDdChqAmt}" >
+						<f:convertNumber pattern="#.##" />
+					</p:outputLabel>
+					
+					<p:outputLabel value="Balance Receivable in Cash:"/>
+					<p:outputLabel id="balanceInCash" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.balanceInCash}" >
+						<f:convertNumber pattern="#.##" />
+					</p:outputLabel>
+					
+					<p:outputLabel value="Amount to be returned:"/>
+					<p:outputLabel id="returnAmt" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.amtToReturn}" >
+						<f:convertNumber pattern="#.##" />
+					</p:outputLabel>							
+	        		
+	        		<p:commandButton value="Submit" actionListener="#{licPreliminaryDataEntrySearchAction.submit}" icon="ui-icon-disk" style="font-weight:bolder"/>
+	        	</p:panelGrid>
+	        </p:panel>
+        </h:form>
+    </h:body>
+     
+</html>

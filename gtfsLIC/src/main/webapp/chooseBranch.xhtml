@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+    <f:view contentType="text/html">
+        <ui:insert name="style.xhtml">
+            <ui:include src="/template/style.xhtml" />
+            <style type="text/css">
+                .ui-messages-error,.ui-messages-info,ui-corner-all {
+                    font-family: sans-serif;
+                    font-size: 14px;
+                    width: 50% !important;
+                }
+            </style>
+        </ui:insert>
+        
+        <h:body>
+			<h:form id="loginForm" prependId="false">
+				<div align="center" style="margin-top:15%">
+					<p:messages autoUpdate="true" showDetail="true" closable="true"/>
+					<b:panel title="Select Branch Where You are Physically Present Now" style="width:30%; margin:auto;" look="primary" >
+						<b:panelGrid colSpans="4,8">
+							<h:outputLabel for="branch" value="Select Branch" />                                
+							<p:autoComplete id="branch" var="row" itemLabel="#{row.branchName}" required="true" requiredMessage="Please Choose Branch, Type You Banch Name" forceSelection="true" itemValue="#{row}" completeMethod="#{loginAction.findBranch}" value="#{loginAction.branchMst}" converter="#{branchMstConverter}" />
+							<b:commandButton value="Submit" action="#{loginAction.goToWelcomePage()}" icon="ok-sign" look="primary" style="float:right;" />
+						</b:panelGrid>
+					</b:panel>
+				</div>
+			</h:form>
+        </h:body>
+    </f:view>
+</html>

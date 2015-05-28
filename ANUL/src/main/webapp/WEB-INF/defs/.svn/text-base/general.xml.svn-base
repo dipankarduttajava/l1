@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+	"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+
+<tiles-definitions>
+
+	<definition name="common" template="/WEB-INF/layout/template.jsp">
+		<put-attribute name="header" value="/WEB-INF/layout/header.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/layout/footer.jsp" />
+	</definition>
+	
+	<definition name="login" extends="common">
+		<put-attribute name="title" value="Sign In" />
+		<put-attribute name="header" value="" />
+		<put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
+		<put-attribute name="current" value="no"/>
+	</definition>
+	
+	<definition name="dashboard" extends="common">
+		<put-attribute name="title" value="Dash Board" />
+		<put-attribute name="body" value="/WEB-INF/jsp/dashboard.jsp" />
+		<put-attribute name="current" value="no"/>
+	</definition>
+	
+	<definition name="projectEntry" extends="common">
+		<put-attribute name="title" value="Project Mst" />
+		<put-attribute name="body" value="/WEB-INF/jsp/pro/projectEntry.jsp" />
+		<put-attribute name="current" value="no"/>
+	</definition>
+	
+	<definition name="flatMstEntry" extends="common">
+		<put-attribute name="title" value="Flat Mst" />
+		<put-attribute name="body" value="/WEB-INF/jsp/pro/flatMstEntry.jsp" />
+		<put-attribute name="current" value="no"/>
+	</definition>
+	
+	<definition name="customerMstEntry" extends="common">
+		<put-attribute name="title" value="Customer Master" />
+		<put-attribute name="body" value="/WEB-INF/jsp/pro/customerMstEntry.jsp" />
+		<put-attribute name="current" value="no"/>
+	</definition>
+	
+	<definition name="flatNegotiation" extends="common">
+		<put-attribute name="title" value="Flat Negotiation" />
+		<put-attribute name="body" value="/WEB-INF/jsp/pro/flatNegotiation.jsp" />
+		<put-attribute name="current" value="no"/>
+	</definition>
+
+	<definition name="customerBooking" extends="common">
+		<put-attribute name="title" value="Customer Booking" />
+		<put-attribute name="body" value="/WEB-INF/jsp/pro/customerBooking.jsp" />
+		<put-attribute name="current" value="no"/>
+	</definition>
+	
+	<definition name="paymentEntry" extends="common">
+		<put-attribute name="title" value="Payment Entry" />
+		<put-attribute name="body" value="/WEB-INF/jsp/pro/paymentEntry.jsp" />
+		<put-attribute name="current" value="no"/>
+	</definition>
+	
+	<definition name="userMstEntry" extends="common">
+		<put-attribute name="title" value="User Master" />
+		<put-attribute name="body" value="/WEB-INF/jsp/pro/userMstEntry.jsp" />
+		<put-attribute name="current" value="no"/>
+	</definition>
+
+</tiles-definitions>

@@ -1,0 +1,252 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">    
+    
+    <style type="text/css">
+   		.ui-chkbox.ui-chkbox-all.ui-widget {
+		    display:none !important;
+		 }
+   	</style>
+   	        
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	 <p:panel id="search" header="Search Criteria" style="margin-bottom:20px">
+			        <h:panelGrid columns="3" columnClasses="label,value, label2,value">
+			        	<p:outputLabel for="policyNo" value="Policy No :"/>
+			        	<p:inputText id="policyNo" value="#{licDirectRenewalEntryAction.policyNo}" required="true" requiredMessage="Please Enter Policy No" />
+			        	
+			        	<p:commandButton value="Search" actionListener="#{licDirectRenewalEntryAction.search()}" update=":searchForm:policyDetailOutputPanel,:searchForm:searchOutputPanel,:searchForm:premiumDueOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+			        </h:panelGrid>
+			    </p:panel>
+			</p:outputPanel>
+		    
+		    <p:outputPanel id="policyDetailOutputPanel">
+			    <p:panel id="policyDtlsList" header="Policy Details" style="margin-bottom:20px" rendered="#{licDirectRenewalEntryAction.renderedDetails}">
+		    		<p:dataTable id="policyDetails" value="#" style="width:100%">
+						<p:columnGroup type="header">
+				            <p:row>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Policy Number : " style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="policyNo" value="#{licDirectRenewalEntryAction.policyNo}" />
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Modal Premium : " style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="modalPremium" value="#{licDirectRenewalEntryAction.modalPremium}" />
+				                	</f:facet>
+				                </p:column>
+				            </p:row>
+				            
+				            <p:row>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Product : " style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="product" value="#{licDirectRenewalEntryAction.product}" />
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Total Modal Premium : " style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="totalModalPrem" value="#{licDirectRenewalEntryAction.totalModalPrem}" />
+				                	</f:facet>
+				                </p:column>				                
+				            </p:row>
+				            
+				            <p:row>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Insured Name : " style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="insuredName" value="#{licDirectRenewalEntryAction.insuredName}" />
+				                	</f:facet>
+				                </p:column>
+				               <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Total Service Tax : " style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="totalServiceTax" value="#{licDirectRenewalEntryAction.totalServiceTax}" >
+				                			
+				                		</h:outputLabel>
+				                	</f:facet>
+				                </p:column>
+				            </p:row>
+				            
+				             <p:row>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Sum Assured :" style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="sumAssured" value="#{licDirectRenewalEntryAction.sumAssured}" />
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" rowspan="4" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Total Amount Receivable:" style="float:left;font-size: 20px;color:red;"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" rowspan="4" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="totalAmountReceivable" value="#{licDirectRenewalEntryAction.totalAmountReceivable}" style="font-size: 20px;color:red;">
+				         					
+				                		</h:outputLabel>
+				                	</f:facet>
+				                </p:column>
+				            </p:row>
+				            
+				            <p:row>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Pay Nature :" style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="payNature" value="#{licDirectRenewalEntryAction.payNature}" />
+				                	</f:facet>
+				                </p:column>				                
+				            </p:row>
+				            
+				            <p:row>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Risk Start Date :" style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="riskStartDate" value="#{licDirectRenewalEntryAction.riskStartDate}" >
+				                			<f:convertDateTime pattern="dd/MM/YYYY" />
+				                		</h:outputLabel>
+				                	</f:facet>
+				                </p:column>
+				            </p:row>
+				            
+				            <p:row>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Last Paid Due Date : " style="float:left" />
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="lpdd" value="#{licDirectRenewalEntryAction.lastPaidDueDate}" disabled="true">
+				                			<f:convertDateTime pattern="dd/MM/YYYY" />
+				                		</h:outputLabel>
+				                	</f:facet>
+				                </p:column>
+				            </p:row>				           
+				        </p:columnGroup>
+					</p:dataTable>
+					
+					<p:spacer height="20px"/>
+					
+					
+					<p:dataTable id="table" value="#{licDirectRenewalEntryAction.licPolicyDtlsList}" var="row" rowIndexVar="index" rowKey="#{row.id}" selection="#{licDirectRenewalEntryAction.selectedList}" >						
+						
+						<p:ajax event="rowSelect" listener="#{licDirectRenewalEntryAction.onRowSelect}" update="table,:searchForm:searchOutputPanel, :searchForm:policyDetailOutputPanel, :searchForm:premiumDueOutputPanel"/>
+						<p:ajax event="rowSelectCheckbox" listener="#{licDirectRenewalEntryAction.onRowSelect}" update="table,:searchForm:searchOutputPanel, :searchForm:policyDetailOutputPanel, :searchForm:premiumDueOutputPanel"/>
+						<p:ajax event="rowUnselect" listener="#{licDirectRenewalEntryAction.onRowUnselect}" update=":searchForm:searchOutputPanel, :searchForm:policyDetailOutputPanel, :searchForm:premiumDueOutputPanel"/>
+						<p:ajax event="rowUnselectCheckbox" listener="#{licDirectRenewalEntryAction.onRowUnselect}" update=":searchForm:searchOutputPanel, :searchForm:policyDetailOutputPanel, :searchForm:premiumDueOutputPanel"/>
+						<f:facet name="header">
+                    		Premium Due List(s)
+                    	<span style="float: right;">Record(s) Found : #{fn:length(licDirectRenewalEntryAction.licPolicyDtlsList)}</span>
+						</f:facet>
+						
+						<p:column selectionMode="multiple" style="width:16px; text-align:center" />
+						
+						<p:column headerText="Sl.No">
+							<h:outputText value="#{index + 1}" />
+						</p:column>
+						
+						<p:column headerText="Policy No">
+							<h:outputText value="#{row.licPolicyMst.policyNo}" />								
+						</p:column>
+						<p:column headerText="Modal Premium">
+							<h:outputText value="#{row.licPolicyMst.modalPrem}" />								
+						</p:column>
+						
+						<p:column headerText="Due Date">
+							<h:outputText value="#{row.dueDate}" >
+								<f:convertDateTime pattern="dd/MM/YYYY" />
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
+			    </p:panel>
+			</p:outputPanel>
+			
+			<p:outputPanel id="premiumDueOutputPanel">			    
+			    <p:panel id="otherDetails" style="margin-bottom:20px" rendered="#{licDirectRenewalEntryAction.renderedDetails}">
+			    	<h:panelGrid columns="4" columnClasses="label,value, label2,value, label2,value" >
+			    		<p:outputLabel value="Agent Code : " for="agCode"/>
+			    		<p:inputText id="agCode" value="#{licDirectRenewalEntryAction.agCode}" required="true" requiredMessage="Please Enter Agent Code"/>
+			    		
+			    		<p:outputLabel value="Phase : " for="phase"/>
+			    		<p:selectOneMenu id="phase" value="#{licDirectRenewalEntryAction.phaseId}" required="true" requiredMessage="Please Select Phase"	>
+			    			<f:selectItem itemLabel="Select One" itemValue=""/>
+			    			<f:selectItems value="#{licDirectRenewalEntryAction.phaseMstList}" var="row" itemLabel="#{row.phaseName}" itemValue="#{row.phaseId}"/>
+			    		</p:selectOneMenu>
+			    		
+			    		
+			    		<p:outputLabel value="Receipt Date : " for="receiptDate"/>
+			    		<p:calendar id="receiptDate" value="#{licDirectRenewalEntryAction.receiptDate}" required="true" requiredMessage="Please Enter Receipt Date"/>
+			    		
+			    		<p:outputLabel value="Remarks : " for="premDueRemarks"/>
+			    		<p:inputTextarea id="premDueRemarks" value="#{licDirectRenewalEntryAction.premDueRemarks}" required="true" requiredMessage="Please Enter Receipt Date" cols="40"/>
+			    		
+			    	</h:panelGrid>
+			    </p:panel>
+			    
+			    <p:panel id="submitPanel" style="margin-bottom:20px" toggleable="true" toggleSpeed="500" rendered="#{licDirectRenewalEntryAction.renderedDetails}">
+       	 			<p:commandButton value="Validate" actionListener="#{licDirectRenewalEntryAction.validate}" oncomplete="$('.ui-state-error'); conf.show();"  update=":searchForm:searchOutputPanel,:searchForm:policyDetailOutputPanel,:searchForm:premiumDueOutputPanel" icon="ui-icon-document" style="font-weight:bolder"
+       	 					rendered="#{licDirectRenewalEntryAction.renderedSave == false}" />
+       	 					
+       	 			<p:commandButton value="Save" actionListener="#{licDirectRenewalEntryAction.save}"  update=":searchForm:searchOutputPanel,:searchForm:policyDetailOutputPanel,:searchForm:premiumDueOutputPanel" icon="ui-icon-disk" style="font-weight:bolder" 
+       	 								rendered="#{licDirectRenewalEntryAction.renderedSave}" disabled="#{licDirectRenewalEntryAction.disabledSave}" />
+      	 				   	 			
+      	 			<p:spacer width="20"/>
+      	 			       	 			
+      	 			<p:commandButton value="Reload" actionListener="#{licDirectRenewalEntryAction.onLoad}"  update=":searchForm:searchOutputPanel,:searchForm:policyDetailOutputPanel,:searchForm:premiumDueOutputPanel" icon="ui-icon-refresh" style="font-weight:bolder" 
+      	 							rendered="#{licDirectRenewalEntryAction.renderedSave}"/>
+					
+       	 			<p:dialog header="Information" widgetVar="conf" resizable="false" modal="true" appendTo="@(body)" >
+       	 				<p:outputLabel value="Please Verify Before Saving"/>
+       	 			</p:dialog>
+       	 		</p:panel>
+			</p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

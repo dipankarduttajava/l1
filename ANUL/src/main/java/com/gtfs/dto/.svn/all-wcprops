@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/1380/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dto
+END
+ReceiptDtlsDto.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/1374/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dto/ReceiptDtlsDto.java
+END
+CustomerMstDto.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/1242/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dto/CustomerMstDto.java
+END
+UserMstDto.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/1380/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dto/UserMstDto.java
+END
+RoleAccessComboDto.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1194/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dto/RoleAccessComboDto.java
+END
+ProjectMstDto.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/1379/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dto/ProjectMstDto.java
+END
+FlatMstDto.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/1357/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dto/FlatMstDto.java
+END
+ProjectMilestoneDto.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/1306/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dto/ProjectMilestoneDto.java
+END
+RoleMstDto.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/1194/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dto/RoleMstDto.java
+END
+AccessMstDto.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1370/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dto/AccessMstDto.java
+END
+FlatInvoiceComboDto.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/1364/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dto/FlatInvoiceComboDto.java
+END
+ReceiptDtlsWrapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1370/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dto/ReceiptDtlsWrapper.java
+END
+UserRoleComboDto.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/1196/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dto/UserRoleComboDto.java
+END

@@ -1,0 +1,179 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/template/layout.xhtml">
+
+	<ui:define name="content">
+
+		<h:form id="searchForm">
+			<p:messages showDetail="true" autoUpdate="true" closable="true" />
+			
+			<p:outputPanel id="searchOutputPanel">
+				<p:panel id="searchPanel" header="Search" style="margin-bottom:20px" rendered="#{licOblCmsViewReport.renderedSearch}">
+					<h:panelGrid columns="8" columnClasses="label,value, label2,value,label2,value,label2,value">
+						<p:outputLabel for="pisId" value="PIS ID"/>
+						<p:inputText id="pisId" value="#{licOblCmsViewReport.pisId}"/>
+						
+						<p:outputLabel for="busineeFormDate" value="Business From Date"/>
+						<p:calendar id="busineeFormDate" value="#{licOblCmsViewReport.busineeFormDate}" pattern="dd/MM/yyyy"/>
+						
+						<p:outputLabel for="businessToDate" value="Business To Date"/>
+						<p:calendar id="businessToDate" value="#{licOblCmsViewReport.businessToDate}" pattern="dd/MM/yyyy"/>
+						
+						<p:commandButton value="Search" actionListener="#{licOblCmsViewReport.search()}" update="pisListOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+					</h:panelGrid>
+				</p:panel>
+			</p:outputPanel>
+			
+			<p:outputPanel id="pisListOutputPanel">
+				<p:panel id="pisListPanel" style="margin-bottom:20px" rendered="#{licOblCmsViewReport.renderedPisList}">
+					<p:dataTable id="pisTable" value="#{licOblCmsViewReport.licPisMsts}" rowIndexVar="sl" var="row" paginator="true" rows="5" paginatorPosition="bottom">
+						<f:facet name="header">
+                    		PIS Report
+                    		<span style="float: right;">Record(s) Found : #{fn:length(licOblCmsViewReport.licPisMsts)}</span>
+						</f:facet>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Sl.No"/>
+							</f:facet>
+							<h:outputText value="#{sl+1}" />
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="PIS No."/>
+							</f:facet>
+							<h:outputText value="#{row.id}" />
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="PIS Date"/>
+							</f:facet>
+							<p:calendar value="#{row.createdDate}" pattern="dd/MM/yyyy" disabled="true" size="8"/>
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Click Here" style="font-weight:bolder"/>
+							</f:facet>
+							<p:commandLink actionListener="#{licOblCmsViewReport.selectRow(row)}" value="Select" update=":searchForm:searchOutputPanel,:searchForm:pisListOutputPanel,:searchForm:listOutputPanel,:searchForm:exportOutputPanel" style="font-weight:bolder" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</p:outputPanel>
+
+			<p:outputPanel id="listOutputPanel">
+			
+				<p:outputPanel style="text-align: right; margin-bottom: 3px; margin-right: 20px;" layout="block" >
+					<p:commandButton action="#{licOblCmsViewReport.exportToExcel}" ajax="false" icon="xls" style="background-color: #FFFFFF; " rendered="#{licOblCmsViewReport.renderReportList}" />
+				</p:outputPanel>
+				
+				<p:panel id="list" style="margin-bottom:20px" rendered="#{licOblCmsViewReport.renderReportList}">
+					<p:dataTable id="table" value="#{licOblCmsViewReport.licPisDtos}" rowIndexVar="sl" var="row" paginator="true" rows="5" paginatorPosition="bottom">
+
+						<f:facet name="header">
+                    		PIS Detail Report
+                    		<span style="float: right;">Record(s) Found : #{fn:length(licOblCmsViewReport.licPisDtos)}</span>
+						</f:facet>
+						
+						<p:column headerText="Sl.No">
+							<h:outputText value="#{sl+1}" />
+						</p:column>
+						<p:column headerText="Application No">
+							<h:outputText value="#{row.applicationNo}" />
+						</p:column>
+
+						<p:column headerText="Business Date">
+							<p:calendar value="#{row.businessDate}" pattern="dd/MM/yyyy" disabled="true" size="8" />
+						</p:column>
+						
+						<p:column headerText="DD/Cheque Parent Company">
+							<h:outputText value="#{row.draftChqInsAmt}" >
+								<f:convertNumber pattern="#.##"/>
+							</h:outputText>
+							<f:facet name="footer">
+								<h:outputText value="#{licOblCmsViewReport.totalDDChqInsCo}" >
+									<f:convertNumber pattern="#.##"/>
+								</h:outputText>
+							</f:facet>
+						</p:column>
+						
+						<p:column headerText="DD/Cheque TieUp Company">
+							<h:outputText value="#{row.draftChqTieAmt}" >
+								<f:convertNumber pattern="#.##"/>
+							</h:outputText>
+							<f:facet name="footer">
+								<h:outputText value="#{licOblCmsViewReport.totalDDChqTieUpCo}" >
+									<f:convertNumber pattern="#.##"/>
+								</h:outputText>
+							</f:facet>
+						</p:column>
+						
+						<p:column headerText="Cash">
+							<h:outputText value="#{row.cashAmt}" >
+								<f:convertNumber pattern="#.##"/>
+							</h:outputText>
+							<f:facet name="footer">
+								<h:outputText value="#{licOblCmsViewReport.totalCash}" >
+									<f:convertNumber pattern="#.##"/>
+								</h:outputText>
+							</f:facet>
+						</p:column>
+						
+						<p:column headerText="Total Amount" style="font-weight:bold">
+							<h:outputText value="#{row.totalAmt}" style="font-weight:bold" >
+								<f:convertNumber pattern="#.##"/>
+							</h:outputText>
+							<f:facet name="footer">
+								<h:outputText value="#{licOblCmsViewReport.totalAmount}" style="font-weight:bold" >
+									<f:convertNumber pattern="#.##"/>
+								</h:outputText>
+							</f:facet>
+						</p:column>
+					</p:dataTable>
+					
+					<p:spacer height="30" />
+
+			        <p:dataTable id="cmsTable" value="#{licOblCmsViewReport.licCmsMsts}" var="row" >
+
+						<f:facet name="header">
+                    		CMS Detail List Report
+                    		<span style="float: right;">Record(s) Found : #{fn:length(licOblCmsViewReport.licCmsMsts)}</span>
+						</f:facet>
+						
+						<p:column headerText="CMS Slip Number" width="20%">
+							<h:outputText value="#{row.cmsNo}" />
+						</p:column>
+
+						<p:column headerText="CMS Slip Mode" width="40%">
+							<p:selectOneMenu value="#{row.payMode}" disabled="true" >
+								<f:selectItem itemLabel="Tieup Company DD/Cheque" itemValue="T" />
+					            <f:selectItem itemLabel="Parent Company DD/Cheque" itemValue="P" />
+					            <f:selectItem itemLabel="Cash" itemValue="C" />
+							</p:selectOneMenu>
+						</p:column>
+						
+						<p:column headerText="Amount">
+							<h:outputText value="#{row.amount}" >
+								<f:convertNumber pattern="#.##"/>
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
+					</p:panel>
+			</p:outputPanel>
+
+			<p:outputPanel id="exportOutputPanel">
+				<p:panel rendered="#{licOblCmsViewReport.renderReportList}">
+					<p:panelGrid columns="2">
+						<p:commandButton value="Reload" action="#{licOblCmsViewReport.backToPisSearch}" update=":searchForm:searchOutputPanel,:searchForm:pisListOutputPanel,:searchForm:listOutputPanel,:searchForm:exportOutputPanel" icon="ui-icon-refresh" style="font-weight:bolder"/>
+					</p:panelGrid>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

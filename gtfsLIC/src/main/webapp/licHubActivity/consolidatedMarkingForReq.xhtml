@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        
+        <h:form id="consolidateMarkingReqForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="consolidateMarkingReqOutputPanel">
+	        	<p:panel id="consolidateMarkingReqReport" header="Report At Hub" style="margin-bottom:20px">
+	        		<h:panelGrid columns="5" styleClass="grid" columnClasses="label,value, label2,value, label2,value">
+	        			
+	        			<p:outputLabel value="POD Numbers : " for="podId"/>
+	        			<p:selectOneMenu value="#{consolidatedMarkingForReqAction.podId}" required="true" requiredMessage="Please Select" id="podId" style="width: 150px">
+		        			<f:selectItem itemLabel="Select One" itemValue=""/>
+		        			<f:selectItems value="#{consolidatedMarkingForReqAction.consolidatedMarkingDtoList}" var="row" itemLabel="#{row.dropdownString}" itemValue="#{row.id}"/>
+		        		</p:selectOneMenu>
+		        		
+		        		<p:outputLabel value="Received Date : " for="receivedDate"/>
+		        		<p:calendar id="receivedDate" value="#{consolidatedMarkingForReqAction.receivedDate}" pattern="dd/MM/yyyy" required="true" requiredMessage="Please Enter Date"/>
+		        		
+		        		<p:commandButton actionListener="#{consolidatedMarkingForReqAction.markAsReceived()}" value="Mark As Received" update="consolidateMarkingReqForm" icon="ui-icon-check" style="font-weight:bolder" />
+	        		</h:panelGrid>
+			    </p:panel>
+			</p:outputPanel>
+	    </h:form>
+    </ui:define>
+</ui:composition>

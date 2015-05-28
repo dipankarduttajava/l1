@@ -1,0 +1,393 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+    	<style type="text/css">
+    		.ui-chkbox.ui-chkbox-all.ui-widget {
+			    display:none !important;
+			 }
+    	</style>
+    	
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	 <p:panel id="search" header="Search Criteria" style="margin-bottom:20px">
+			        <h:panelGrid columns="3" columnClasses="label,value, label2,value">
+			        	<p:outputLabel for="policyNo" value="Policy No :"/>
+			        	<p:inputText id="policyNo" value="#{renewalBranchMasterAction.policyNo}" required="true" requiredMessage="Please Enter Policy No" />
+			        	
+			        	<p:commandButton id="renewalSearch" value="Search" actionListener="#{renewalBranchMasterAction.search()}" oncomplete="$('.ui-state-error'); processDialog.hide(); " onclick="processDialog.show();" update=":searchForm:policyDetailOutputPanel,:searchForm:searchOutputPanel,:searchForm:premiumDueOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+			        </h:panelGrid>
+			    </p:panel>
+			</p:outputPanel>
+		    
+		    <p:outputPanel id="policyDetailOutputPanel">
+			    <p:panel id="policyDtlsList" header="Policy Details" style="margin-bottom:20px" rendered="#{renewalBranchMasterAction.renderedDetails}">
+		    		<p:dataTable id="policyDetails" value="#" style="width:100%">
+						<p:columnGroup type="header">
+				            <p:row>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Policy Number : " style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="policyNo" value="#{renewalBranchMasterAction.policyNo}" />
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Modal Premium : " style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="modalPremium" value="#{renewalBranchMasterAction.modalPremium}" >
+				                			<f:convertNumber pattern="#.##"/>
+				                		</h:outputLabel>
+				                	</f:facet>
+				                </p:column>				            
+				            </p:row>
+				            
+				            <p:row>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Product : " style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="product" value="#{renewalBranchMasterAction.product}" />
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Total Modal Premium : " style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="totalModalPrem" value="#{renewalBranchMasterAction.totalModalPrem}" >
+				                			<f:convertNumber pattern="#.##"/>
+				                		</h:outputLabel>
+				                	</f:facet>
+				                </p:column>				                
+				            </p:row>
+				            
+				            <p:row>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Insured Name : " style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="insuredName" value="#{renewalBranchMasterAction.insuredName}" />
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Total Fine Amount : " style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="fineAmount" value="#{renewalBranchMasterAction.fineAmount}" >
+				                			<f:convertNumber pattern="#.##"/>
+				                		</h:outputLabel>
+				                	</f:facet>
+				                </p:column>
+				            </p:row>
+				            
+				             <p:row>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Sum Assured :" style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="sumAssured" value="#{renewalBranchMasterAction.sumAssured}" >
+				                			<f:convertNumber pattern="#.##"/>
+				                		</h:outputLabel>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Total Service Tax : " style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="totalServiceTax" value="#{renewalBranchMasterAction.totalServiceTax}" >
+				                			<f:convertNumber pattern="#.##"/>
+				                		</h:outputLabel>
+				                	</f:facet>
+				                </p:column>
+				            </p:row>
+				            
+				            <p:row>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Pay Nature :" style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="payNature" value="#{renewalBranchMasterAction.payNature}" />
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" rowspan="3" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Total Amount Receivable:" style="float:left;font-size: 20px;color:red;"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" rowspan="3" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="totalAmountReceivable" value="#{renewalBranchMasterAction.totalAmountReceivable}" style="font-size: 20px;color:red;">
+				         					<f:convertNumber pattern="#.##"/>
+				                		</h:outputLabel>
+				                	</f:facet>
+				                </p:column>
+				            </p:row>
+				            
+				            <p:row>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Risk Start Date :" style="float:left"/>
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="riskStartDate" value="#{renewalBranchMasterAction.riskStartDate}" >
+				                			<f:convertDateTime pattern="dd/MM/yyyy" />
+				                		</h:outputLabel>
+				                	</f:facet>
+				                </p:column>
+				            </p:row>
+				            
+				            <p:row>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel value="Last Paid Due Date : " style="float:left" />
+				                	</f:facet>
+				                </p:column>
+				                <p:column styleClass="colBgColor" style="width:25%">
+				                	<f:facet name="header">
+				                		<h:outputLabel id="lpdd" value="#{renewalBranchMasterAction.lastPaidDueDate}" disabled="true">
+				                			<f:convertDateTime pattern="dd/MM/yyyy" />
+				                		</h:outputLabel>
+				                	</f:facet>
+				                </p:column>
+				            </p:row>				            
+				        </p:columnGroup>
+					</p:dataTable>
+					
+					<p:spacer height="20px"/>
+			    
+			    	<p:dataTable id="table" value="#{renewalBranchMasterAction.licPolicyDtlsList}" var="row" rowIndexVar="index">
+						
+						<f:facet name="header">
+                    		Pending Policy Detail List(s)
+                    	<span style="float: right;">Record(s) Found : #{fn:length(renewalBranchMasterAction.licPolicyDtlsList)}</span>
+						</f:facet>						
+						
+						<p:column headerText="Serial No.">
+							<h:outputText value="#{index+1}" />
+						</p:column>
+						
+						<p:column headerText="Due Date">
+							<h:outputText value="#{row.dueDate}" >
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Health Required">
+							<h:outputText value="#{row.hlthReqdFlag}" />
+						</p:column>
+					</p:dataTable>
+					
+					<p:spacer height="10px"/>
+					
+					<p:dataTable id="selectedTable" value="#{renewalBranchMasterAction.licAdvPolicyDtlsList}" var="row" rowIndexVar="index"
+						rowKey="#{row.id}" selection="#{renewalBranchMasterAction.selectedList}" rendered="#{fn:length(renewalBranchMasterAction.licAdvPolicyDtlsList) > 0}" disabledSelection="#{renewalBranchMasterAction.renderedSave}">
+						
+						<p:ajax event="rowSelect" listener="#{renewalBranchMasterAction.onRowSelect}" update=":searchForm:searchOutputPanel,:searchForm:policyDetailOutputPanel,:searchForm:premiumDueOutputPanel"/>
+						<p:ajax event="rowSelectCheckbox" listener="#{renewalBranchMasterAction.onRowSelect}" update=":searchForm:searchOutputPanel,:searchForm:policyDetailOutputPanel,:searchForm:premiumDueOutputPanel"/>
+						<p:ajax event="rowUnselect" listener="#{renewalBranchMasterAction.onRowUnselect}" update=":searchForm:searchOutputPanel,:searchForm:policyDetailOutputPanel,:searchForm:premiumDueOutputPanel"/>
+						<p:ajax event="rowUnselectCheckbox" listener="#{renewalBranchMasterAction.onRowUnselect}" update=":searchForm:searchOutputPanel,:searchForm:policyDetailOutputPanel,:searchForm:premiumDueOutputPanel"/>
+						
+						<f:facet name="header">
+                    		Next Policy Details
+                    	<span style="float: right;">Record(s) Found : #{fn:length(renewalBranchMasterAction.licAdvPolicyDtlsList)}</span>
+						</f:facet>
+						
+						<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+						
+						<p:column headerText="Serial No.">
+							<h:outputText value="#{index+1}" />
+						</p:column>
+						
+						<p:column headerText="Due Date">
+							<h:outputText value="#{row.dueDate}" >
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Health Required">
+							<h:outputText value="#{row.hlthReqdFlag}" />
+						</p:column>
+					</p:dataTable>					
+			    </p:panel>
+			</p:outputPanel>
+			
+			<p:outputPanel id="premiumDueOutputPanel">
+			    <p:panel id="otherDetails" style="margin-bottom:20px" rendered="#{renewalBranchMasterAction.renderedDetails}">
+			    	<h:panelGrid columns="4" columnClasses="label,value, label2,value">
+			    		<p:outputLabel value="Agent Code :" for="agCode"/>
+			    		<p:inputText id="agCode" value="#{renewalBranchMasterAction.agCode}" required="true" requiredMessage="Please Enter Agent Code" disabled="#{renewalBranchMasterAction.renderedSave}" />
+			    		
+			    		<p:outputLabel value="Phase :" for="phase"/>
+			    		<p:selectOneMenu id="phase" value="#{renewalBranchMasterAction.phaseId}" required="true" requiredMessage="Please Select Phase" disabled="#{renewalBranchMasterAction.renderedSave}"	>
+			    			<f:selectItem itemLabel="Select One" itemValue=""/>
+			    			<f:selectItems value="#{renewalBranchMasterAction.phaseMsts}" var="row" itemLabel="#{row.phaseName}" itemValue="#{row.phaseId}"/>
+			    		</p:selectOneMenu>
+			    	</h:panelGrid>
+			    </p:panel>
+			    
+			    <p:panel id="bankDetail" header="Bank Details" style="margin-bottom:20px" toggleable="true" toggleSpeed="500" rendered="#{renewalBranchMasterAction.renderedBankDtls}">        	 		
+	        		<h:panelGrid columns="6" styleClass="grid" columnClasses="label,value, label2,value, label2,value">
+						<p:outputLabel value="IFSC Code:" for="ifscCode"/>
+        	 			<p:inputText id="ifscCode" value="#{renewalBranchMasterAction.ifsCode}" required="true" requiredMessage="Please Enter IFSCode" disabled="#{renewalBranchMasterAction.renderedSave}">
+        	 				<p:ajax listener="#{renewalBranchMasterAction.searchByIfscCode()}" event="change" update="bankDetail"/>
+        	 				<p:ajax listener="#{renewalBranchMasterAction.searchByIfscCode()}" event="blur" update="bankDetail"/>
+        	 			</p:inputText>
+        	 			
+        	 			<p:outputLabel value="Bank Name :" for="bankName"/>
+        	 			<p:inputText id="bankName" value="#{renewalBranchMasterAction.bankName}" disabled="true" />
+        	 			
+        	 			<p:outputLabel value="Branch Name :" for="branchName"/>
+        	 			<p:inputText id="branchName" value="#{renewalBranchMasterAction.branchName}" disabled="true" />
+        	 			
+        	 			<p:outputLabel value="Bank Address :" for="bankAdd"/>
+        	 			<p:inputTextarea id="bankAdd" value="#{renewalBranchMasterAction.branchAdd}" rows="3" cols="30" disabled="true" />
+        	 			
+        	 			<p:outputLabel value="MICR Code :" for="micrCode"/>
+        	 			<p:inputText id="micrCode" value="#{renewalBranchMasterAction.micrCode}" disabled="true" />
+        	 			
+        	 			<p:outputLabel value="Account No. :" for="acctNo"/>
+        	 			<p:inputText id="acctNo" value="#{renewalBranchMasterAction.acctNo}" required="true" requiredMessage="Please Enter Account Number" disabled="#{renewalBranchMasterAction.renderedSave}" />
+        	 			
+        	 			<p:outputLabel value="Account Type :" for="acctType"/>
+        	 			<p:selectOneMenu id="acctType" value="#{renewalBranchMasterAction.acctType}" required="true" requiredMessage="Please Select Account Type" disabled="#{renewalBranchMasterAction.renderedSave}">
+					    	<f:selectItem itemLabel="Select Account Type" itemValue="" />
+					    	<f:selectItem itemLabel="Savings Account" itemValue="S" />
+					    	<f:selectItem itemLabel="Current Account" itemValue="C" />
+					    </p:selectOneMenu>
+        	 		</h:panelGrid>
+	        	</p:panel>
+			    
+			    <p:panel id="paymentDetail" header="Payment Details" style="margin-bottom:20px" toggleable="true" toggleSpeed="500" rendered="#{renewalBranchMasterAction.renderedDetails}">
+	        		<p:commandButton value="Add" actionListener="#{renewalBranchMasterAction.addPaymentDtls()}" update="paymentTable" icon="ui-icon-plus" style="font-weight:bold"/>
+	       	 		<p:separator/>
+	       	 		<p:dataTable value="#{renewalBranchMasterAction.licRnlPaymentDtlsList}" var="row" id="paymentTable" scrollable="true" scrollWidth="98%" style="width:100%">
+	       	 			<p:column headerText="DD/Cheque" style="width:95px">
+					        <p:selectOneMenu id="ddCheque" value="#{row.payMode}" required="true" requiredMessage="Please Select">
+					            <f:selectItem itemLabel="Select One" itemValue="" />
+					            <f:selectItem itemLabel="DD" itemValue="D" />
+					            <f:selectItem itemLabel="Cheque" itemValue="Q" />
+					        </p:selectOneMenu>
+					    </p:column>
+	       	 			<p:column headerText="DD/Chq.No" style="width:100px">
+	       	 				<p:inputText id="ddChequeNo" value="#{row.draftChqNo}" required="true" requiredMessage="Please Enter Draft/Cheque No." maxlength="6" style="width:90px"/>
+	       	 			</p:column>
+	       	 			<p:column headerText="Favour Of" style="width:230px">
+	       	 				<p:selectOneMenu id="payeeName" value="#{row.payeeName}" required="true" requiredMessage="Please Select" style="width:230px">
+					            <f:selectItem itemLabel="Select One" itemValue="" />
+<!-- 					            <f:selectItem itemLabel="SARADA INSURANCE CONSULTANCY LTD" itemValue="SARADA INSURANCE CONSULTANCY LTD" /> -->
+					            <f:selectItem itemLabel="LIFE INSURANCE CORPORATION OF INDIA (LICI)" itemValue="LIFE INSURANCE CORPORATION OF INDIA (LICI)" />
+					        </p:selectOneMenu>
+	       	 			</p:column>
+	       	 			<p:column headerText="Bank" style="width:230px">
+	       	 				<p:inputText id="bank" value="#{row.draftChqBank}" required="true" requiredMessage="Please Enter Bank Name"/>
+	       	 			</p:column>
+	       	 			<p:column headerText="Branch" style="width:230px">
+	       	 				<p:inputText id="branch" value="#{row.draftCgqBranch}" required="true" requiredMessage="Please Enter Branch Name"/>
+	       	 			</p:column>
+	       	 			<p:column headerText="DD/Chq Date" style="width:180px">
+	       	 				<p:calendar id="ddChqDate" value="#{row.draftChqDate}" pattern="dd/MM/yyyy" required="true" requiredMessage="Please Enter Date"/>
+	       	 			</p:column>
+	       	 			<p:column headerText="DD/Chq Amount" style="width:230px">
+	       	 				<p:inputText id="ddChqAmt" value="#{row.amount}" required="true" requiredMessage="Please Enter Draft/Cheque No." >
+	       	 					<f:convertNumber pattern="#.##" />
+	       	 				</p:inputText>
+	       	 			</p:column>
+	       	 			<p:column headerText="Action" style="width:50px">
+				       		<p:commandLink value="Delete" actionListener="#{renewalBranchMasterAction.deletePaymentDtls(row)}" update="paymentTable" immediate="true" style="font-weight:bolder; color:black" />
+				    	</p:column>
+	       	 		</p:dataTable>
+	        	</p:panel>
+        	 	
+        	 	<p:panel id="concessions" header="Concessions" style="margin-bottom:20px" toggleable="true" toggleSpeed="500" rendered="#{renewalBranchMasterAction.renderedDetails}">
+        	 		<p:panelGrid columns="6" columnClasses="label,value, label2,value, label2,value">
+        	 			<p:outputLabel value="DD making Charges : " for="ddMakingCharge"/>
+						<p:inputText id="ddMakingCharge" value="#{renewalBranchMasterAction.ddMakingCharges}" maxlength="5">
+							<f:convertNumber pattern="#.##" />
+						</p:inputText>
+						
+						<p:outputLabel value="Others : " for="otherCharges"/>
+						<p:inputText id="otherCharges" value="#{renewalBranchMasterAction.otherCharges}" maxlength="5">
+							<f:convertNumber pattern="#.##" />
+						</p:inputText>
+						
+						<p:outputLabel value="Remarks(If Others) : " for="remarks"/>
+						<p:inputTextarea id="remarks" value="#{renewalBranchMasterAction.paymentRemarks}" />
+        	 		</p:panelGrid>
+        	 	</p:panel>
+       	 		
+       	 		<p:panel id="submitPanel" style="margin-bottom:20px" toggleable="true" toggleSpeed="500" rendered="#{renewalBranchMasterAction.renderedDetails}">
+       	 			<p:commandButton value="Validate" actionListener="#{renewalBranchMasterAction.validate}" oncomplete="$('.ui-state-error');conf.show();"  update=":searchForm:searchOutputPanel,:searchForm:policyDetailOutputPanel,:searchForm:premiumDueOutputPanel" icon="ui-icon-disk" style="font-weight:bolder" rendered="#{renewalBranchMasterAction.renderedSave == false}" />
+       	 			
+       	 			<p:commandButton value="Save" actionListener="#{renewalBranchMasterAction.save}" onclick="processDialog.show();" oncomplete="$('.ui-state-error'); processDialog.hide();"  update=":searchForm:searchOutputPanel,:searchForm:policyDetailOutputPanel,:searchForm:premiumDueOutputPanel" icon="ui-icon-disk" style="font-weight:bolder" rendered="#{renewalBranchMasterAction.renderedSave}" />    
+       	 				   	 			
+       	 			<p:spacer width="20"/>
+       	 			       	 			
+       	 			<p:commandButton value="Back" actionListener="#{renewalBranchMasterAction.back}"  update=":searchForm:searchOutputPanel,:searchForm:policyDetailOutputPanel,:searchForm:premiumDueOutputPanel" icon="ui-icon-arrowthick-1-w" style="font-weight:bolder" rendered="#{renewalBranchMasterAction.renderedSave}"/>
+       	 			
+       	 			<p:dialog header="Please Verify Before Saving" widgetVar="conf" resizable="false" modal="true" appendTo="@(body)" closeOnEscape="true">
+						<h:panelGrid id="display" columns="3" cellpadding="4" style="margin:0 auto;">
+		
+							<h:outputText value="Total Receivable" style="font-weight:bold;" />
+							<h:outputText value=": " style="font-weight:bold;" />
+							<h:outputText value="#{renewalBranchMasterAction.totalReceivable}" style="font-weight:bold" >
+								<f:convertNumber pattern="#.##" />
+							</h:outputText>
+		
+							<h:outputText value="Total DD/Cheque Amount" style="font-weight:bold" />
+							<h:outputText value=": " style="font-weight:bold;" />
+							<h:outputText value="#{renewalBranchMasterAction.totalDdChequeAmt}" style="font-weight:bold" >
+								<f:convertNumber pattern="#.##" />
+							</h:outputText>
+		
+							<h:outputText value="Balance Receivable in Cash" style="font-weight:bold;" />
+							<h:outputText value=": " style="font-weight:bold;" />
+							<h:outputText value="#{renewalBranchMasterAction.balanceRcvInCash}" style="font-weight:bold" >
+								<f:convertNumber pattern="#.##" />
+							</h:outputText>
+		
+							<h:outputText value="Amount to be Returned" style="font-weight:bold" />
+							<h:outputText value=": " style="font-weight:bold;" />
+							<h:outputText value="#{renewalBranchMasterAction.amtToReturn}" style="font-weight:bold" >
+								<f:convertNumber pattern="#.##" />
+							</h:outputText>
+						</h:panelGrid>
+					</p:dialog>
+       	 		</p:panel>
+			</p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

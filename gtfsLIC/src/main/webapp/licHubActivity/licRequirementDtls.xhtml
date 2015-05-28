@@ -1,0 +1,158 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">        
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	<p:panel id="search" header="Search Criteria" style="margin-bottom:20px" rendered="#{licRequirementDtlsAction.renderedPanel == false}">
+	        		<h:panelGrid columns="5" styleClass="grid" columnClasses="label,value, label2,value, label2,value">
+	        			<p:outputLabel value="Requirement Type:" for="reqType"/>
+	        			<p:selectOneMenu id="reqType" value="#{licRequirementDtlsAction.reqType}" required="true" requiredMessage="Please Select">
+	        				<f:selectItem itemLabel="Select One" itemValue=""/>
+	        				<f:selectItem itemLabel="Short Premium" itemValue="S"/>
+	        				<f:selectItem itemLabel="Document" itemValue="D"/>
+	        			</p:selectOneMenu>
+	        			
+	        			<p:outputLabel value="Application No:" for="applicationNo"/>	        			
+	        			<p:inputText id="applicationNo" value="#{licRequirementDtlsAction.applicationNo}" required="true" requiredMessage="Please Enter ApplicationNo"/>
+		        		
+		        		<p:commandButton value="Search" actionListener="#{licRequirementDtlsAction.search()}" update=":shortAmtForm:shortAmtOutputPanel,:searchForm:searchOutputPanel,:dialogForm:confirmDialog" icon="ui-icon-search" style="font-weight:bolder" />
+	        		</h:panelGrid>
+	        	</p:panel>
+	    	</p:outputPanel>
+	    </h:form>
+	    
+	    <h:form id="shortAmtForm">
+	    	<p:outputPanel id="shortAmtOutputPanel">
+	    		<p:panel id="shortAmtPanel" header="Application Details" style="margin-bottom:20px" rendered="#{licRequirementDtlsAction.renderedPanel}">
+	    			<p:dataTable id="table" value="#{licRequirementDtlsAction.licPolicyMsts}" var="row" rowIndexVar="sr" >
+	    				<p:column headerText="Sr No.">
+	    					<h:outputText value="#{sr+1}" />
+	    				</p:column>
+	    				
+	    				<p:column headerText="Application No">
+					        <h:outputText value="#{row.licOblApplicationMst.oblApplNo}" />
+					    </p:column>
+					    
+					    <p:column headerText="Business Date">
+					        <p:calendar value="#{row.licOblApplicationMst.businessDate}" pattern="dd/MM/yyyy" disabled="true" />
+					    </p:column>
+					    
+					    <p:column headerText="Insured Name">
+					        <h:outputText value="#{row.licOblApplicationMst.licInsuredDtls.name}" />
+					    </p:column>
+					    
+					    <p:column headerText="Proposer Name">
+					        <h:outputText value="#{row.licOblApplicationMst.licProposerDtls.name}" />
+					    </p:column>
+					    
+					    <p:column headerText="Branch Name">
+					        <h:outputText value="#{row.licOblApplicationMst.branchMst.branchName}" />
+					    </p:column>
+					    
+					    <p:column headerText="LIC Branch Name">
+					        <h:outputText value="#{row.licOblApplicationMst.picBranchMstId.picBranchName}" />
+					    </p:column>
+					   	
+					   	<p:column headerText="Basic Premium">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.basicPrem}" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					    
+					    <p:column headerText="Service Tax">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.taxOnPrem}" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					    
+					    <p:column headerText="Total Amount" style="font-weight:bold">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.totalAmt}" style="font-weight:bold" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					    
+					    <p:column headerText="Sum Assured">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.sumAssured}" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>					   
+	    			</p:dataTable>
+	    			
+	    			<p:spacer height="10" />
+	    			<p:panel id="subPanel1" header="Shortage Amount" style="margin-bottom:20px" rendered="#{licRequirementDtlsAction.reqType == 'S'}">
+	    				<p:panelGrid columns="2">
+	    					<p:outputLabel value="Shoratge Amount:" for="shortAmt"/>
+	    					<p:inputText value="#{licRequirementDtlsAction.shortageAmt}" id="shortAmt" required="true" requiredMessage="Please Enter Amount" >
+	    						<f:convertNumber pattern="#.##"/>
+	    					</p:inputText>
+	    				</p:panelGrid>
+	    			</p:panel>
+	    			
+	    			<p:spacer height="10" />
+	    			<p:panel id="subPanel2" header="Document" style="margin-bottom:20px" rendered="#{licRequirementDtlsAction.reqType == 'D'}">
+	    				<p:panelGrid columns="2">
+	    					<p:outputLabel value="Document:" for="doc"/>
+	    					<p:selectOneMenu id="doc" value="#{licRequirementDtlsAction.document}" required="true" requiredMessage="Please Select your choice">
+	    						<f:selectItem itemLabel="Select One" itemValue=""/>
+	    						<f:selectItems value="#{licRequirementDtlsAction.documentList}" var="row" itemLabel="#{row.docName}" itemValue="#{row.docName}"/>
+	    					</p:selectOneMenu>
+	    					
+	    				</p:panelGrid>
+	    			</p:panel>	    			
+	    			<f:facet name="footer">
+		    			<p:commandButton value="Save" actionListener="#{licRequirementDtlsAction.save()}" update=":searchForm:searchOutputPanel,:shortAmtForm:shortAmtOutputPanel" icon="ui-icon-disk" style="font-weight:bolder">
+		    				<p:confirm header="Confirmation" message="Are you sure..?" icon="ui-icon-alert" />
+		    			</p:commandButton>		    			
+		    			<p:spacer width="10"/>		    			
+		    			<p:commandButton value="Reload" actionListener="#{licRequirementDtlsAction.refresh()}" update=":searchForm:searchOutputPanel,:shortAmtForm:shortAmtOutputPanel" immediate="true" icon="ui-icon-refresh" style="font-weight:bolder" />
+		    		</f:facet>		    		
+	    		</p:panel>
+	    	</p:outputPanel>	
+	    </h:form>
+	    
+	    <h:form id="dialogForm">
+	    	<p:confirmDialog id="confirmDialog" global="true" showEffect="fade" widgetVar="dialog">	    		
+		        <p:dataTable id="dialogTable" value="#{licRequirementDtlsAction.licRequirementDtlsDtos}" var="row" rowIndexVar="sr" rendered="#{not empty licRequirementDtlsAction.licRequirementDtlsDtos}">
+    				<f:facet name="header">
+    					Already Entered Requirment(s)
+    				</f:facet>
+    				<p:column headerText="Sr No.">
+    					<h:outputText value="#{sr+1}" />
+    				</p:column>
+    				
+    				<p:column headerText="Application No">
+				        <h:outputText value="#{row.applicationNo}" />
+				    </p:column>
+				    
+				    <p:column headerText="Short Amount">
+				        <h:outputText value="#{row.shortAmt}" />
+				    </p:column>
+				    
+				    <p:column headerText="Document">
+				        <h:outputText value="#{row.document}" />
+				    </p:column>
+				    
+				    <p:column headerText="Entry By">
+				        <h:outputText value="#{row.entryBy}" />
+				    </p:column>
+				    
+				    <p:column headerText="Entry Date">
+				        <h:outputText value="#{row.entryDate}" >
+				        	<f:convertDateTime pattern="dd/MM/yyyy" />
+				        </h:outputText>
+				    </p:column>				    
+    			</p:dataTable>
+    			
+		        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		        <p:spacer width="10"/>
+		        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		    </p:confirmDialog>
+	    </h:form>
+    </ui:define>
+</ui:composition>

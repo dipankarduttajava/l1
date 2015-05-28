@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">        
+        <h:form id="bocSearchForm">
+        	<p:outputPanel id="searchOutputPanel">
+        		<p:messages showDetail="true" autoUpdate="true" closable="true" />
+	        	<p:panel id="search" header="Search Criteria for Entering BOC Details" style="margin-bottom:20px">
+	        		<h:panelGrid columns="3" styleClass="grid" columnClasses="label,value, label2,value">
+	        			<p:outputLabel value="Premium List Number:" for="premiumListNo"/>
+	        			<p:selectOneMenu id="premiumListNo" value="#{licBocDetailEntryAction.premiumListNo}" required="true" requiredMessage="Please Select Premium List No">
+	        				<f:selectItem itemLabel="Select One" itemValue=""/>
+	        				<f:selectItems value="#{licBocDetailEntryAction.premList}"  />
+	        			</p:selectOneMenu>
+	        			
+		        		<p:commandButton value="Search" actionListener="#{licBocDetailEntryAction.search()}" update=":bocSearchForm:searchOutputPanel,:bocEntryForm:bocEntryListOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+	        		</h:panelGrid>
+	        	</p:panel>
+	    	</p:outputPanel>
+	    </h:form>
+	    
+	    <h:form id="bocEntryForm">
+	    	<p:outputPanel id="bocEntryListOutputPanel">
+	    			<p:panel id="bocEntryList" header="Enter BOC Details" style="margin-bottom:20px" rendered="#{licBocDetailEntryAction.renderedBOCEntryList}">
+	    			
+	    			<p:outputLabel for="bocDate" value="Boc Date :" />
+	    			<p:calendar id="bocDate" value="#{licBocDetailEntryAction.bocDate}" pattern="dd/MM/yyyy" required="true" requiredMessage="Please Enter BOC Date" />
+	    			
+	    			<p:spacer height="10"/>
+	    			
+	    			<p:dataTable id="table" value="#{licBocDetailEntryAction.licOblApplicationMsts}" var="row" rowIndexVar="sr">
+	    				<f:facet name="header">
+                			PIC POD Entry List
+                			<span style="float: right;">Record(s) Found : #{fn:length(licBocDetailEntryAction.licOblApplicationMsts)}</span>
+						</f:facet>
+							
+	    				<p:column headerText="Sr No.">
+	    					<h:outputText value="#{sr+1}" />
+	    				</p:column>
+	    				
+	    				<p:column headerText="Application No">
+					        <h:outputText value="#{row.oblApplNo}" />
+					    </p:column>
+					    
+					    <p:column headerText="Business Date" >
+					        <p:calendar value="#{row.businessDate}" pattern="dd/MM/yyyy" disabled="true" size="8"/>
+					    </p:column>
+					    
+					    <p:column headerText="Insured Name">
+					        <h:outputText value="#{row.licInsuredDtls.name}" />
+					    </p:column>
+					    
+					    <p:column headerText="Proposer Name">
+					        <h:outputText value="#{row.licProposerDtls.name}" />
+					    </p:column>
+					    
+					    <p:column headerText="HUB Name">
+					        <h:outputText value="#{row.oblHubMst.hubName}" />
+					    </p:column>
+					    
+					    <p:column headerText="Branch Name">
+					        <h:outputText value="#{row.branchMst.branchName}" />
+					    </p:column>
+					    
+					    <p:column headerText="LIC Branch Name">
+					        <h:outputText value="#{row.picBranchMstId.picBranchName}" />
+					    </p:column>
+					    
+					    <p:column headerText="Sum Assured">
+					        <h:outputText value="#{row.licProductValueMst.sumAssured}" >
+					        	<f:convertNumber pattern="#.##"/>
+					        </h:outputText>
+					    </p:column>
+					    
+					    <p:column headerText="Total Received" style="font-weight:bold">
+					        <h:outputText value="#{row.licBusinessTxn.licPaymentMst.totalReceived}" style="font-weight:bold" >
+					        	<f:convertNumber pattern="#.##"/>
+					        </h:outputText>
+					    </p:column>
+					    
+					    <p:column headerText="BOC's">
+					        <p:dataTable value="#{row.licApplBocMappings}" var="rows" >
+					        	<p:column headerText="BOC">
+							        <p:inputText value="#{rows.licBocDetailEntry.boc}" style="width: 120px" required="true" requiredMessage="Please Enter BOC"/>
+							    </p:column>
+					        </p:dataTable>
+					    </p:column>
+					    
+					    <p:column headerText="Action" width="2%"> 
+					    	 <p:commandLink  value="Add" actionListener="#{licBocDetailEntryAction.add(row)}" update=":bocEntryForm:bocEntryListOutputPanel" style="font-weight:bolder; color:black"/>
+					    </p:column>
+	    			</p:dataTable>
+	    			
+	    			<f:facet name="footer">
+		    			<p:commandButton value="Save" actionListener="#{licBocDetailEntryAction.save()}" update=":bocEntryForm:bocEntryListOutputPanel,:bocSearchForm:searchOutputPanel" icon="ui-icon-disk" style="font-weight:bolder"/>
+		    		</f:facet>		    		
+	    		</p:panel>
+	    	</p:outputPanel>
+	    </h:form>
+    </ui:define>
+</ui:composition>

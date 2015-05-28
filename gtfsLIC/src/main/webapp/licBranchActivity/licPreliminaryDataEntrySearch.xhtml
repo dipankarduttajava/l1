@@ -1,0 +1,335 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" 
+    template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="formSearch">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+			<p:outputPanel id="searchOutputPanel">
+	        	 <p:panel id="searchPanel" header="Search Application" rendered="#{licPreliminaryDataEntrySearchAction.renderedsearchPanel}">
+			        <h:panelGrid columns="5" columnClasses="label,value, label2,value, label2,value">
+						<p:outputLabel value="Date :" for="applDate"/>
+						<p:calendar id="applDate" pattern="dd/MM/yyyy" value="#{licPreliminaryDataEntrySearchAction.applicationDate}" navigator="true" />
+						
+						<p:outputLabel value="Application Number :" for="applNo"/>
+						<p:inputText id="applNo" value="#{licPreliminaryDataEntrySearchAction.applicationNo}" />
+	
+						<p:commandButton value="Search" actionListener="#{licPreliminaryDataEntrySearchAction.search}" update=":formSearch:searchOutputPanel,:formList:listOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+					</h:panelGrid>
+			    </p:panel>
+			</p:outputPanel>
+        </h:form>
+        
+        <h:form id="formList">
+        	<p:outputPanel id="listOutputPanel">
+        	 	<p:panel id="listPanel" rendered="#{licPreliminaryDataEntrySearchAction.renderedListPanel}">
+		       		<p:dataTable var="row" value="#{licPreliminaryDataEntrySearchAction.licOblChecklists}">
+				    
+				    	<f:facet name="header">
+                    		Preliminary Data Entry List
+                    		<span style="float: right;">Record(s) Found : #{fn:length(licPreliminaryDataEntrySearchAction.licOblChecklists)}</span>
+						</f:facet>
+				    
+				    	<p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Application No" />
+					    	</f:facet>
+				        	<h:outputText value="#{row.oblApplNo}" />
+				    	</p:column>
+				 
+					    <p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Product Name" />
+					    	</f:facet>
+					        <h:outputText value="#{row.licProductValueMst.licProductMst.prodDesc}" />
+					    </p:column>
+					 
+					    <p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Policy Term" />
+					    	</f:facet>
+					        <h:outputText value="#{row.licProductValueMst.policyTerm}" />
+					    </p:column>
+					 
+					    <p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Sum Assured" />
+					    	</f:facet>
+					        <h:outputText value="#{row.licProductValueMst.sumAssured}" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					    
+					    <p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Pay Nature" />
+					    	</f:facet>
+					    	<h:selectOneMenu value="#{row.licProductValueMst.payNature}" disabled="true">
+					    		<f:selectItem itemLabel="Yearly" itemValue="Y"/>
+					    		<f:selectItem itemLabel="Half-Yearly" itemValue="H"/>
+					    		<f:selectItem itemLabel="Quaterly" itemValue="Q"/>
+					    		<f:selectItem itemLabel="Monthly" itemValue="M"/>
+					    	</h:selectOneMenu>
+					    </p:column>
+					    
+					    <p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Insured Name" />
+					    	</f:facet>
+					        <h:outputText value="#{row.insuredName}" />
+					    </p:column>
+					    
+					    <p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Insured DOB" />
+					    	</f:facet>
+					        <h:outputText value="#{row.insuredDob}" >
+					        	<f:convertDateTime pattern="dd/MM/yyyy"/>
+					        </h:outputText>
+					    </p:column>
+					    
+					    <p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Proposer Name" />
+					    	</f:facet>
+					        <h:outputText value="#{row.proposerName}" />
+					    </p:column>
+					    
+					    <p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Proposer DOB" />
+					    	</f:facet>
+					        <h:outputText value="#{row.proposerDob}" >
+					        	<f:convertDateTime pattern="dd/MM/yyyy"/>
+					        </h:outputText>
+					    </p:column>
+					    
+					    <p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Action" />
+					    	</f:facet>
+					       <p:commandLink value="Click Here" actionListener="#{licPreliminaryDataEntrySearchAction.editDetail(row)}" update=":detailForm:showDetailsOutputPanel,:formList:listOutputPanel,:formSearch:searchOutputPanel" style="font-weight:bolder; color:black"/>
+					    </p:column>
+					</p:dataTable>
+		     	</p:panel>
+		     </p:outputPanel>
+        </h:form>
+        
+        <h:form id="detailForm">
+        	<p:outputPanel id="showDetailsOutputPanel">
+        		<p:panel id="showDetails" header="Order Booking Data Entry for New Business" style="margin-bottom:20px" rendered="#{licPreliminaryDataEntrySearchAction.renderedDetailForm}" toggleable="true" toggleSpeed="500">
+        	 		<p:panel id="personalDetail" header="Personal Details" toggleable="true" toggleSpeed="500">
+        	 			<p:panelGrid columns="3">
+        	 				<p:outputLabel value="Agent Code" for="agentCode"/>
+        	 				<p:outputLabel value=":" style="font-weight: bold" />
+							<p:outputLabel id="agentCode" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.agCode}" />
+        	 			
+        	 				<p:outputLabel value="Name Of The Insured" for="insuredName"/>
+        	 				<p:outputLabel value=":" style="font-weight: bold" />
+							<p:outputLabel id="insuredName" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.insuredName}" />
+							
+							<p:outputLabel value="Insured Date Of Birth" for="insuredDob"/>
+							<p:outputLabel value=":" style="font-weight: bold" />
+							<p:outputLabel id="insuredDob" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.insuredDob}">
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Name Of The Proposer" for="proposerName"/>
+							<p:outputLabel value=":" style="font-weight: bold" />
+							<p:outputLabel id="proposerName" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.proposerName}" />
+							
+							<p:outputLabel value="Proposer Date Of Birth" for="proposerDob"/>
+							<p:outputLabel value=":" style="font-weight: bold" />
+							<p:outputLabel id="proposerDob" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.proposerDob}">
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Application Number" for="applicationNo"/>
+							<p:outputLabel value=":" style="font-weight: bold" />
+							<p:outputLabel id="applicationNo" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.applicationNo}" />
+        	 			</p:panelGrid>
+        	 		</p:panel>
+        	 		
+        	 		<p:panel id="productDetail" header="Product Details" style="margin-bottom:20px" toggleable="true" toggleSpeed="500">
+        	 			<p:panelGrid columns="3">
+        	 				<p:outputLabel value="Product" for="product"/>
+        	 				<p:outputLabel value=":" style="font-weight: bold" />
+							<p:outputLabel id="product" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.productName}" />
+							
+							<p:outputLabel value="Policy Term" for="policyTerm"/>
+							<p:outputLabel value=":" style="font-weight: bold" />
+							<p:outputLabel id="policyTerm" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.policyTerm}" />
+							
+							<p:outputLabel value="Tabular Premium" for="tabPremium"/>
+							<p:outputLabel value=":" style="font-weight: bold" />
+							<p:outputLabel id="tabPremium" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.tabPrem}" >
+								<f:convertNumber pattern="#.##"/>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Basic Premium" for="basicPremium"/>
+							<p:outputLabel value=":" style="font-weight: bold" />
+							<p:outputLabel id="basicPremium" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.basicPrem}" >
+								<f:convertNumber pattern="#.##"/>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Total Amount" for="totalAmount" style="font-weight: bold" />
+							<p:outputLabel value=":" style="font-weight: bold" />
+							<p:outputLabel id="totalAmount" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.totalAmount}" style="font-weight: bold" >
+								<f:convertNumber pattern="#.##"/>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Sum Assured" for="sumAssured"/>
+							<p:outputLabel value=":" style="font-weight: bold" />
+							<p:outputLabel id="sumAssured" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.sumAssured}" >
+								<f:convertNumber pattern="#.##"/>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Premium Payment Mode" for="premPayment"/>
+							<p:outputLabel value=":" style="font-weight: bold" />
+							<p:selectOneMenu id="premPayment" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.payMode}" disabled="true">
+					    		<f:selectItem itemLabel="Yearly" itemValue="Y"/>
+					    		<f:selectItem itemLabel="Half-Yearly" itemValue="H"/>
+					    		<f:selectItem itemLabel="Quaterly" itemValue="Q"/>
+					    		<f:selectItem itemLabel="Monthly" itemValue="M"/>
+					    	</p:selectOneMenu>
+        	 			</p:panelGrid>
+        	 		</p:panel>
+        	 	
+	        	 	<p:panel id="officeDetail" header="Office Details" style="margin-bottom:20px" toggleable="true" toggleSpeed="500">
+	        	 		<p:panelGrid columns="3">
+	        	 			<p:outputLabel value="Agent Code"/>
+	        	 			<p:outputLabel value=":" style="font-weight: bold" />
+							<h:outputText id="agCode" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.agCode}" />
+							
+							<p:outputLabel value="Phase"/>
+							<p:outputLabel value=":" style="font-weight: bold" />
+							<h:outputText id="phase" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.phaseName}" />
+							
+							<p:outputLabel value="Business Date"/>
+							<p:outputLabel value=":" style="font-weight: bold" />
+							<p:outputLabel id="businessDate" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.businessDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Name Of The Company"/>
+							<p:outputLabel value=":" style="font-weight: bold" />
+							<h:outputText id="companyName" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.companyName}" />
+							
+							<p:outputLabel value="BranchName"/>
+							<p:outputLabel value=":" style="font-weight: bold" />
+							<h:outputText id="branchName" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.branchName}" />
+							
+							<p:outputLabel value="Operator's Name"/>
+							<p:outputLabel value=":" style="font-weight: bold" />
+							<h:outputText id="opeName" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.operatorName}" />
+	        	 		</p:panelGrid>
+	        	 	</p:panel>
+        	 	
+	        	 	<p:panel id="paymentDetail" header="Payment Details" style="margin-bottom:20px" toggleable="true" toggleSpeed="500">
+	        	 		<p:commandButton value="Add" actionListener="#{licPreliminaryDataEntrySearchAction.addPaymentDtls()}" update="paymentTable" icon="ui-icon-plus" style="font-weight:bold"/>
+	        	 		<p:separator/>
+	        	 		<p:dataTable value="#{licPreliminaryDataEntrySearchAction.licPaymentDtlsList}"  var="row" id="paymentTable" scrollable="true" scrollWidth="98%" style="width:180%">
+	        	 			<p:column headerText="DD/Cheque" width="5%">
+						        <p:selectOneMenu id="ddCheque" value="#{row.payMode}" required="true" requiredMessage="Please Select">
+						            <f:selectItem itemLabel="Select One" itemValue="" />
+						            <f:selectItem itemLabel="DD" itemValue="D" />
+						            <f:selectItem itemLabel="Cheque" itemValue="Q" />
+						        </p:selectOneMenu>
+						    </p:column>
+						    
+	        	 			<p:column headerText="DD/Cheque No." width="10%">
+	        	 				<p:inputText id="ddChequeNo" value="#{row.draftChqNo}" required="true" requiredMessage="Please Enter Draft/Cheque No." maxlength="6"/>
+	        	 			</p:column>
+	        	 			
+	        	 			<p:column headerText="Favour Of" width="14%">
+	        	 				<p:selectOneMenu id="payeeName" value="#{row.payeeName}" required="true" requiredMessage="Please Select">
+						            <f:selectItem itemLabel="Select One" itemValue="" />
+						           <!--  <f:selectItem itemLabel="SARADA INSURANCE CONSULTANCY LTD" itemValue="SARADA INSURANCE CONSULTANCY LTD" /> -->
+						            <f:selectItem itemLabel="LIFE INSURANCE CORPORATION OF INDIA (LICI)" itemValue="LIFE INSURANCE CORPORATION OF INDIA (LICI)" />
+						        </p:selectOneMenu>
+	        	 			</p:column>
+	        	 			<p:column headerText="Bank" width="14%">
+	        	 				<p:inputText id="bank" value="#{row.draftChqBank}" required="true" requiredMessage="Please Enter Bank Name" style="width: 300px"/>
+	        	 			</p:column>
+	        	 			<p:column headerText="Branch" width="14%">
+	        	 				<p:inputText id="branch" value="#{row.draftCgqBranch}" required="true" requiredMessage="Please Enter Branch Name" style="width: 300px"/>
+	        	 			</p:column>
+	        	 			<p:column headerText="DD/Cheque Date" width="6%">
+	        	 				<p:calendar id="ddChqDate" value="#{row.draftChqDate}" pattern="dd/MM/yyyy" required="true" requiredMessage="Please Enter Date"/>
+	        	 			</p:column>
+	        	 			<p:column headerText="DD/Cheque Amount" width="10%">
+	        	 				<p:inputText id="ddChqAmt" value="#{row.amount}" required="true" requiredMessage="Please Enter Draft/Cheque No." >
+	        	 					<f:convertNumber pattern="#.##" />
+	        	 				</p:inputText>
+	        	 			</p:column>
+	        	 		<p:column headerText="Action" width="2%">
+					       <p:commandLink value="Delete" actionListener="#{licPreliminaryDataEntrySearchAction.deletePaymentDtls(row)}" update="paymentTable" immediate="true" style="font-weight:bolder; color:black" />
+					    </p:column>
+	        	 		</p:dataTable>
+	        	 	</p:panel>
+        	 	
+	        	 	<p:panel id="concessions" header="Concessions" style="margin-bottom:20px" toggleable="true" toggleSpeed="500">
+	        	 		<p:panelGrid columns="6" columnClasses="label,value, label2,value, label2,value">
+	        	 			<p:outputLabel value="DD making Charges:" for="ddMakingCharge"/>
+							<p:inputText id="ddMakingCharge" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.ddMakingCharges}" maxlength="5">
+								<f:convertNumber pattern="#.##" />
+							</p:inputText>
+							
+							<p:outputLabel value="Others:" for="otherCharges"/>
+							<p:inputText id="otherCharges" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.otherCharges}" maxlength="5">
+								<f:convertNumber pattern="#.##" />
+							</p:inputText>
+							
+							<p:outputLabel value="Remarks(If Others):" for="remarks"/>
+							<p:inputTextarea id="remarks" value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.remarks}" />
+	        	 		</p:panelGrid>
+	        	 	</p:panel>
+        	 		
+        	 		<f:facet name="footer">
+		        	 	<p:commandButton id="process" value="Process" actionListener="#{licPreliminaryDataEntrySearchAction.calculate}" oncomplete="$('.ui-state-error');conf.show();" update=":detailForm:showDetailsOutputPanel,:detailForm:display" icon="ui-icon-document" style="font-weight:bolder">
+		        	 		<f:setPropertyActionListener value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto}" target="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto}" />
+		        	 	</p:commandButton>
+	        	 	</f:facet>
+        	 	</p:panel>
+        	 </p:outputPanel>
+        	 
+        	<p:dialog header="Please Verify Before Saving" widgetVar="conf" resizable="false">
+				<h:panelGrid id="display" columns="3" cellpadding="4" style="margin:0 auto;">
+
+					<p:outputLabel value="Total Receivable" style="font-weight:bold;" />
+					<p:outputLabel value=": " style="font-weight:bold;" />
+					<p:outputLabel value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.totalReceivable}" style="font-weight:bold" >
+						<f:convertNumber pattern="#.##"/>
+					</p:outputLabel>
+
+					<p:outputLabel value="Total DD/Cheque Amount" style="font-weight:bold" />
+					<p:outputLabel value=": " style="font-weight:bold;" />
+					<p:outputLabel value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.totalDdChqAmt}" style="font-weight:bold" >
+						<f:convertNumber pattern="#.##"/>
+					</p:outputLabel>
+
+					<p:outputLabel value="Balance Receivable in Cash" style="font-weight:bold;" />
+					<p:outputLabel value=": " style="font-weight:bold;" />
+					<p:outputLabel value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.balanceInCash}" style="font-weight:bold" >
+						<f:convertNumber pattern="#.##"/>
+					</p:outputLabel>
+
+					<p:outputLabel value="Amount to be Returned" style="font-weight:bold" />
+					<p:outputLabel value=": " style="font-weight:bold;" />
+					<p:outputLabel value="#{licPreliminaryDataEntrySearchAction.licPreliminaryDataEntryDto.amtToReturn}" style="font-weight:bold" >
+						<f:convertNumber pattern="#.##"/>
+					</p:outputLabel>
+
+					<p:commandButton value="Yes" icon="ui-icon-check" oncomplete="conf.hide();" update=":formSearch:searchOutputPanel,:formList,:detailForm:showDetailsOutputPanel" 
+									 actionListener="#{licPreliminaryDataEntrySearchAction.processEntry}" style="font-weight:bolder"/>
+
+					<p:commandButton value="No" icon="ui-icon-close" onclick="conf.hide();" update=":formSearch:searchOutputPanel,:formList:listOutputPanel,:detailForm:showDetailsOutputPanel" style="font-weight:bolder" />
+				</h:panelGrid>
+			</p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

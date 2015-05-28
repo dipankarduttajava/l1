@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/1381/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/json
+END
+RoleMstJson.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1208/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/json/RoleMstJson.java
+END
+ProjectMilestoneJson.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/1338/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/json/ProjectMilestoneJson.java
+END
+ProjectMstJson.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/1370/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/json/ProjectMstJson.java
+END
+FlatMstJson.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1372/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/json/FlatMstJson.java
+END
+RoleAccessComboJson.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/1208/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/json/RoleAccessComboJson.java
+END
+UserMstJson.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1381/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/json/UserMstJson.java
+END
+CustomerMstJson.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/1362/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/json/CustomerMstJson.java
+END
+ReceiptDtlsJson.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/1374/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/json/ReceiptDtlsJson.java
+END
+UserRoleComboJson.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1208/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/json/UserRoleComboJson.java
+END
+AccessMstJson.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/1362/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/json/AccessMstJson.java
+END
+FlatInvoiceComboJson.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/1364/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/json/FlatInvoiceComboJson.java
+END

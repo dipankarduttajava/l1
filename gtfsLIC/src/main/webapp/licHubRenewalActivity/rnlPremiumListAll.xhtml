@@ -1,0 +1,125 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">   
+    
+    	<style type="text/css">
+    		.ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled {
+			    background-image: none;
+			    opacity: 1;
+			}
+    	</style>
+    
+         
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	 <p:panel id="search" header="Search Criteria" style="margin-bottom:20px">
+			        <h:panelGrid columns="6" styleClass="grid" columnClasses="label,value, label2,value, label2,value">
+			        	<p:outputLabel value="Pay Date From:" for="fromPayDate"/>
+	        			<p:calendar id="fromPayDate" value="#{rnlPremiumListAllAction.payFromDate}" navigator="true" pattern="dd/MM/yyyy" />
+	        			
+	        			<p:outputLabel value="Pay Date To:" for="toPayDate"/>
+	        			<p:calendar id="toPayDate" value="#{rnlPremiumListAllAction.payToDate}" navigator="true" pattern="dd/MM/yyyy" />
+			        	
+			        	<p:outputLabel value="LIC Branch:" for="licBranch"/>
+	        			<p:selectOneMenu id="licBranch" value="#{rnlPremiumListAllAction.picBranchId}" required="true" requiredMessage="Please Select Lic Branch">
+	        				<f:selectItem itemLabel="Select One" itemValue=""/>
+	        				<f:selectItems value="#{rnlPremiumListAllAction.picBranchMsts}" var="row" itemValue="#{row.picBranchId}" itemLabel="#{row.picBranchName}" />
+	        			</p:selectOneMenu>
+	        			
+	        			<p:outputLabel value="Pay Mode:" for="paymode"/>
+	        			<p:selectOneMenu id="paymode" value="#{rnlPremiumListAllAction.payMode}" required="true" requiredMessage="Please Select Pay Mode">
+	        				<f:selectItem itemLabel="Select One" itemValue=""/>
+	        				<f:selectItem itemLabel="Cash" itemValue="C"/>
+	        				<f:selectItem itemLabel="Cheque" itemValue="Q"/>
+	        				<f:selectItem itemLabel="DD" itemValue="D"/>
+	        				<f:selectItem itemLabel="Both" itemValue="B"/>
+	        			</p:selectOneMenu>
+	        			
+	        			<p:outputLabel value="Health Required:" for="healthReq"/>
+	        			<p:selectOneMenu id="healthReq" value="#{rnlPremiumListAllAction.healthReq}" required="true" requiredMessage="Please Select Health Required">
+	        				<f:selectItem itemLabel="Select One" itemValue=""/>
+	        				<f:selectItem itemLabel="Yes" itemValue="Y"/>
+	        				<f:selectItem itemLabel="No" itemValue="N"/>
+	        			</p:selectOneMenu>
+	        			<p:outputLabel value="Hub:" for="hubId"/>
+	        			<p:selectOneMenu id="hubId" value="#{rnlPremiumListAllAction.hubId}" required="true" requiredMessage="Please Select Hub">
+	        				<f:selectItem itemLabel="Select One" itemValue=""/>
+	        				<f:selectItems value="#{rnlPremiumListAllAction.licHubMstList}" var="row" itemLabel="#{row.hubName}" itemValue="#{row.id}"/>
+	        			</p:selectOneMenu>
+	        			<p:commandButton value="Search" actionListener="#{rnlPremiumListAllAction.search()}" update=":searchForm:searchOutputPanel,:searchForm:listOutputPanel" onclick="processDialog.show();" oncomplete="$('.ui-state-error'); processDialog.hide();"/>
+		          </h:panelGrid>
+			    </p:panel>
+			</p:outputPanel>
+		    
+		    <p:outputPanel id="listOutputPanel">
+			    <p:panel id="list" style="margin-bottom:20px">
+			    	<p:dataTable id="table" var="row" value="#{rnlPremiumListAllAction.licPolicyDtlsDtos}" selection="#{rnlPremiumListAllAction.selectedList}" rowKey="#{row.policyNo}">
+			    	
+			    		<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+						
+						<p:column headerText="Policy No.">
+							<h:outputText value="#{row.policyNo}" />
+						</p:column>
+						
+						<p:column headerText="No Of Due years">
+							<h:outputText value="#{row.dueYears}" />
+						</p:column>
+						
+						<p:column headerText="From Due Date">
+							<h:outputText value="#{row.fromDueDate}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="To Due Date">
+							<h:outputText value="#{row.toDueDate}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Pay nature">
+							<h:outputText value="#{row.payNature}" />
+						</p:column>
+						
+						<p:column headerText="Payment Date">
+							<h:outputText value="#{row.payDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Insured Name">
+							<h:outputText value="#{row.insuredName}" />
+						</p:column>
+						
+						<p:column headerText="Proposer Name">
+							<h:outputText value="#{row.proposerName}" />
+						</p:column>						
+						
+						<p:column headerText="Product">
+							<h:outputText value="#{row.product}" />
+						</p:column>
+						
+						<p:column headerText="Health Flag">
+							<h:outputText value="#{row.healthFlag}" />
+						</p:column>
+						
+						<p:column headerText="Pay Mode">
+							<h:outputText value="#{row.payMode}" />
+						</p:column>						
+					</p:dataTable>
+					
+			    	<f:facet name="footer">
+			    		<p:commandButton value="Save" actionListener="#{rnlPremiumListAllAction.save()}" update=":searchForm:searchOutputPanel,:searchForm:listOutputPanel" icon="ui-icon-disk" onclick="processDialog.show();" oncomplete="$('.ui-state-error'); processDialog.hide();"/>
+			    	</f:facet>
+			    </p:panel>
+			</p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

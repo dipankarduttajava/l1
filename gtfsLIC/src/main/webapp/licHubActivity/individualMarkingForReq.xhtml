@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        
+        <h:form id="searchReqForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="indMarkingReqOutputPanel">
+	        	<p:panel id="search" header="Search Criteria for POD Tagging" style="margin-bottom:20px" >
+	        		<h:panelGrid columns="5" styleClass="grid" columnClasses="label,value, label2,value, label2,value">
+	        			<p:outputLabel value="Business Form Date:" for="bnsFromDate"/>
+	        			<p:calendar id="bnsFromDate" value="#{individualMarkingForReqAction.bnsFromDate}" pattern="dd/MM/yyyy" required="true" requiredMessage="Please Enter Business From Date" />
+	        			
+	        			<p:outputLabel value="Business To Date:" for="bnsToDate"/>
+	        			<p:calendar id="bnsToDate" value="#{individualMarkingForReqAction.bnsToDate}" pattern="dd/MM/yyyy" required="true" requiredMessage="Please Enter Business To Date" />
+		        		
+		        		<p:commandButton value="Search" actionListener="#{individualMarkingForReqAction.search()}" update="searchReqForm,:listReqForm:indMarkListReqOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+	        		</h:panelGrid>
+	        	</p:panel>
+	    	</p:outputPanel>
+	    </h:form>
+	    
+	    <h:form id="listReqForm">
+	    	<p:outputPanel id="indMarkListReqOutputPanel">
+	    		<p:panel id="indMarkReqList" style="margin-bottom:20px" rendered="#{individualMarkingForReqAction.renderedindMark}">
+	    			<p:dataTable id="table" value="#{individualMarkingForReqAction.licRequirementDtlsList}" var="row" rowKey="#{row.id}" selection="#{individualMarkingForReqAction.selectedList}">
+	    				
+	    				<f:facet name="header">
+                    		Individual Marking List
+                    	<span style="float: right;">Record(s) Found : #{fn:length(individualMarkingForReqAction.licRequirementDtlsList)}</span>
+						</f:facet>
+						
+						<p:column selectionMode="multiple" style="width:16px;text-align:center" />
+					
+	    				<p:column headerText="Application No">
+					        <h:outputText value="#{row.licOblApplicationMst.oblApplNo}" />
+					    </p:column>
+					    
+					    <p:column headerText="Business Date">
+					        <p:calendar value="#{row.licOblApplicationMst.businessDate}" pattern="dd/MM/yyyy" disabled="true"/>
+					    </p:column>
+					    
+					    <p:column headerText="Insured Name">
+					        <h:outputText value="#{row.licOblApplicationMst.licInsuredDtls.name}" />
+					    </p:column>
+					    
+					    <p:column headerText="Proposer Name">
+					        <h:outputText value="#{row.licOblApplicationMst.licProposerDtls.name}" />
+					    </p:column>
+					    
+					    <p:column headerText="Branch">
+					        <h:outputText value="#{row.licOblApplicationMst.branchMst.branchName}" />
+					    </p:column>
+					    
+					    <p:column headerText="Product">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.licProductMst.prodDesc}" />
+					    </p:column>
+					    
+					     <p:column headerText="Basie Premium">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.basicPrem}" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					    
+					     <p:column headerText="Service Tax">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.taxOnPrem}" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					    
+						 <p:column headerText="Total" style="font-weight:bold">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.totalAmt}" style="font-weight:bold" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+	    			</p:dataTable>
+	    		
+	    			<f:facet name="footer">
+	    				<p:commandButton value="Save" actionListener="#{individualMarkingForReqAction.save()}" update=":listReqForm:indMarkListReqOutputPanel,:searchReqForm:indMarkingReqOutputPanel" icon="ui-icon-disk" style="font-weight:bolder"/>
+	    			</f:facet>
+	    		</p:panel>
+	    	</p:outputPanel>
+	    </h:form>
+    </ui:define>
+</ui:composition>

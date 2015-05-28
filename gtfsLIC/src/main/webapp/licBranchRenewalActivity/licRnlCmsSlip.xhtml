@@ -1,0 +1,339 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/template/layout.xhtml">
+
+	<ui:define name="content">
+
+		<h:form id="searchForm">
+			<p:messages showDetail="true" autoUpdate="true" closable="true" />
+			<p:outputPanel id="searchOutputPanel">
+				<p:panel id="search" header="Particulars" style="margin-bottom:20px">
+					<h:panelGrid columns="3" columnClasses="label,value, label2,value">
+						<p:outputLabel value="System Date: "/>
+						 <h:outputText value="#{licRnlCmsSlipAction.systemDate}">
+							<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+						</h:outputText>
+						
+						<p:commandButton value="Generate Report" actionListener="#{licRnlCmsSlipAction.generateReport()}" update="listOutputPanel,:saveForm:saveOutputPanel" icon="ui-icon-clipboard" style="font-weight:bolder" />
+					</h:panelGrid>
+				</p:panel>
+			</p:outputPanel>
+
+			<p:outputPanel id="listOutputPanel">
+				<p:panel id="list" style="margin-bottom:20px" rendered="#{licRnlCmsSlipAction.renderedListPanel}">
+					<p:dataTable id="table" value="#{licRnlCmsSlipAction.licRnlPisDtos}" rowIndexVar="index" var="row" paginator="true" rows="5" paginatorPosition="top">
+
+						<p:column headerText="Sl.No">
+							<h:outputText value="#{index+1}" />
+						</p:column>
+						<p:column headerText="Policy No">
+							<h:outputText value="#{row.policyNo}" />
+						</p:column>
+
+						<p:column headerText="Pay Date">
+							<p:calendar value="#{row.payDate}" pattern="dd/MM/yyyy" disabled="true" />
+						</p:column>
+						
+						<p:column headerText="DD/Cheque Parent Company">
+							<h:outputText value="#{row.draftChqInsAmt}" >
+								<f:convertNumber pattern="#.##"/>
+							</h:outputText>
+							<f:facet name="footer">
+								<h:outputText value="#{licRnlCmsSlipAction.totalDDChqInsCo}" >
+									<f:convertNumber pattern="#.##"/>
+								</h:outputText>
+							</f:facet>
+						</p:column>
+						
+						<p:column headerText="DD/Cheque TieUp Company">
+							<h:outputText value="#{row.draftChqTieAmt}" >
+								<f:convertNumber pattern="#.##"/>
+							</h:outputText>
+							<f:facet name="footer">
+								<h:outputText value="#{licRnlCmsSlipAction.totalDDChqTieUpCo}" >
+									<f:convertNumber pattern="#.##"/>
+								</h:outputText>
+							</f:facet>
+						</p:column>
+						
+						<p:column headerText="Cash">
+							<h:outputText value="#{row.cashAmt}" >
+								<f:convertNumber pattern="#.##"/>
+							</h:outputText>
+							<f:facet name="footer">
+								<h:outputText value="#{licRnlCmsSlipAction.totalCash}" >
+									<f:convertNumber pattern="#.##"/>
+								</h:outputText>
+							</f:facet>
+						</p:column>
+						
+						<p:column headerText="Total Amount" style="font-weight:bold">
+							<h:outputText value="#{row.totalAmt}" style="font-weight:bold" >
+								<f:convertNumber pattern="#.##"/>
+							</h:outputText>
+							<f:facet name="footer">
+								<h:outputText value="#{licRnlCmsSlipAction.totalAmount}" style="font-weight:bold">
+									<f:convertNumber pattern="#.##"/>
+								</h:outputText>
+							</f:facet>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+
+				<p:panel rendered="#{licRnlCmsSlipAction.renderedListPanel}">
+					<p:panel id="dinominationList" style="margin-bottom:20px">
+						<p:dataTable id="dinominationTable" value="#" style="width:40%">													
+							<p:columnGroup type="header">
+					            <p:row>
+					                <p:column headerText="Currency" />
+					                <p:column headerText="Number" />
+					                <p:column headerText="Amount" />
+					            </p:row>
+					            <p:row>
+					                <p:column headerText="Rs. 1000/-" styleClass="colBgColor"/>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:inputText id="inputTh" value="#{licRnlCmsSlipAction.cashCmsSlipDto.thousand}">
+					                			<f:convertNumber pattern="#.##"/>
+					                			<f:validateLongRange minimum="0" />
+					                			<p:ajax listener="#{licRnlCmsSlipAction.calcDinominationListener()}" event="change" update="outputTh,total" />
+					                		</h:inputText>
+					                	</f:facet>
+					                </p:column>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:outputText id="outputTh" value="#{licRnlCmsSlipAction.cashCmsSlipDto.thousandAmt}" >
+					                			<f:convertNumber pattern="#.##"/>
+					                		</h:outputText>
+					                	</f:facet>
+					                </p:column>
+					            </p:row>
+					            <p:row>
+					                <p:column headerText="Rs. 500/-" styleClass="colBgColor"/>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:inputText id="inputFh" value="#{licRnlCmsSlipAction.cashCmsSlipDto.fiveHundred}">
+					                			<f:convertNumber pattern="#.##"/>
+					                			<f:validateLongRange minimum="0" />
+					                			<p:ajax listener="#{licRnlCmsSlipAction.calcDinominationListener()}" event="change" update="outputFh,total" />
+					                		</h:inputText>
+					                	</f:facet>
+					                </p:column>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:outputText id="outputFh" value="#{licRnlCmsSlipAction.cashCmsSlipDto.fiveHundredAmt}" >
+					                			<f:convertNumber pattern="#.##"/>
+					                		</h:outputText>
+					                	</f:facet>
+					                </p:column>
+					            </p:row>
+					            <p:row>
+					                <p:column headerText="Rs. 100/-" styleClass="colBgColor"/>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:inputText id="inputH" value="#{licRnlCmsSlipAction.cashCmsSlipDto.hundred}">
+					                			<f:convertNumber pattern="#.##"/>
+					                			<f:validateLongRange minimum="0" />
+					                			<p:ajax listener="#{licRnlCmsSlipAction.calcDinominationListener()}" event="change" update="outputH,total" />
+					                		</h:inputText>
+					                	</f:facet>
+					                </p:column>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:outputText id="outputH" value="#{licRnlCmsSlipAction.cashCmsSlipDto.hundredAmt}" >
+					                			<f:convertNumber pattern="#.##"/>
+					                		</h:outputText>
+					                	</f:facet>
+					                </p:column>
+					            </p:row>
+					            <p:row>
+					                <p:column headerText="Rs. 50/-" styleClass="colBgColor"/>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:inputText id="inputFifty" value="#{licRnlCmsSlipAction.cashCmsSlipDto.fifty}">
+					                			<f:convertNumber pattern="#.##"/>
+					                			<f:validateLongRange minimum="0" />
+					                			<p:ajax listener="#{licRnlCmsSlipAction.calcDinominationListener()}" event="change" update="outputFifty,total" />
+					                		</h:inputText>
+					                	</f:facet>
+					                </p:column>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:outputText id="outputFifty" value="#{licRnlCmsSlipAction.cashCmsSlipDto.fiftyAmt}" >
+					                			<f:convertNumber pattern="#.##"/>
+					                		</h:outputText>
+					                	</f:facet>
+					                </p:column>
+					            </p:row>
+					            <p:row>
+					                <p:column headerText="Rs. 20/-" styleClass="colBgColor"/>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:inputText id="inputTwenty" value="#{licRnlCmsSlipAction.cashCmsSlipDto.twenty}">
+					                			<f:convertNumber pattern="#.##"/>
+					                			<f:validateLongRange minimum="0" />
+					                			<p:ajax listener="#{licRnlCmsSlipAction.calcDinominationListener()}" event="change" update="outputTwenty, total" />
+					                		</h:inputText>
+					                	</f:facet>
+					                </p:column>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:outputText id="outputTwenty" value="#{licRnlCmsSlipAction.cashCmsSlipDto.twentyAmt}" >
+					                			<f:convertNumber pattern="#.##"/>
+					                		</h:outputText>
+					                	</f:facet>
+					                </p:column>
+					            </p:row>
+					            <p:row>
+					                <p:column headerText="Rs. 10/-" styleClass="colBgColor"/>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:inputText id="inputTen" value="#{licRnlCmsSlipAction.cashCmsSlipDto.ten}">
+					                			<f:convertNumber pattern="#.##"/>
+					                			<f:validateLongRange minimum="0" />
+					                			<p:ajax listener="#{licRnlCmsSlipAction.calcDinominationListener()}" event="change" update="outputTen,total" />
+					                		</h:inputText>
+					                	</f:facet>
+					                </p:column>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:outputText id="outputTen" value="#{licRnlCmsSlipAction.cashCmsSlipDto.tenAmt}" >
+					                			<f:convertNumber pattern="#.##"/>
+					                		</h:outputText>
+					                	</f:facet>
+					                </p:column>
+					            </p:row>
+					            <p:row>
+					                <p:column headerText="Rs. 5/-" styleClass="colBgColor"/>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:inputText id="inputFive" value="#{licRnlCmsSlipAction.cashCmsSlipDto.five}">
+					                			<f:convertNumber pattern="#.##"/>
+					                			<f:validateLongRange minimum="0" />
+					                			<p:ajax listener="#{licRnlCmsSlipAction.calcDinominationListener()}" event="change" update="outputFive,total" />
+					                		</h:inputText>
+					                	</f:facet>
+					                </p:column>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:outputText id="outputFive" value="#{licRnlCmsSlipAction.cashCmsSlipDto.fiveAmt}" >
+					                			<f:convertNumber pattern="#.##"/>
+					                		</h:outputText>
+					                	</f:facet>
+					                </p:column>
+					            </p:row>
+					            <p:row>
+					                <p:column headerText="Rs. 2/-" styleClass="colBgColor"/>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:inputText id="inputTwo" value="#{licRnlCmsSlipAction.cashCmsSlipDto.two}">
+					                			<f:convertNumber pattern="#.##"/>
+					                			<f:validateLongRange minimum="0" />
+					                			<p:ajax listener="#{licRnlCmsSlipAction.calcDinominationListener()}" event="change" update="outputTwo,total" />
+					                		</h:inputText>
+					                	</f:facet>
+					                </p:column>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:outputText id="outputTwo" value="#{licRnlCmsSlipAction.cashCmsSlipDto.twoAmt}" >
+					                			<f:convertNumber pattern="#.##"/>
+					                		</h:outputText>
+					                	</f:facet>
+					                </p:column>
+					            </p:row>
+					            <p:row>
+					                <p:column headerText="Rs. 1/-" styleClass="colBgColor"/>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:inputText id="inputOne" value="#{licRnlCmsSlipAction.cashCmsSlipDto.one}">
+					                			<f:convertNumber pattern="#.##"/>
+					                			<f:validateLongRange minimum="0" />
+					                			<p:ajax listener="#{licRnlCmsSlipAction.calcDinominationListener()}" event="change" update="outputOne,total" />
+					                		</h:inputText>
+					                	</f:facet>
+					                </p:column>
+					                <p:column styleClass="colBgColor">
+					                	<f:facet name="header">
+					                		<h:outputText id="outputOne" value="#{licRnlCmsSlipAction.cashCmsSlipDto.oneAmt}" >
+					                			<f:convertNumber pattern="#.##"/>
+					                		</h:outputText>
+					                	</f:facet>
+					                </p:column>
+					            </p:row>
+					            <p:row>
+					                <p:column headerText="Total : " colspan="2" style="text-align:right; font-weight:bold" />
+					                <p:column>
+					                	<f:facet name="header">
+					                		<h:outputText id="total" value="#{licRnlCmsSlipAction.cashCmsSlipDto.total}" style="font-weight:bold" >
+					                			<f:convertNumber pattern="#.##"/>
+					                		</h:outputText>
+					                	</f:facet>
+					                </p:column>
+					            </p:row>
+					        </p:columnGroup>
+						</p:dataTable>
+					</p:panel>
+
+					<p:panel id="cmsSlip" header="CMS Slip" style="margin-bottom:20px">
+						<h:panelGrid columns="6" columnClasses="label,value, label2,value, label2,value, label2,value">
+				        	<p:outputLabel for="cmsSlipNo" value="CMS Slip No :"/>
+				        	<p:inputText id="cmsSlipNo" required="true" requiredMessage="Please Enter CMS Slip No" value="#{licRnlCmsSlipAction.cmsMstDto.cmsNo}" style="width: 150px"/>
+				        	
+				        	<p:outputLabel for="cmsSlipMode" value="CMS Slip Mode :"/>
+				        	<p:selectOneMenu id="cmsSlipMode" required="true" requiredMessage="Please Select" value="#{licRnlCmsSlipAction.cmsMstDto.payMode}">
+						            <f:selectItem itemLabel="Select One" itemValue="" />
+						            <f:selectItem itemLabel="Tieup Company DD/Cheque" itemValue="T" />
+						            <f:selectItem itemLabel="Parent Company DD/Cheque" itemValue="P" />
+						            <f:selectItem itemLabel="Cash" itemValue="C" />
+						    </p:selectOneMenu>
+				        	
+				        	<p:outputLabel for="amt" value="Amount :"/>
+				        	<p:inputText id="amt" required="true" requiredMessage="Please Enter Amount" value="#{licRnlCmsSlipAction.cmsMstDto.amount}" style="width: 150px" >
+				        		<f:convertNumber pattern="#.##"/>
+				        	</p:inputText>
+				        </h:panelGrid>
+				        	
+						<p:spacer/>
+						<p:separator/>
+						<p:spacer/>
+						
+						<p:commandButton value="Add Row" actionListener="#{licRnlCmsSlipAction.addCmsSlip()}" update=":searchForm:listOutputPanel,cmsTable" style="font-weight:bold"/>
+			        	
+			        	<p:separator/>
+			        	
+				        <p:dataTable id="cmsTable" value="#{licRnlCmsSlipAction.licRnlCmsMstDtoList}" var="row" >							
+							<p:column headerText="CMS Slip Number">
+								<h:outputText value="#{row.cmsNo}" />
+							</p:column>						
+							<p:column headerText="Mode">
+								<h:outputText value="#{row.payMode}" />
+							</p:column>
+							<p:column headerText="Amount">
+								<h:outputText value="#{row.amount}" >
+									<f:convertNumber pattern="#.##"/>
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Delete">
+								<p:commandLink value="Delete" actionListener="#{licRnlCmsSlipAction.deleteCms(row)}" update="cmsTable" immediate="true" style="font-weight:bolder; color:black"/>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+		<h:form id="saveForm">
+			<p:outputPanel id="saveOutputPanel">
+				<p:panel rendered="#{licRnlCmsSlipAction.renderedListPanel}">
+					<p:panelGrid columns="2">
+						<p:commandButton value="Save" actionListener="#{licRnlCmsSlipAction.save()}" update="saveOutputPanel,:searchForm:searchOutputPanel,:searchForm:listOutputPanel" icon="ui-icon-disk" style="font-weight:bolder"/>
+						<p:commandButton value="Reload" action="#{licRnlCmsSlipAction.onLoad()}" update="saveOutputPanel,:searchForm:searchOutputPanel,:searchForm:listOutputPanel" icon="ui-icon-refresh" style="font-weight:bolder"/>
+					</p:panelGrid>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:insert name="style.xhtml">
+	<ui:include src="/template/style.xhtml" />
+</ui:insert>
+
+<h:head>
+	<style type="text/css">
+	   @media print{    
+    	.no-print, .no-print *{
+        	display: none !important;
+    		}
+		}
+		
+    	.tg  {
+    		border-collapse:collapse;
+    		border-spacing:0;
+    	}
+    	
+		.tg td{
+			font-family: sans-serif;
+			padding:10px 5px;
+			border-style:solid;
+			border-width:1px;
+			word-break:normal;
+			text-align: center;
+		}
+		
+		.tg th{
+			font-family: sans-serif;
+			padding:10px 5px;
+			border-style:solid;
+			border-width:1px;
+		}
+	</style>
+</h:head>
+
+<h:body>
+	<center>
+		<table class="tg" width="750">
+			<caption style="font-size: large; font-weight: bold; text-decoration: underline;">DELIVERY LIST OF LICI FIRST PREMIUM RECEIPT</caption>
+			
+			<thead>
+				<tr>
+					<th style="border-width:0px;" height="30"></th>
+				</tr>
+			</thead>
+				
+			<thead>
+				<tr>
+					<th colspan="8" style="border-width:0px; padding-bottom: 5px">
+						<span style="float:left;"> DEPOSITED BRANCH : <h:outputText value="#{fprAndPolicyBondDeliveryListAction.licPolicyMst.licOblApplicationMst.branchMst.branchName}" /></span>
+						<span style="float:right;"> DATE : 
+							<h:outputText value="#{fprAndPolicyBondDeliveryListAction.licPolicyMst.licOblApplicationMst.businessDate}" >
+							 	<f:convertDateTime pattern="dd/MM/yyyy"/>
+							 </h:outputText>
+						</span>
+					</th>
+				</tr>
+			</thead>
+			
+			<thead>
+				<tr>
+				    <th>SL. NO.</th>
+				    <th>DEPOSIT DATE</th>
+				    <th>PREMIUM</th>
+				    <th>SUM ASSURED</th>
+				    <th>PLAN</th>
+				    <th>NAME OF POLICY HOLDER</th>
+				    <th>POLICY NUMBER</th>
+				    <th>SIGNATURE OF THE RECEIPTENT</th>
+				 </tr>
+			  </thead>			  
+			  
+			  <tbody>
+			  	<tr>
+			  		<td>1</td>
+			  		<td><h:outputText value="#{fprAndPolicyBondDeliveryListAction.licPolicyMst.licOblApplicationMst.businessDate}" > <f:convertDateTime pattern="dd/MM/yyyy"/></h:outputText></td>
+			  		<td><h:outputText value="#{fprAndPolicyBondDeliveryListAction.licPolicyMst.modalPrem}" /></td>
+			  		<td><h:outputText value="#{fprAndPolicyBondDeliveryListAction.licPolicyMst.licOblApplicationMst.licProductValueMst.sumAssured}" /></td>
+			  		<td><h:outputText value="#{fprAndPolicyBondDeliveryListAction.licPolicyMst.licOblApplicationMst.licProductValueMst.licProductMst.prodDesc}" /></td>
+			  		<td><h:outputText value="#{fprAndPolicyBondDeliveryListAction.licPolicyMst.licOblApplicationMst.licInsuredDtls.name}" /></td>
+			  		<td><h:outputText value="#{fprAndPolicyBondDeliveryListAction.licPolicyMst.policyNo}" /></td>
+			  		<td></td>
+			  	</tr>
+			  </tbody>
+			  
+			  <tfoot>
+			  	<tr>
+			    	<th colspan="8" style="padding-top: 5px;">
+			    		<span style="float:left;"> AGENT CODE : <h:outputText value="#{fprAndPolicyBondDeliveryListAction.licPolicyMst.licOblApplicationMst.agentMst.agCode}" /></span>
+			    		<span style="float:right;"> AGENT RANK : <h:outputText value="#{fprAndPolicyBondDeliveryListAction.agentRank}" /></span>
+			    	</th>
+			  	</tr>
+			  </tfoot>
+		</table>
+		
+		<br />
+		<br />
+	<h:form>
+		<p:commandButton styleClass="no-print" type="button" onclick="window.print()" value="Print" icon="ui-icon-print" style="font-weight:bold"/>
+		<p:spacer width="10"/>
+		<p:commandButton styleClass="no-print" action="#{fprAndPolicyBondDeliveryListAction.onLoad}" value="Back" icon="ui-icon-arrowthick-1-w" style="font-weight:bold" />
+	</h:form>
+	</center>
+</h:body>
+</html>

@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/template/layout.xhtml">
+
+	<ui:define name="content">
+		<h:form id="printformSearch">
+			<p:messages showDetail="true" autoUpdate="true" closable="true" />
+			<p:outputPanel id="searchOutputPanel">
+				<p:panel id="printSearchPanel" header="Search Application">
+					<h:panelGrid columns="7" columnClasses="label,value">
+						<p:outputLabel for="policyNo" value="Policy No" />
+						<p:inputText id="policyNo" required="true" requiredMessage="Please Enter Policy Number" value="#{renewalPrintReceiptAction.policyNo}"/>
+					
+					</h:panelGrid>				
+					<f:facet name="footer">
+						<p:commandButton value="Search" actionListener="#{renewalPrintReceiptAction.search}" icon="ui-icon-search" update=":printformSearch:searchOutputPanel,:printFormList:printListoutputPanel" />
+					</f:facet>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+
+		<h:form id="printFormList">
+			<p:outputPanel id="printListoutputPanel">
+				<p:panel id="printListPanel" rendered="#{renewalPrintReceiptAction.renderedPanel}">
+					<p:dataTable value="#{renewalPrintReceiptAction.licPolicyDtlsDtos}" var="row" >
+				
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="From Due Date" />
+							</f:facet>
+							<h:outputText value="#{row.fromDueDate}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="To Due Date" />
+							</f:facet>
+							<h:outputText value="#{row.toDueDate}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Pay Date" />
+							</f:facet>
+							<h:outputText value="#{row.payDate}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Insured Name" />
+							</f:facet>
+							<h:outputText value="#{row.insuredName}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Product Name" />
+							</f:facet>
+							<h:outputText value="#{row.prodName}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Tieup Company Name" />
+							</f:facet>
+							<h:outputText value="#{row.tieupCompyName}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Fine Amount" />
+							</f:facet>
+							<h:outputText value="#{row.fineAmount}" />
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Total Receivable" />
+							</f:facet>
+							<h:outputText value="#{row.totalReceivable}" />
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Total Received" />
+							</f:facet>
+							<h:outputText value="#{row.totalReceived}" />
+						</p:column>
+	
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Print Flag" />
+							</f:facet>
+							<h:outputText value="#{row.printFlag}" />
+						</p:column>
+	
+						
+	
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Print" />
+							</f:facet>
+							<p:commandLink value="Print" style="font-weight:bold" action="#{renewalPrintReceiptAction.printPage(row)}"/>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

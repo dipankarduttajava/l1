@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        
+        <h:form id="consolidateMarkingForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="consolidateMarkingOutputPanel">
+	        	<p:panel id="consolidateMarkingReport" header="Report At Hub" style="margin-bottom:20px">
+	        		<h:panelGrid columns="5" styleClass="grid" columnClasses="label,value, label2,value, label2,value">
+	        			<p:outputLabel value="POD Numbers : " for="podId"/>
+	        			<p:selectOneMenu value="#{licRenewalPosViewConsolidatedMarkingAction.podId}" required="true" requiredMessage="Please Select" id="podId" style="width: 150px">
+		        			<f:selectItem itemLabel="Select One" itemValue=""/>
+		        			<f:selectItems value="#{licRenewalPosViewConsolidatedMarkingAction.consolidatedMarkingDtoList}" var="row" itemLabel="#{row.dropdownString}" itemValue="#{row.id}"/>
+		        		</p:selectOneMenu>
+		        		
+		        		<p:outputLabel value="Received Date : " for="receivedDate"/>
+		        		<p:calendar id="receivedDate" value="#{licRenewalPosViewConsolidatedMarkingAction.receivedDate}" pattern="dd/MM/yyyy" required="true" requiredMessage="Please Enter Date"/>
+		        		
+		        		<p:commandButton actionListener="#{licRenewalPosViewConsolidatedMarkingAction.markAsReceived()}" value="Mark As Received" update="consolidateMarkingForm" icon="ui-icon-check" style="font-weight:bolder" />
+	        		</h:panelGrid>
+			    </p:panel>
+			</p:outputPanel>
+	    </h:form>
+    </ui:define>
+</ui:composition>

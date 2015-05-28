@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="form">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	 <p:panel id="search" header="Search Criteria" style="margin-bottom:20px">
+			        <h:panelGrid columns="10" columnClasses="label,value, label2,value, label2,value, label2,value, label2,value">
+			        	
+			        	<p:outputLabel value="Dispatch List No:" for="dispatchListNo"/>
+			        	<p:selectOneMenu id="dispatchListNo" value="#{licRenewalPosViewPodAction.dispatchListNo}" required="true" requiredMessage="Please Select Dispatch Number" disabled="#{licRenewalPosViewPodAction.renderedListPanel}">
+			        		<p:ajax event="change" partialSubmit="true"/>
+			        		<f:selectItem itemLabel="Please Select" itemValue=""/>
+			        		<f:selectItems value="#{licRenewalPosViewPodAction.dispatchList}"/>
+			        	</p:selectOneMenu>	
+			        	
+			        	<p:outputLabel value="Mode of Delivery:" for="deliveryMode"/>
+			        	<p:selectOneMenu id="deliveryMode" value="#{licRenewalPosViewPodAction.deliveryMode}" required="true" requiredMessage="Please Select Delivery Mode" disabled="#{licRenewalPosViewPodAction.renderedListPanel}">
+			        		<f:selectItem itemLabel="Please Select" itemValue=""/>
+			        		<f:selectItem itemLabel="By Hand" itemValue="H" />
+			        		<f:selectItem itemLabel="By Post" itemValue="P"/>
+			        		<p:ajax listener="#{licRenewalPosViewPodAction.deliveryModeChange()}" event="change" update="search" />
+			        	</p:selectOneMenu>
+			        	
+			        	<p:outputLabel value="Employee Code:" for="empCode" rendered="#{licRenewalPosViewPodAction.handFlag}"/>
+			        	<p:inputText id="empCode" value="#{licRenewalPosViewPodAction.empCode}"  rendered="#{licRenewalPosViewPodAction.handFlag}" required="true" requiredMessage="Please Enter Employee Code" style="width: 150px" disabled="#{licRenewalPosViewPodAction.renderedListPanel}">
+			        		<p:ajax listener="#{licRenewalPosViewPodAction.findEmployee()}" event="change" update="empName" />
+			        	</p:inputText>
+			        	
+			        	<p:outputLabel value="Employee Name:" rendered="#{licRenewalPosViewPodAction.handFlag}"/>
+			        	<p:outputLabel id="empName" value="#{licRenewalPosViewPodAction.empName}" rendered="#{licRenewalPosViewPodAction.handFlag}" disabled="true" />
+			        	
+			        	<p:outputLabel value="Pod No:" for="podNo" rendered="#{licRenewalPosViewPodAction.courierFlag}"/>
+			        	<p:inputText id="podNo" value="#{licRenewalPosViewPodAction.podNo}" rendered="#{licRenewalPosViewPodAction.courierFlag}" required="true" requiredMessage="Please Enter POD No" style="width: 150px" disabled="#{licRenewalPosViewPodAction.renderedListPanel}"/>
+			        	
+			        	<p:outputLabel value="Courier Name:" for="courierName" rendered="#{licRenewalPosViewPodAction.courierFlag}"/>
+			        	<p:inputText id="courierName" value="#{licRenewalPosViewPodAction.courierName}" rendered="#{licRenewalPosViewPodAction.courierFlag}" required="true" requiredMessage="Please Enter Courier Name" style="width: 150px" disabled="#{licRenewalPosViewPodAction.renderedListPanel}"/>
+			        	
+			        	<p:commandButton value="Generate" actionListener="#{licRenewalPosViewPodAction.searchForPod()}" update="searchOutputPanel, listOutputPanel" icon="ui-icon-clipboard" style="font-weight:bolder" disabled="#{licRenewalPosViewPodAction.renderedListPanel}"/>
+			        </h:panelGrid>
+			    </p:panel>
+			</p:outputPanel>
+
+	    	<p:outputPanel id="listOutputPanel">
+			    <p:panel id="list" style="margin-bottom:20px" rendered="#{licRenewalPosViewPodAction.renderedListPanel}">
+			    	<p:dataTable id="table" value="#{licRenewalPosViewPodAction.licPolicyDtlsDtoList}" var="row">
+			    	
+			    		<f:facet name="header">
+	                    		Renewal Dispatch List Generation
+	                    	<span style="float: right;">Record(s) Found : #{fn:length(licRenewalPosViewPodAction.licPolicyDtlsDtoList)}</span>
+						</f:facet>
+						
+						<p:column headerText="Policy No.">
+							<h:outputText value="#{row.policyNo}" />
+						</p:column>
+						
+						<p:column headerText="No of Due Years">
+							<h:outputText value="#{row.dueYears}" />
+						</p:column>
+						
+						<p:column headerText="From Due Date">
+						        <p:calendar value="#{row.fromDueDate}" pattern="dd/MM/yyyy" disabled="true"/>
+					    </p:column>
+					    
+					    <p:column headerText="To Due Date">
+						        <p:calendar value="#{row.toDueDate}" pattern="dd/MM/yyyy" disabled="true"/>
+					    </p:column>
+					    
+					    <p:column headerText="Pay Nature">
+						        <h:outputText value="#{row.payNature}"/>
+					    </p:column>
+						
+						<p:column headerText="Pay Date">
+						        <p:calendar value="#{row.payDate}" pattern="dd/MM/yyyy" disabled="true"/>
+					    </p:column>					    
+					    
+					    <p:column headerText="Insured Name">
+					        <h:outputText value="#{row.insuredName}" />
+					    </p:column>
+					    
+					    <p:column headerText="Proposer Name">
+					        <h:outputText value="#{row.proposerName}" />
+					    </p:column>					    
+					    
+					    <p:column headerText="Product">
+					        <h:outputText value="#{row.product}" />
+					    </p:column>
+					    
+					    <p:column headerText="Health Flag">
+					        <h:outputText value="#{row.healthFlag}" />
+					    </p:column>
+					    
+						<p:column headerText="Pay Mode">
+					        <h:outputText value="#{row.payMode}" />
+					    </p:column>
+					    
+					    <p:column headerText="Hub">
+					        <h:outputText value="#{row.hubName}" />
+					    </p:column>
+						
+					</p:dataTable>
+					
+			    	<f:facet name="footer">
+			    		<p:commandButton value="Save" actionListener="#{licRenewalPosViewPodAction.onSave()}" update="searchOutputPanel, listOutputPanel" icon="ui-icon-disk" style="font-weight:bolder"/>
+			    	</f:facet>
+			    </p:panel>
+			</p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

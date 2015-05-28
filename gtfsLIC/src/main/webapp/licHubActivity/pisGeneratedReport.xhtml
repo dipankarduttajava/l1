@@ -1,0 +1,142 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	<p:panel id="search" header="Search Criteria" style="margin-bottom:20px">
+	        		 <h:panelGrid columns="8" columnClasses="label,value, label2,value, label2,value, label2,value, label2,value">
+			        	<p:outputLabel for="appNo" value="Application Number:" />
+						<p:inputText id="appNo" maxlength="15" value="#{pisGeneratedReportAction.applNo}" validatorMessage="Application no can contains alphabets,number and underscore character only" style="width: 130px">
+							<f:validateRegex pattern="[a-z|| ||A-Z||0-9||.||_]*" />
+						</p:inputText>
+						
+			        	<p:outputLabel for="bnsFromDate" value="Business From Date :"/>
+			        	<p:calendar id="bnsFromDate" value="#{pisGeneratedReportAction.businessFromDate}" pattern="dd/MM/yyyy" navigator="true" />
+			        	
+			        	<p:outputLabel for="bnsToDate" value="Business To Date :"/>
+			        	<p:calendar id="bnsToDate" value="#{pisGeneratedReportAction.businessToDate}" pattern="dd/MM/yyyy" navigator="true" />
+			        	
+			        	<p:outputLabel for="pisCms" value="PIS CMS Done :"/>
+			        	<p:selectOneMenu id="pisCms" value="#{pisGeneratedReportAction.pisCms}" required="true" requiredMessage="Please Select CheckList">
+			        		<f:selectItem itemLabel="Select One" itemValue=""/>
+			        		<f:selectItem itemLabel="Yes" itemValue="Y"/>
+			        		<f:selectItem itemLabel="No" itemValue="N"/>
+			        	</p:selectOneMenu>
+			        </h:panelGrid>
+			        
+			        <f:facet name="footer">
+			        	<p:commandButton value="Search" actionListener="#{pisGeneratedReportAction.onSearch()}" update="searchOutputPanel, listOutputPanel"  icon="ui-icon-search" style="font-weight:bolder" />
+			        </f:facet>
+	        	</p:panel>
+	    	</p:outputPanel>
+
+	    	<p:outputPanel id="listOutputPanel">
+		    	<p:panel id="list" style="margin-bottom:20px" rendered="#{pisGeneratedReportAction.renderedPanel}">
+			    	
+					<p:outputPanel style="text-align: right; margin-bottom: 3px; margin-right: 20px;" layout="block" >
+						<p:commandButton ajax="false" icon="xls" style="background-color: #FFFFFF; " >
+					    	<p:dataExporter type="xls" target="table" fileName="PicDispatchReport" />
+						</p:commandButton>
+					</p:outputPanel>
+
+		    		<p:dataTable id="table" value="#{pisGeneratedReportAction.licOblApplicationMstList}" var="row" rowIndexVar="sr" rows="10" paginator="true" paginatorPosition="bottom">
+		    				
+		    				<f:facet name="header">
+                   				PIC Dispatch Report List
+                   				<span style="float: right;">Record(s) Found : #{fn:length(pisGeneratedReportAction.licOblApplicationMstList)}</span>
+							</f:facet>
+						
+		    				<p:column headerText="Sr No.">
+		    					<h:outputText value="#{sr+1}" />
+		    				</p:column>
+		    				
+		    				<p:column>
+			    				<f:facet name="header">
+	                				<h:outputText value="Application No" />
+	           					</f:facet>
+						        <h:outputText value="#{row.oblApplNo}" />
+						    </p:column>						   
+						    
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="Business Date" />
+	           					</f:facet>
+						        <p:calendar value="#{row.businessDate}" pattern="dd/MM/yyyy" disabled="true" size="8"/>
+						    </p:column>
+						    
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="Proposer Name" />
+	           					</f:facet>
+						        <h:outputText value="#{row.licProposerDtls.name}" />
+						    </p:column>
+						    
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="Insured Name" />
+	           					</f:facet>
+						        <h:outputText value="#{row.licInsuredDtls.name}" />
+						    </p:column>
+						    
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="HUB Name" />
+	           					</f:facet>
+						        <h:outputText value="#{row.oblHubMst.hubName}" />
+						    </p:column>
+						    
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="Branch Name" />
+	           					</f:facet>
+						        <h:outputText value="#{row.branchMst.branchName}" />
+						    </p:column>
+						   
+						   	<p:column>
+						   		<f:facet name="header">
+	                				<h:outputText value="Basic Premium" />
+	           					</f:facet>
+						        <h:outputText value="#{row.licProductValueMst.basicPrem}" >
+						        	<f:convertNumber pattern="#.##" />
+						        </h:outputText>
+						    </p:column>
+						    
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="Service Tax" />
+	           					</f:facet>
+						        <h:outputText value="#{row.licProductValueMst.taxOnPrem}" >
+						        	<f:convertNumber pattern="#.##" />
+						        </h:outputText>
+						    </p:column>
+						    
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="Total Amount" style="font-weight:bold" />
+	           					</f:facet>
+						        <h:outputText value="#{row.licProductValueMst.totalAmt}" style="font-weight:bold" >
+						        	<f:convertNumber pattern="#.##" />
+						        </h:outputText>
+						    </p:column>
+						    
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="Sum Assured" />
+	           					</f:facet>
+						        <h:outputText value="#{row.licProductValueMst.sumAssured}" >
+						        	<f:convertNumber pattern="#.##" />
+						        </h:outputText>
+						    </p:column>						    
+		    		</p:dataTable>
+		    	</p:panel>
+		    </p:outputPanel>
+	    </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		 "classpath://org/hibernate/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+       <!--  <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
+        
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@172.16.4.14:1521:amsprod</property>
+        <property name="hibernate.connection.username">testamsapp</property>
+        <property name="hibernate.connection.password">gtfstestamsapp</property>         -->
+
+
+<!--         <property name="hibernate.connection.url">jdbc:oracle:thin:@10.185.1.5:1521:amsprod</property> -->
+<!-- 		<property name="hibernate.connection.username">amsadmin</property> -->
+<!--         <property name="hibernate.connection.password">gtfsamsadmin</property> -->
+<!--         <property name="hibernate.show_sql">true</property> -->
+<!--         <property name="hibernate.hbm2ddl.auto">update</property> -->
+        
+    <!--     <property name="hibernate.jdbc.batch_size">50</property>
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.use_query_cache">true</property>
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property> -->
+          
+          
+<!--      specify other cache xml    <property name="net.sf.ehcache.configurationResourceName">/cacheRegion.xml</property> -->
+ 
+       
+    </session-factory>
+</hibernate-configuration>

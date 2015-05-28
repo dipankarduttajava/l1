@@ -1,0 +1,17 @@
+#######################################
+# Database Connectivity Property File #
+#######################################
+
+
+jdbc.driverClassName = oracle.jdbc.driver.OracleDriver
+
+
+#################### URL ####################
+#jdbc.url = jdbc:oracle:thin:@10.185.1.5:1521:amsprod
+jdbc.url = jdbc:oracle:thin:@10.185.1.5:1521:amsprod
+#jdbc.url = jdbc:oracle:thin:@172.16.4.14:1521:amsprod
+
+
+########### USERNAME AND PASSWORD ###########
+jdbc.username = anul
+jdbc.password = anul1234

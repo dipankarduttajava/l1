@@ -1,0 +1,148 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+                
+    	<ui:define name="content">    
+    	<h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	 <p:panel id="searchPanel" header="Branch Request Search" style="margin-bottom:20px">
+	        	 	<h:panelGrid columns="6" cellpadding="5" styleClass="grid" columnClasses="label,value, label2,value, label2,value">
+	        	 		<p:outputLabel value="Business From Date:" for="businessFromDate"/>
+	        	 		<p:calendar id="businessFromDate" value="#{licBranchReqRcvMstAction.businessFromDate}" pattern="dd/MM/yyyy" />
+	        	 		
+	        	 		<p:outputLabel value="Business To Date:" for="businessToDate"/>
+	        	 		<p:calendar id="businessToDate" value="#{licBranchReqRcvMstAction.businessToDate}" pattern="dd/MM/yyyy" />
+	        	 		
+	        	 		<p:outputLabel value="Branch:" for="branch"/>
+	        	 		<p:selectOneMenu value="#{licBranchReqRcvMstAction.branchId}" id="branch">
+	        	 			<f:selectItem itemLabel="Select Branch" itemValue=""/>
+	        	 			<f:selectItems value="#{licBranchReqRcvMstAction.branchMsts}" var="row" itemLabel="#{row.branchName}" itemValue="#{row.branchId}"/>
+	        	 		</p:selectOneMenu>
+	        	 	</h:panelGrid>
+	        	 	
+	        	 	<f:facet name="footer">
+	        	 		<p:commandButton value="Search" actionListener="#{licBranchReqRcvMstAction.search()}" update=":searchForm:searchOutputPanel,:listForm:listOutputPanel,:saveListForm:saveListOutputPanel" icon="ui-icon-search" style="font-weight:bolder"/>
+	        	 	</f:facet>
+	        	 </p:panel>
+	        </p:outputPanel>
+        </h:form>	
+        
+        <h:form id="listForm">
+        	<p:outputPanel id="listOutputPanel">
+        		 <p:panel id="listPanel" rendered="#{licBranchReqRcvMstAction.renderedlistForm}">
+        		 	<p:dataTable id="listTable" var="row" value="#{licBranchReqRcvMstAction.licRequirementDtlses}" paginator="true" 
+							 paginatorPosition="bottom" emptyMessage="No Record(s) Found" rows="15">
+							 
+						<f:facet name="header">
+	                    	Branch Request Master List
+	                    	<span style="float: right;"> Record(s) Found : #{fn:length(licBranchReqRcvMstAction.licRequirementDtlses)}</span>
+						</f:facet>
+						
+						<p:column >
+							<f:facet name="header">
+								<h:outputText value="Application No." />
+							</f:facet>
+							<h:outputText value="#{row.licOblApplicationMst.oblApplNo}" />
+						</p:column>
+						
+						<p:column >
+							<f:facet name="header">
+								<h:outputText value="Business Date." />
+							</f:facet>
+							<h:outputText value="#{row.licOblApplicationMst.businessDate}" >
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column >
+							<f:facet name="header">
+								<h:outputText value="Branch" />
+							</f:facet>
+							<h:outputText value="#{row.licOblApplicationMst.branchMst.branchName}" />
+						</p:column>
+						
+						
+						<p:column >
+							<f:facet name="header">
+								<h:outputText value="Shortage Premium To Collect" />
+							</f:facet>
+							<h:outputText value="#{row.amount}" >
+								<f:convertNumber pattern="#.##" />
+							</h:outputText>
+						</p:column>
+						<p:column >
+							<f:facet name="header">
+								<h:outputText value="Documents To Collect" />
+							</f:facet>
+							<h:outputText value="#{row.document}" />
+						</p:column>
+						<p:column headerText="Action">
+							<p:commandLink value="Click Here" actionListener="#{licBranchReqRcvMstAction.indvSave(row)}" style="font-weight:bold" update=":listForm:listOutputPanel,:saveListForm:saveListOutputPanel"/>
+						</p:column>
+					</p:dataTable>
+        		 </p:panel>
+        	</p:outputPanel>
+        </h:form>
+        
+       <h:form id="saveListForm">
+        	<p:outputPanel id="saveListOutputPanel">
+        		 <p:panel id="saveListPanel" rendered="#{licBranchReqRcvMstAction.renderedSaveListForm}">
+        		 	<p:dataTable id="saveListTable" var="row" value="#{licBranchReqRcvMstAction.licRequirementDtlsList}" emptyMessage="No Record(s) Found" rows="15">
+							 
+						<f:facet name="header">
+	                    	Branch Request Master
+						</f:facet>
+						
+						<p:column >
+							<f:facet name="header">
+								<h:outputText value="Application No." />
+							</f:facet>
+							<h:outputText value="#{row.licOblApplicationMst.oblApplNo}" />
+						</p:column>
+						
+						<p:column >
+							<f:facet name="header">
+								<h:outputText value="Business Date." />
+							</f:facet>
+							<h:outputText value="#{row.licOblApplicationMst.businessDate}" >
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column >
+							<f:facet name="header">
+								<h:outputText value="Branch" />
+							</f:facet>
+							<h:outputText value="#{row.licOblApplicationMst.branchMst.branchName}" />
+						</p:column>
+						
+						<p:column >
+							<f:facet name="header">
+								<h:outputText value="Shortage Premium To Collect" />
+							</f:facet>
+							<h:outputText value="#{row.amount}" >
+								<f:convertNumber pattern="#.##" />
+							</h:outputText>
+						</p:column>
+						<p:column >
+							<f:facet name="header">
+								<h:outputText value="Documents To Collect" />
+							</f:facet>
+							<h:outputText value="#{row.document}" />
+						</p:column>
+					</p:dataTable>
+					
+					<f:facet name="footer">
+	        	 		<p:commandButton value="Save" actionListener="#{licBranchReqRcvMstAction.save()}" update=":searchForm:searchOutputPanel,:listForm:listOutputPanel,:saveListForm:saveListOutputPanel" icon="ui-icon-disk" style="font-weight:bolder"/>
+	        	 	</f:facet>
+	        	 	
+        		 </p:panel>
+        	</p:outputPanel>
+        </h:form>
+    	</ui:define> 
+</ui:composition>

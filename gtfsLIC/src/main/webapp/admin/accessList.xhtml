@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/template/layout.xhtml">
+
+	<ui:define name="content">
+		<h:form id="searchForm">
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+		 	<p:outputPanel id="searchOutputPanel">
+				<p:panel id="accessListSearch" header="Search Criteria" style="margin-bottom:20px">
+					<h:panelGrid id="searchPanelGrid" columns="4" styleClass="grid" columnClasses="label,value, label2,value">
+						
+						<p:outputLabel for="accessName" value="Access Name : " />
+						<p:inputText id="accessName" value="#{accessListAction.accessName}" />
+	
+						<h:panelGroup>
+							<p:commandButton id="search" value="Search" actionListener="#{accessListAction.onSearch()}" update=":searchForm:searchOutputPanel,:listForm:listOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+							
+							<p:spacer width="10"/>
+							
+							<p:commandButton update=":searchForm:searchOutputPanel,:listForm:listOutputPanel" value="Reload" actionListener="#{accessListAction.onLoad()}" icon="ui-icon-cancel" style="font-weight:bolder"/>
+						</h:panelGroup>
+					</h:panelGrid>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+		
+		<h:form id="listForm">
+			<p:outputPanel id="listOutputPanel">
+				<p:panel id="accessList" style="margin-bottom:20px">
+					<p:commandButton id="addBtn" value="Add" actionListener="#{accessListAction.addList()}" update="accessList" icon="ui-icon-plus" style="font-weight:bolder"/>
+					<p:spacer width="10"/>
+					<p:commandButton id="saveBtn" value="Save" actionListener="#{accessListAction.saveList()}" update="accessList" icon="ui-icon-disk" style="font-weight:bolder"/>
+					<p:separator/>
+					
+					<p:dataTable id="accessDataList" var="row" value="#{accessListAction.listOfAccess}" paginator="true" 
+							 paginatorPosition="bottom" emptyMessage="No Record(s) Found" rows="15" >
+										
+						<f:facet name="header">
+	                    	Access Master List
+	                    	<span style="float: right;">Record(s) Found : #{fn:length(accessListAction.listOfAccess)}</span>
+						</f:facet>
+						
+						<p:column sortBy="#{row.accessId}">
+							<f:facet name="header">
+								<h:outputText value="Access Id" />
+							</f:facet>
+							<h:inputText value="#{row.accessId}" readonly="#{row.disabledFlag}" required="true" requiredMessage="Please Enter Access Id"/>
+						</p:column>
+	
+						<p:column headerText="Access Name" >
+							<h:inputText value="#{row.accessName}" readonly="#{row.disabledFlag}" required="true" requiredMessage="Please Enter Access Name" maxlength="50">
+								<f:validateLength maximum="50" minimum="1" />
+							</h:inputText>
+						</p:column>
+						
+						<p:column headerText="Created By">
+							<h:outputText value="#{row.createdBy}" />
+						</p:column>
+						
+						<p:column headerText="Created Date">
+							<h:outputText value="#{row.createdDate}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Modified By">
+							<h:outputText value="#{row.modifiedBy}" />
+						</p:column>
+						<p:column headerText="Modified Date">
+							<h:outputText value="#{row.modifiedDate}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Action">
+							<p:commandLink value="Edit" actionListener="#{accessListAction.editAccessList(row)}" update=":listForm:listOutputPanel"	disabled="#{row.disabledFlag == false}" style="font-weight:bolder"/>
+							<p:spacer width="20"/>
+							<p:commandLink value="Delete" actionListener="#{accessListAction.deleteAccessList(row)}" update=":listForm:listOutputPanel"	style="font-weight:bolder"/>
+						</p:column>					
+						<p:column headerText="Add/Delete Role">
+							 <p:spacer width="20"/>
+							 <p:commandLink value="Edit Role" actionListener="#{accessListAction.editRoleForAccessList(row)}" style="font-weight:bolder"/>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</p:outputPanel>
+			
+			<p:blockUI block="accessDataList" trigger="accessDataList">  
+                LOADING
+            </p:blockUI>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,191 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/template/layout.xhtml">
+
+	<ui:define name="content">
+		<h:form id="searchForm">
+		 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+		 	<p:outputPanel id="searchOutputPanel">
+				<p:panel id="userMstSearch" header="Search Criteria" style="margin-bottom:20px">
+					<h:panelGrid id="search_form" columns="6" styleClass="grid" columnClasses="label,value, label2,value, label2,value">
+						
+						<p:outputLabel for="userId" value="User Id :" />
+						<p:inputText id="userId" value="#{userMstAction.userId}" />
+						
+						<p:outputLabel for="userName" value="User Name :" />
+						<p:inputText id="userName" value="#{userMstAction.userName}" />
+	
+						<h:panelGroup>
+							<p:commandButton id="search" value="Search" actionListener="#{userMstAction.onSearch()}" update=":searchForm:searchOutputPanel,:listForm:listOutputPanel" icon="ui-icon-search" style="font-weight:bolder"/>
+	
+							<p:spacer width="10"/>					
+	
+							<p:commandButton value="Reset" actionListener="#{userMstAction.onLoad()}" update=":searchForm:searchOutputPanel,:listForm:listOutputPanel" icon="ui-icon-cancel" style="font-weight:bolder"/>
+						</h:panelGroup>
+					</h:panelGrid>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+		
+		<h:form id="listForm">
+			<p:outputPanel id="listOutputPanel">
+				<p:panel id="userList" style="margin-bottom:20px">
+					<p:commandButton id="addBtn" value="Add" actionListener="#{userMstAction.addList()}" update=":listForm:listOutputPanel" icon="ui-icon-plus" style="font-weight:bolder"/>
+					<p:spacer width="10"/>
+					<p:commandButton id="saveBtn" value="Save" actionListener="#{userMstAction.saveList()}" update=":listForm:listOutputPanel" icon="ui-icon-disk" style="font-weight:bolder"/>
+					<p:separator/>
+					
+					<p:dataTable id="userDataList" var="row" value="#{userMstAction.listOfUsers}" paginator="true"
+								 paginatorPosition="bottom" emptyMessage="No Record(s) Found" rows="15">
+	
+						<f:facet name="header">
+		                    	User Master List <span style="float: right;">Record(s) Found : #{fn:length(userMstAction.listOfUsers)}</span>
+						</f:facet>
+	
+						<p:column sortBy="#{row.userid}">
+							<f:facet name="header">
+								<h:outputText value="User Id" />
+							</f:facet>
+							<h:outputText value="#{row.userid}" />
+						</p:column>
+	
+						<p:column headerText="User Name">
+							<h:inputText value="#{row.userName}" readonly="#{row.disabledFlag}" required="true" requiredMessage="Please Enter User Name" style="width:98%"/>
+						</p:column>
+	
+						<p:column headerText="Division Name">
+							<h:outputText value="#{row.divName}" />
+						</p:column>
+	
+						<p:column headerText="Branch Name">
+							<h:outputText value="#{row.branchName}" />
+						</p:column>
+	
+						<p:column headerText="Designation">
+							<h:outputText value="#{row.desigName}" />
+						</p:column>
+	
+						<p:column headerText="Action">
+							<p:commandLink value="Edit" update=":listForm:listOutputPanel" style="font-weight:bold; font-color:black" disabled="#{userMstAction.disabledAction}"/>
+	
+							<p:spacer width="20" />
+	
+							<p:commandLink value="Delete" update=":listForm:display" oncomplete="conf.show();" style="font-weight:bold; font-color:black" disabled="#{userMstAction.disabledAction}">
+								<f:setPropertyActionListener value="#{row}" target="#{userMstAction.userMstDto}" />
+							</p:commandLink>
+						</p:column>
+	
+						<p:column headerText="Add/Remove Role">
+							<p:spacer width="20" />
+							<p:commandLink value="Edit Role" actionListener="#{userMstAction.editRoleForUser(row)}" disabled="#{userMstAction.disabledRole}"
+										   style="font-weight:bold; font-color:black" update=":listForm:userRoleDialog" oncomplete="role.show();" />
+						</p:column>
+	
+						<p:column headerText="Detail View">
+							<p:spacer width="20" />
+							<p:commandLink value="Detail View" actionListener="#{userMstAction.viewDetailUserInfo(row)}" disabled="#{userMstAction.disabledDetails}"
+										   style="font-weight:bold; font-color:black" update=":listForm:userDataDialog" oncomplete="details.show();" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+
+				<p:dialog header="Users Details" widgetVar="role" resizable="false">
+						<p:dataTable id="userRoleDialog" var="row" value="#{userMstAction.userRoleRlnsDtoList}" emptyMessage="NO Role Defined">
+				            <p:column headerText="Role Id">
+				                <h:outputText value="#{row.roleId}" />
+				            </p:column>
+				 
+				            <p:column headerText="Role Name">
+				                <h:outputText value="#{row.roleName}" />
+				            </p:column>
+				 
+				            <p:column headerText="Status">
+				                <p:selectBooleanCheckbox value="#{row.roleGivenStatus}">
+				                	<p:ajax listener="#{userMstAction.changeStatusListener(row)}"/>
+				                </p:selectBooleanCheckbox>
+				            </p:column>
+		        		</p:dataTable>
+					
+					</p:dialog>
+					
+					<p:dialog header="Users Details" widgetVar="details" resizable="false">  
+		                <p:dataTable id="userDataDialog" value="#{userMstAction.userDetails}" var="row" >		
+		                
+					        <p:column headerText="User Id">
+								<h:outputText value="#{row.userid}" />
+							</p:column>
+				
+							<p:column headerText="User Name">
+								<h:outputText value="#{row.userName}"/>
+							</p:column>
+							
+							<p:column headerText="Login">
+								<h:outputText value="#{row.login}"/>
+							</p:column>
+							
+							<p:column headerText="Password">
+								<h:outputText value="#{row.passwd}"/>
+							</p:column>
+							
+							<p:column headerText="Designation">
+								<h:outputText value="#{row.desigName}" />
+							</p:column>
+							
+							<p:column headerText="HO">
+								<h:outputText value="#{row.hoName}" />
+							</p:column>
+							
+							<p:column headerText="Region">
+								<h:outputText value="#{row.regionName}" />
+							</p:column>
+				
+							<p:column headerText="Division Name">
+								<h:outputText value="#{row.divName}" />
+							</p:column>
+				
+							<p:column headerText="Branch Name">
+								<h:outputText value="#{row.branchName}" />
+							</p:column>
+							
+							<p:column headerText="Tie Up Company">
+								<h:outputText value="#{row.tieupCompName}" />
+							</p:column>
+							
+							<p:column headerText="Last Login">
+								<h:outputText value="#{row.lastLogin}" />
+							</p:column>
+							
+							<p:column headerText="Department">
+								<h:outputText value="#{row.dept}" />
+							</p:column>
+		                </p:dataTable>
+            		</p:dialog>
+            		
+            		<p:dialog header="Are You Sure You Want To Delete..?" widgetVar="conf" resizable="false">
+						<h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">
+							
+							<h:outputText value="User ID : " style="font-weight:bold;" />
+							<h:outputText value="#{userMstAction.userMstDto.userid}" style="font-weight:bold" />
+		
+							<h:outputText value="User Name : " style="font-weight:bold" />
+							<h:outputText value="#{userMstAction.userMstDto.userName}" style="font-weight:bold" />
+		
+							<p:commandButton value="Yes" icon="ui-icon-check"
+								actionListener="#{userMstAction.deleteUserMst(userMstAction.userMstDto)}"
+								action="#{userMstAction.onSearch()}"
+								oncomplete="delete.hide();" update="userDataList" />
+		
+							<p:commandButton value="No" icon="ui-icon-close" onclick="delete.hide();" update="userDataList" />
+						</h:panelGrid>
+					</p:dialog>
+			</p:outputPanel>
+			
+			<p:blockUI block="userDataList" trigger="userDataList">  
+                LOADING
+            </p:blockUI>
+		</h:form>
+	</ui:define>
+</ui:composition>

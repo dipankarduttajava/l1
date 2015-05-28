@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+      
+
+    <p:layoutUnit id="top" position="north" size="54">
+        <h:form>
+            <p:menubar>
+                <p:submenu label="Branch Activity" icon="ui-icon-bullet">
+	                <p:submenu label="OBL" icon="ui-icon-bullet">
+	              		<p:menuitem value="#{loginAction.map[10002]}" action="#{checkListAction.onLoad()}" rendered="#{loginAction.map[10002] != null}" ajax="false"/>
+	              		<p:menuitem value="#{loginAction.map[10055]}" action="#{checkListEditAction.onLoad()}" rendered="#{loginAction.map[10055] != null}" ajax="false"/>
+	                    <p:menuitem value="#{loginAction.map[10003]}" action="#{licPreliminaryDataEntrySearchAction.onLoad()}" rendered="#{loginAction.map[10003] != null}" ajax="false"/>
+	                    <p:menuitem value="#{loginAction.map[10004]}" action="#{licPrintReceiptAction.onLoad()}" rendered="#{loginAction.map[10004] != null}" ajax="false"/>
+	                    <p:menuitem value="#{loginAction.map[10005]}" action="#{licSecondaryDataEntryAction.onLoad()}" rendered="#{loginAction.map[10005] != null}" ajax="false"/>
+	                    <p:menuitem value="#{loginAction.map[10015]}" action="#{licCmsSlipAction.onLoad()}" rendered="#{loginAction.map[10015] != null}" ajax="false"/>
+	                    <p:menuitem value="#{loginAction.map[10006]}" action="#{branchHubLicDispatchAction.onLoad()}" rendered="#{loginAction.map[10006] != null}" ajax="false"/>
+	                    <p:menuitem value="#{loginAction.map[10007]}" action="#{branchHubLicPodAction.onLoad()}" rendered="#{loginAction.map[10007] != null}" ajax="false"/>
+	                </p:submenu>
+	                
+	                <p:submenu label="POS" icon="ui-icon-bullet">
+	                 	<p:menuitem value="#{loginAction.map[10023]}" action="#{licBranchReqRcvMstAction.onLoad()}" rendered="#{loginAction.map[10023] != null}" ajax="false"/>
+	               	    <p:menuitem value="#{loginAction.map[10067]}" action="#{licPosPrintReceiptAction.onLoad()}" rendered="#{loginAction.map[10067] != null}" ajax="false"/>
+	               	    <p:menuitem value="#{loginAction.map[10025]}" action="#{licCmsSlipForReqAction.onLoad()}" rendered="#{loginAction.map[10025] != null}" ajax="false"/>
+	               		<p:menuitem value="#{loginAction.map[10024]}" action="#{branchHubLicReqDispatchAction.onLoad()}" rendered="#{loginAction.map[10024] != null}" ajax="false"/>
+	               		<p:menuitem value="#{loginAction.map[10026]}" action="#{branchHubLicPodForReqAction.onLoad()}" rendered="#{loginAction.map[10026] != null}" ajax="false"/>
+	                </p:submenu>
+                </p:submenu>
+
+                <p:submenu label="Hub Activity" icon="ui-icon-bullet">
+                	<p:submenu label="OBL" icon="ui-icon-bullet">
+                		<p:menuitem value="#{loginAction.map[10008]}" action="#{consolidatedMarkingAction.onLoad()}" rendered="#{loginAction.map[10008] != null}" ajax="false"/>
+                        <p:menuitem value="#{loginAction.map[10009]}" action="#{individualMarkingAction.onLoad()}" rendered="#{loginAction.map[10009] != null}" ajax="false"/>
+                       	<p:menuitem value="#{loginAction.map[10010]}" action="#{premiumListAction.onLoad()}" rendered="#{loginAction.map[10010] != null}" ajax="false"/>
+	                    <p:menuitem value="#{loginAction.map[10011]}" action="#{premListDetailDataEntryAction.onLoad()}" rendered="#{loginAction.map[10011] != null}" ajax="false"/>
+	                    <p:menuitem value="#{loginAction.map[10012]}" action="#{licBocDetailEntryAction.onLoad()}" rendered="#{loginAction.map[10012] != null}" ajax="false"/>
+	                    <p:menuitem value="#{loginAction.map[10013]}" action="#{picDeliveryListAction.onLoad()}" rendered="#{loginAction.map[10013] != null}" ajax="false"/>
+	                    <p:menuitem value="#{loginAction.map[10014]}" action="#{hubPicLicPodAction.onLoad()}" rendered="#{loginAction.map[10014] != null}" ajax="false"/>
+	                    <p:menuitem value="#{loginAction.map[10016]}" action="#{oblApprovalAction.onLoad()}" rendered="#{loginAction.map[10016] != null}" ajax="false"/>                          
+                		<p:menuitem value="#{loginAction.map[10069]}" action="#{oblRejectToApprovalAction.onLoad()}" rendered="#{loginAction.map[10069] != null}" ajax="false"/>
+                		<p:menuitem value="#{loginAction.map[10070]}" action="#{fprAndPolicyBondDeliveryListAction.onLoad()}" rendered="#{loginAction.map[10070] != null}" ajax="false"/>
+                	</p:submenu>
+               		
+               		<p:submenu label="POS" icon="ui-icon-bullet">
+       		 			<p:menuitem value="#{loginAction.map[10017]}" action="#{licRequirementDtlsAction.onLoad()}" rendered="#{loginAction.map[10017] != null}" ajax="false"/>
+                  		<p:menuitem value="#{loginAction.map[10018]}" action="#{licReqActPointAction.onLoad()}" rendered="#{loginAction.map[10018] != null}" ajax="false"/>
+                  		<p:menuitem value="#{loginAction.map[10027]}" action="#{consolidatedMarkingForReqAction.onLoad()}" rendered="#{loginAction.map[10027] != null}" ajax="false"/>
+                  		<p:menuitem value="#{loginAction.map[10028]}" action="#{individualMarkingForReqAction.onLoad()}" rendered="#{loginAction.map[10028] != null}" ajax="false"/>
+                  		<p:menuitem value="#{loginAction.map[10029]}" action="#{premiumListReqAction.onLoad()}" rendered="#{loginAction.map[10029] != null}" ajax="false"/>
+                  		<p:menuitem value="#{loginAction.map[10030]}" action="#{premListDetailDataEntryForReqAction.onLoad()}" rendered="#{loginAction.map[10030] != null}" ajax="false"/>
+                  		<p:menuitem value="#{loginAction.map[10031]}" action="#{licBocDetailEntryForReqAction.onLoad()}" rendered="#{loginAction.map[10031] != null}" ajax="false"/>
+                  		<p:menuitem value="#{loginAction.map[10032]}" action="#{picDeliveryListForReqAction.onLoad()}" rendered="#{loginAction.map[10032] != null}" ajax="false"/>
+           		 	    <p:menuitem value="#{loginAction.map[10033]}" action="#{hubPicLicPodForReqAction.onLoad()}" rendered="#{loginAction.map[10033] != null}" ajax="false"/>
+           		 	</p:submenu>
+               	</p:submenu>
+
+                <p:submenu label="Renewal Branch Activity" icon="ui-icon-bullet">
+                    <p:submenu label="RNL" icon="ui-icon-bullet">
+                    	<p:menuitem value="#{loginAction.map[10034]}" action="#{renewalBranchMasterAction.onLoad()}" rendered="#{loginAction.map[10034] != null}" ajax="false"/>
+                    	<p:menuitem value="#{loginAction.map[10071]}" action="#{renewalPrintReceiptAction.onLoad()}" rendered="#{loginAction.map[10071] != null}" ajax="false"/>
+                        <p:menuitem value="#{loginAction.map[10036]}" action="#{licRnlCmsSlipAction.onLoad()}" rendered="#{loginAction.map[10036] != null}" ajax="false"/>
+                        <p:menuitem value="#{loginAction.map[10037]}" action="#{licRnlBranchHubDispatchAction.onLoad()}" rendered="#{loginAction.map[10037] != null}" ajax="false"/>
+                    	<p:menuitem value="#{loginAction.map[10038]}" action="#{licRnlBranchHubPodAction.onLoad()}" rendered="#{loginAction.map[10038] != null}" ajax="false"/>
+                    </p:submenu>
+                    
+                     <p:submenu label="POS" icon="ui-icon-bullet">
+                     	<p:menuitem value="#{loginAction.map[10049]}" action="#{licRenewalPosViewRejectionAction.onLoad()}" rendered="#{loginAction.map[10049] != null}" ajax="false"/>
+	               	    <p:menuitem value="#{loginAction.map[10050]}" action="#{licRenewalPosViewDispatchAction.onLoad()}" rendered="#{loginAction.map[10050] != null}" ajax="false"/>
+                     	<p:menuitem value="#{loginAction.map[10051]}" action="#{licRenewalPosViewPodAction.onLoad()}" rendered="#{loginAction.map[10051] != null}" ajax="false"/>
+                     </p:submenu>
+                </p:submenu>
+
+                <p:submenu label="Renewal Hub Activity" icon="ui-icon-bullet">
+                   <p:submenu label="RNL" icon="ui-icon-bullet">
+                   		<p:menuitem value="#{loginAction.map[10045]}" action="#{licRenewalDocDispatchDecisionAction.onLoad()}" rendered="#{loginAction.map[10045] != null}" ajax="false"/>
+                   		<p:menuitem value="#{loginAction.map[10035]}" action="#{licDirectRenewalEntryAction.onLoad()}" rendered="#{loginAction.map[10035] != null}" ajax="false"/>
+                   		<p:menuitem value="#{loginAction.map[10039]}" action="#{consolidatedMarkingRnlAction.onLoad()}" rendered="#{loginAction.map[10039] != null}" ajax="false"/>
+                        <p:menuitem value="#{loginAction.map[10040]}" action="#{individualMarkingRnlAction.onLoad()}" rendered="#{loginAction.map[10040] != null}" ajax="false"/>
+                   		<p:menuitem value="#{loginAction.map[10043]}" action="#{renewalHealthValidationAction.onLoad()}" rendered="#{loginAction.map[10043] != null}" ajax="false"/>
+						<p:menuitem value="#{loginAction.map[10041]}" action="#{premiumListNormal.onLoad()}" rendered="#{loginAction.map[10041] != null}" ajax="false"/>
+                   		<p:menuitem value="#{loginAction.map[10042]}" action="#{rnlPremiumListAllAction.onLoad()}" rendered="#{loginAction.map[10042] != null}" ajax="false"/>                   		
+                   		<p:menuitem value="#{loginAction.map[10046]}" action="#{licRnlPremListDetailDataEntryAction.onLoad()}" rendered="#{loginAction.map[10046] != null}" ajax="false"/>
+                   		<p:menuitem value="#{loginAction.map[10047]}" action="#{rnlPicDeliveryListAction.onLoad()}" rendered="#{loginAction.map[10047] != null}" ajax="false"/>
+                		<p:menuitem value="#{loginAction.map[10048]}" action="#{licRnlPicPodAction.onLoad()}" rendered="#{loginAction.map[10048] != null}" ajax="false"/>
+                   		<p:menuitem value="#{loginAction.map[10054]}" action="#{rnlApprovalEntryAction.onLoad()}" rendered="#{loginAction.map[10054] != null}" ajax="false"/>
+                   </p:submenu>
+                   
+                   <p:submenu label="POS" icon="ui-icon-bullet">
+                   		<p:menuitem value="#{loginAction.map[10052]}" action="#{licRenewalPosViewConsolidatedMarkingAction.onLoad()}" rendered="#{loginAction.map[10052] != null}" ajax="false"/>
+	               		<p:menuitem value="#{loginAction.map[10053]}" action="#{licRenewalPosViewIndividualMarkingAction.onLoad()}" rendered="#{loginAction.map[10053] != null}" ajax="false"/>
+                	</p:submenu>
+                </p:submenu>
+                
+                <p:submenu label="Reporting" icon="ui-icon-bullet">
+                	<p:submenu label="OBL" icon="ui-icon-bullet">
+<!--                 		<p:menuitem value="#{loginAction.map[10056]}" action="#{licReportAction.onLoad()}" rendered="#{loginAction.map[10056] != null}" ajax="false"/> -->
+                		<p:menuitem value="#{loginAction.map[10057]}" action="#{branchHubLicDispatchReportAction.onLoad()}" rendered="#{loginAction.map[10057] != null}" ajax="false"/>
+                	    <p:menuitem value="#{loginAction.map[10058]}" action="#{branchHubLicPodReportAction.onLoad()}" rendered="#{loginAction.map[10058] != null}" ajax="false"/>
+                	    <p:menuitem value="#{loginAction.map[10059]}" action="#{picDeliveryListReportAction.onLoad()}" rendered="#{loginAction.map[10059] != null}" ajax="false"/>
+                	    <p:menuitem value="#{loginAction.map[10060]}" action="#{hubPicLicPodReportAction.onLoad()}" rendered="#{loginAction.map[10060] != null}" ajax="false"/>
+                	    <p:menuitem value="#{loginAction.map[10061]}" action="#{premiumListReportAction.onLoad()}" rendered="#{loginAction.map[10061] != null}" ajax="false"/>
+                        <p:menuitem value="#{loginAction.map[10062]}" action="#{pisGeneratedReportAction.onLoad()}" rendered="#{loginAction.map[10062] != null}" ajax="false"/>
+                		<p:menuitem value="#{loginAction.map[10063]}" action="#{licOblCmsViewReport.onLoad()}" rendered="#{loginAction.map[10063] != null}" ajax="false"/>
+	               		<p:menuitem value="#{loginAction.map[10064]}" action="#{premListDetailDataEntryReportAction.onLoad()}" rendered="#{loginAction.map[10064] != null}" ajax="false"/>
+	               		<p:menuitem value="#{loginAction.map[10065]}" action="#{individualMarkingReportAction.onLoad()}" rendered="false" ajax="false"/>
+	               		<p:menuitem value="#{loginAction.map[10066]}" action="#{licBocDetailEntryReportAction.onLoad()}" rendered="#{loginAction.map[10066] != null}" ajax="false"/>
+	               		<p:menuitem value="#{loginAction.map[10068]}" action="#{oblApprovalReportAction.onLoad()}" rendered="#{loginAction.map[10068] != null}" ajax="false"/>
+	               		<p:menuitem value="#{loginAction.map[10072]}" action="#{oblBusinessReport.onLoad()}" rendered="#{loginAction.map[10072] != null}" ajax="false"/>
+                	</p:submenu>
+                	<p:submenu label="POS" icon="ui-icon-bullet"></p:submenu>
+                	<p:submenu label="RNL" icon="ui-icon-bullet"></p:submenu>
+                </p:submenu>
+                
+                <p:submenu label="Master Data" icon="ui-icon-bullet">
+						<p:menuitem value="#{loginAction.map[10000]}" action="#{accessListAction.onLoad()}" rendered="#{loginAction.map[10000] != null}" ajax="false"/>
+						<p:menuitem value="#{loginAction.map[10001]}" action="#{roleMstAction.onLoad()}" rendered="#{loginAction.map[10001] != null}" ajax="false"/>						
+						<p:menuitem value="#{loginAction.map[10019]}" action="#{printRcptMstAction.onLoad()}" rendered="#{loginAction.map[10019] != null}" ajax="false"/>
+						<p:menuitem value="#{loginAction.map[10020]}" action="#{branchHubPicMapAction.onLoad()}" rendered="#{loginAction.map[10020] != null}" ajax="false"/>
+						<p:menuitem value="#{loginAction.map[10021]}" action="#{userMstAction.onLoad()}" rendered="#{loginAction.map[10021] != null}" ajax="false"/>
+			   </p:submenu>
+
+                <p:submenu label="Help" icon="ui-icon-bullet">
+                    <p:column>
+                        <p:menu styleClass="menuBorder">
+                            <p:menuitem value="Trainee Enrollment" action="#" />
+                        </p:menu>
+                    </p:column>
+                </p:submenu>
+
+                <f:facet name="options">
+                    <p:commandButton value="Logout" action="#{loginAction.logout()}" icon="ui-icon-locked" style="font-weight: bold" 
+                                     ajax="false" />
+                </f:facet>
+            </p:menubar>
+        </h:form>
+        
+        <h:form id="processForm">
+       		<p:outputPanel id="processOutputPanel">
+	    		<p:dialog id="processDialog" global="true" widgetVar="processDialog" modal="true" appendTo="@(body)" closable="false" resizable="false" draggable="false" closeOnEscape="false" minimizable="false">
+					<h:panelGrid columns="2">
+							<h:graphicImage library="images" name="loading.gif" />
+	              			<h:outputText value=" PROCESSING, PLEASE WAIT... " style="font-size: large"/>
+					</h:panelGrid>
+        		</p:dialog>
+        	</p:outputPanel>
+		</h:form>
+        
+        
+    </p:layoutUnit>
+</html>

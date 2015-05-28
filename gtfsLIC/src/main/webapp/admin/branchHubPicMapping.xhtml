@@ -1,0 +1,112 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">        
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchFirstOutputPanel">
+	        	 <p:panel id="firstSearch" header="Search Criteria" style="margin-bottom:20px" rendered="#{branchHubPicMapAction.renderedFirstSearch}">
+			        <h:panelGrid columns="7" columnClasses="label,value, label2,value, label2,value, label2,value">
+			        	<p:outputLabel for="sourceType" value="Source Type :"/>
+						<p:selectOneMenu id="sourceType" required="true" requiredMessage="Please Select Source Type" value="#{branchHubPicMapAction.sourceType}">
+			        		<f:selectItem itemLabel="Select One" itemValue=""/>
+			        		<f:selectItem itemLabel="BRANCH" itemValue="BRANCH"/>
+			        		<f:selectItem itemLabel="HUB" itemValue="HUB"/>
+			        		<f:selectItem itemLabel="PIC" itemValue="PIC"/>
+			        	</p:selectOneMenu>
+			        	
+			        	<p:outputLabel for="destinationType" value="Destination Type :"/>
+			        	<p:selectOneMenu id="destinationType" required="true" requiredMessage="Please Select Destination Type" value="#{branchHubPicMapAction.destinationType}">
+			        		<f:selectItem itemLabel="Select One" itemValue=""/>
+			        		<f:selectItem itemLabel="BRANCH" itemValue="BRANCH"/>
+			        		<f:selectItem itemLabel="HUB" itemValue="HUB"/>
+			        		<f:selectItem itemLabel="PIC" itemValue="PIC"/>
+			        	</p:selectOneMenu>
+			        	
+			        	<p:outputLabel for="processName" value="Process Name :"/>
+			        	<p:selectOneMenu id="processName" required="true" requiredMessage="Please Select Process Name" value="#{branchHubPicMapAction.processMst}" converter="#{processMstConverter}">
+			        		<f:selectItem itemLabel="Select One" itemValue="#{null}"/>
+			        		<f:selectItems itemLabel="#{row.processAbbr}" itemValue="#{row}" value="#{branchHubPicMapAction.processMsts}" var="row"/>
+			        	</p:selectOneMenu>
+			        	
+			        	<p:commandButton value="Search" action="#{branchHubPicMapAction.onSearchFirst()}" update=":searchForm:searchFirstOutputPanel,:searchForm:searchSecondOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+			        </h:panelGrid>
+			    </p:panel>
+			</p:outputPanel>
+		    
+		    <p:outputPanel id="searchSecondOutputPanel">
+			    <p:panel id="secondSearch" header="Search Criteria" style="margin-bottom:20px" rendered="#{branchHubPicMapAction.renderedSecondSearch}">
+			        <h:panelGrid columns="7" columnClasses="label,value, label2,value, label2,value">
+			        	<p:outputLabel for="source" value="Select Source #{branchHubPicMapAction.sourceType} :"/>
+						<p:selectOneMenu id="source" value="#{branchHubPicMapAction.sourceId}">
+			        		<f:selectItem itemLabel="Select One" itemValue=""/>
+			        		<f:selectItems value="#{branchHubPicMapAction.sourceList}"/>
+			        	</p:selectOneMenu>
+			        	
+			        	<p:outputLabel for="destination" value="Select Destination #{branchHubPicMapAction.destinationType} :"/>
+			        	<p:selectOneMenu id="destination" value="#{branchHubPicMapAction.destinationId}">
+			        		<f:selectItem itemLabel="Select One" itemValue=""/>
+			        		<f:selectItems value="#{branchHubPicMapAction.destinationList}"/>
+			        	</p:selectOneMenu>
+			        	
+			        	<p:commandButton value="Search" action="#{branchHubPicMapAction.onSearchSecond()}" update=":searchForm:searchFirstOutputPanel,:searchForm:searchSecondOutputPanel,dataOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+			        </h:panelGrid>
+			    </p:panel>
+			</p:outputPanel>
+			
+			<p:outputPanel id="dataOutputPanel">
+			    <p:panel id="list" style="margin-bottom:20px" rendered="#{branchHubPicMapAction.renderedDateTable}">
+			    	<p:commandButton id="addBtn" value="Add" icon=".ui-icon-pencil" actionListener="#{branchHubPicMapAction.addList()}" update="table"/>
+					<p:spacer width="5"/>
+					<p:separator/>
+			    	<p:dataTable id="table" var="row" value="#{branchHubPicMapAction.branchHubPicMapDtos}">
+						
+						<f:facet name="header">
+                    		Branch HUB PIC Mapping List
+                    	<span style="float: right;">Record(s) Found : #</span>
+						</f:facet>
+	            		
+						<p:column headerText="Source Type">
+							<h:outputText value="#{row.sourceType}" />
+						</p:column>
+						
+						<p:column headerText="Source Name">
+							<p:selectOneMenu value="#{row.sourceId}" disabled="#{row.id !=null}">
+								<f:selectItem itemLabel="Select One" itemValue=""/>
+			        			<f:selectItems value="#{branchHubPicMapAction.sourceList}"/>
+							</p:selectOneMenu>
+						</p:column>
+						
+						<p:column headerText="Destination Type">
+							<h:outputText value="#{row.destinationType}" />
+						</p:column>
+						
+						<p:column headerText="Destination Name">
+							<p:selectOneMenu value="#{row.destionId}" disabled="#{row.id !=null}">
+								<f:selectItem itemLabel="Select One" itemValue=""/>
+			        			<f:selectItems value="#{branchHubPicMapAction.destinationList}"/>
+							</p:selectOneMenu>
+						</p:column>
+						
+						<p:column headerText="Process Name">
+							<h:outputText value="#{row.processAbbr}" />
+						</p:column>
+						
+						<p:column headerText="Action">
+							<h:commandLink action="#" value="Delete" disabled="#{row.id ==null}"/>
+						</p:column>
+					</p:dataTable>
+					
+			    	<f:facet name="footer">
+			    		<p:commandButton value="Save" actionListener="#{branchHubPicMapAction.save()}" update=":searchForm:searchFirstOutputPanel,:searchForm:searchSecondOutputPanel,:searchForm:dataOutputPanel" icon="ui-icon-disk" style="font-weight:bolder"/>
+			    	</f:facet>
+			    </p:panel>
+			</p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,126 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/template/layout.xhtml">
+
+	<ui:define name="content">
+
+		<h:form id="entryForm">
+		 	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			<p:panel id="productEntry" header="Product Details Entry Screen" style="margin-bottom:20px">
+				<p:panelGrid columns="4">
+					<p:outputLabel value="Name of Product:" for="prodName"/>
+					<p:inputText id="prodName" value="#{licProductMstAction.licProductMstDto.productName}" required="true" requiredMessage="Please Enter Product Name" />
+					
+					<p:outputLabel value="Scheme Name:" for="schemeName"/>
+					<p:selectOneMenu id="schemeName" value="#{licProductMstAction.licProductMstDto.schemeId}"  required="true" requiredMessage="Please Select">
+						 <f:selectItem itemLabel="Select One" itemValue="" />
+						 <f:selectItems itemLabel="#{row.schemeName}" itemValue="#{row.schId}" var="row" value="#{licProductMstAction.findAllFromSchemeMst()}"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Collection Benefit Percentage:" for="collBenPct"/>
+					<p:inputText id="collBenPct" value="#{licProductMstAction.licProductMstDto.colLBenPct}"  required="true" requiredMessage="Please Enter Value" />
+					
+					<p:outputLabel value="Product Category:" for="prodCategory"/>
+					<p:selectOneMenu id="prodCategory" value="#{licProductMstAction.licProductMstDto.productCategory}"  required="true" requiredMessage="Please Select">
+						 <f:selectItem itemLabel="Select One" itemValue="" />
+						 <f:selectItems itemLabel="#{row.catName}" itemValue="#{row.catName}" var="row" value="#{licProductMstAction.findAllfromLicProductCatMst()}"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Tie-Up Company:" for="tieupCompy"/>
+					<p:selectOneMenu id="tieupCompy" value="#{licProductMstAction.licProductMstDto.tieupCompyId}"  required="true" requiredMessage="Please Select">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItems itemLabel="#{row.tieCompyName}" itemValue="#{row.tieCompyId}" var="row" value="#{licProductMstAction.findAllActiveTieupCompyList()}"/>
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Normal Renewal Period(days):" for="normalRenewalPeriod"/>
+					<p:inputText id="normalRenewalPeriod" value="#{licProductMstAction.licProductMstDto.normalRenewalPeriod}" required="true" requiredMessage="Please Enter days" />
+					
+					<p:outputLabel value="Extended Renewal Period(days):" for="extendedRenewalPeriod"/>
+					<p:inputText id="extendedRenewalPeriod" value="#{licProductMstAction.licProductMstDto.extendedRenewalPeriod}" required="true" requiredMessage="Please Enter days" />
+					
+					<p:outputLabel value="Service Tax %:" for="serviceTax"/>
+					<p:inputText id="serviceTax" value="#{licProductMstAction.licProductMstDto.serviceTax}"/>
+					
+					<p:outputLabel value="Health Declaration Required:" for="healthDecRequiredFlag"/>
+        			<p:selectBooleanCheckbox id="healthDecRequiredFlag" value="#{licProductMstAction.licProductMstDto.healthDecRequiredFlag}" />
+        			
+        			<p:outputLabel value="Health Declaration Validity(days):" for="healthDecValidityDays"/>
+					<p:inputText id="healthDecValidityDays" value="#{licProductMstAction.licProductMstDto.healthDecValidityDays}" />
+					
+					<p:outputLabel value="Duartion (If Health Required First):" for="duration"/>
+					<p:inputText id="duration" value="#{licProductMstAction.licProductMstDto.durationForFirstHealth}" />
+					
+					<p:outputLabel value="Renewal Collection Benefit Percentage:" for="rnlCollBenPct"/>
+					<p:inputText id="rnlCollBenPct" value="#{licProductMstAction.licProductMstDto.rnlCollBenPct}" />
+      			
+				</p:panelGrid>
+				
+				
+			</p:panel>
+			
+			<p:panel id="roundoff" header="Age Round-off Logic" style="margin-bottom:20px">
+				<p:panelGrid columns="5">
+					<p:outputLabel value="Age will be rounded off to next year if >"/>
+					<p:outputLabel value="Month:" for="roundMonths"/>
+					<p:inputText id="roundMonths" value="#{licProductMstAction.licProductMstDto.roundMonths}" >
+						<f:validateLongRange minimum="0" maximum="11"/>
+					</p:inputText>
+					<p:outputLabel value="Day:" for="roundDays"/>
+					<p:inputText id="roundDays" value="#{licProductMstAction.licProductMstDto.roundDays}" >
+						<f:validateLongRange minimum="0" maximum="30"/>
+					</p:inputText>
+				</p:panelGrid>
+			</p:panel>
+			
+			<p:commandButton actionListener="" value="Submit" />
+			
+		</h:form>
+		
+		<h:form id="listForm">
+			<p:panel id="productList" header="Access List"
+				style="margin-bottom:20px">
+				<p:commandButton id="addBtn" value="Add" icon="ui-icon-circle-plus" actionListener="#{accessListAction.addList()}" />
+				<p:commandButton id="saveBtn" value="Save" icon="ui-icon-pencil" actionListener="#{accessListAction.saveList()}" />
+				<p:dataTable var="row"
+					value="#{accessListAction.listOfAccess}"
+					emptyMessage="No Record(s) Found" id="table">
+					<p:column headerText="Access Id">
+						<h:outputText value="#{row.accessId}" />
+					</p:column>
+					<p:column headerText="Access Name">
+						<h:inputText value="#{row.accessName}" readonly="#{row.disabledFlag}" required="true" requiredMessage="Please Enter Access Name" maxlength="50">
+							<f:validateLength maximum="50" minimum="1" />
+						</h:inputText>
+					</p:column>
+					<p:column headerText="Created By">
+						<h:outputText value="#{row.createdBy}" />
+					</p:column>
+					<p:column headerText="Created Date">
+						<h:outputText value="#{row.createdDate}" >
+							<f:convertDateTime pattern="dd/MM/yyyy"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Modified By">
+						<h:outputText value="#{row.modifiedBy}" />
+					</p:column>
+					<p:column headerText="Modified Date">
+						<h:outputText value="#{row.modifiedDate}" >
+							<f:convertDateTime pattern="dd/MM/yyyy"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Edit">
+						<p:commandButton value="Edit" actionListener="#{accessListAction.editAccessList(row)}"  disabled="#{row.disabledFlag == false}"/>
+					</p:column>
+					<p:column headerText="Delete">
+						<p:commandButton value="Delete" actionListener="#{accessListAction.deleteAccessList(row)}"/>
+					</p:column>
+					<p:column headerText="Add/Delete Role">
+						 <p:commandButton value="Edit Role" icon="ui-icon-extlink" actionListener="#{accessListAction.editRoleForAccessList(row)}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

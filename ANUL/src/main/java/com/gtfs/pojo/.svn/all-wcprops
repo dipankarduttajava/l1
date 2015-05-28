@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/1381/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo
+END
+CustomerMst.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1332/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/CustomerMst.java
+END
+ReceiptDtls.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1374/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/ReceiptDtls.java
+END
+UserRoleCombo.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/1185/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/UserRoleCombo.java
+END
+FlatOthrChrgCombo.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1306/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/FlatOthrChrgCombo.java
+END
+AccessMst.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/1185/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/AccessMst.java
+END
+UserMst.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1381/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/UserMst.java
+END
+TaxHeadMst.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/1348/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/TaxHeadMst.java
+END
+FlatLoanDtls.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/1230/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/FlatLoanDtls.java
+END
+OtherChargesMst.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/1230/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/OtherChargesMst.java
+END
+FlatTaxApplicableCombo.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/1348/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/FlatTaxApplicableCombo.java
+END
+FlatTaxCombo.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/1230/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/FlatTaxCombo.java
+END
+PaymentFollowupCombo.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/1306/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/PaymentFollowupCombo.java
+END
+FlatPaySchd.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1348/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/FlatPaySchd.java
+END
+FlatInvoiceCombo.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/1306/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/FlatInvoiceCombo.java
+END
+RoleMst.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1185/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/RoleMst.java
+END
+ProjectMilestone.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/1230/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/ProjectMilestone.java
+END
+ReceiptMst.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/1369/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/ReceiptMst.java
+END
+ProjectMst.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/1379/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/ProjectMst.java
+END
+FlatMst.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1356/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/FlatMst.java
+END
+RoleAccessCombo.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/1185/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/pojo/RoleAccessCombo.java
+END

@@ -1,0 +1,175 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	<p:panel id="search" header="Search Criteria" style="margin-bottom:20px" rendered="#{oblRejectToApprovalAction.renderedRejectedList == false}">
+	        		<h:panelGrid columns="6" cellpadding="6" styleClass="grid" columnClasses="label,value, label2,value, label2,value" >
+	        			<p:outputLabel value="Form Date:" for="fromDate"/>
+	        			<p:calendar id="fromDate" value="#{oblRejectToApprovalAction.fromDate}" navigator="true" pattern="dd/MM/yyyy" />
+	        			
+	        			<p:outputLabel value="To Date:" for="toDate"/>
+	        			<p:calendar id="toDate" value="#{oblRejectToApprovalAction.toDate}" navigator="true" pattern="dd/MM/yyyy" />
+	        			
+	        			<p:outputLabel value="Applicant Name:" for="applicantName"/>
+	        			<p:inputText id="applicantName" value="#{oblRejectToApprovalAction.applicantName}"/>
+	        			
+	        			<p:outputLabel value="Premium:" for="premium"/>
+	        			<p:inputText id="premium" value="#{oblRejectToApprovalAction.premium}"/>
+	        			
+	        			<p:outputLabel value="Sum Assured:" for="sumAssured"/>
+	        			<p:inputText id="sumAssured" value="#{oblRejectToApprovalAction.sumAssured}" >
+	        				<f:convertNumber pattern="#.##" />
+	        			</p:inputText>
+	        			
+	        			<p:outputLabel value="Term:" for="term"/>
+	        			<p:inputText id="term" value="#{oblRejectToApprovalAction.term}"/>
+	        			
+	        			<p:outputLabel value="Application No:" for="applicationNo"/>
+	        			<p:inputText id="applicationNo" value="#{oblRejectToApprovalAction.applicationNo}"/>	
+	        			
+	        			<p:outputLabel value="Policy No:" for="policyNo"/>
+	        			<p:inputText id="policyNo" value="#{oblRejectToApprovalAction.policyNo}"/>
+	        			
+	        			<p:outputLabel value="Proposal No :" for="proposalNo" />
+		    			<p:inputText id="proposalNo" value="#{oblRejectToApprovalAction.proposalNo}"/>
+	        			
+	        		</h:panelGrid>
+	        		
+	        		<f:facet name="footer">
+	        			<p:commandButton value="Search" actionListener="#{oblRejectToApprovalAction.search()}" update=":listForm:listOutputPanel" icon="ui-icon-search" style="font-weight:bolder" onclick="processDialog.show();" oncomplete="$('.ui-state-error'); processDialog.hide();"/>
+	        		</f:facet>
+	        	</p:panel>
+	    	</p:outputPanel>
+	    </h:form>
+	    
+	    <h:form id="listForm">
+	    	<p:outputPanel id="listOutputPanel">
+	    		<p:panel id="listPanel" header="List Of Application" style="margin-bottom:20px" rendered="#{oblRejectToApprovalAction.renderedList}">
+	    			<p:dataTable id="table" value="#{oblRejectToApprovalAction.licPolicyMsts}" var="row" rowIndexVar="sr" paginator="true" rows="25">
+	    				<p:column headerText="Serial No.">
+	    					<h:outputText value="#{sr+1}" />
+	    				</p:column>
+	    				
+	    				<p:column headerText="Application No">
+					        <h:outputText value="#{row.licOblApplicationMst.oblApplNo}" />
+					    </p:column>
+					    
+					    <p:column headerText="Business Date">
+					        <h:outputText value="#{row.licOblApplicationMst.businessDate}" >
+					        	<f:convertDateTime pattern="dd/MM/yyyy" />
+					        </h:outputText>
+					    </p:column>
+					    
+					    <p:column headerText="Insured Name">
+					        <h:outputText value="#{row.licOblApplicationMst.licInsuredDtls.name}" />
+					    </p:column>
+					    
+					    <p:column headerText="Proposer Name">
+					        <h:outputText value="#{row.licOblApplicationMst.licProposerDtls.name}" />
+					    </p:column>
+					    
+					    <p:column headerText="Branch Name">
+					        <h:outputText value="#{row.licOblApplicationMst.branchMst.branchName}" />
+					    </p:column>
+					    
+					    <p:column headerText="LIC Branch Name">
+					        <h:outputText value="#{row.licOblApplicationMst.picBranchMstId.picBranchName}" />
+					    </p:column>
+					    
+					     <p:column headerText="Sum Assured">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.sumAssured}" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					   	
+					    <p:column headerText="Modal Premium">
+					        <h:outputText value="#{row.modalPrem}"  >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					    
+					    
+					    <p:column headerText="Show Details">
+					    	 <p:commandLink value="Show Detail" actionListener="#{oblRejectToApprovalAction.showDetail(row)}" onclick="processDialog.show();" oncomplete="$('.ui-state-error'); processDialog.hide();"/>
+					    </p:column>
+					   
+					    <p:column headerText="Action">
+					    	 <p:commandLink value="Select" actionListener="#{oblRejectToApprovalAction.select(row)}" update=":listForm:listOutputPanel,:searchForm:searchOutputPanel,:approvalList:approvalListOutputPanel" style="font-weight:bolder; color:black"/>
+					    </p:column>
+	    			</p:dataTable>
+	    		</p:panel>
+	    	</p:outputPanel>
+	    </h:form>
+	    
+	    <h:form id="approvalList">
+	    	<p:outputPanel id="approvalListOutputPanel">
+	    		<p:panel id="approvalListPanel" header="Selected Application" style="margin-bottom:20px" rendered="#{oblRejectToApprovalAction.renderedRejectedList}">
+	    			<p:dataTable id="approvalTable" value="#{oblRejectToApprovalAction.selectedLicPolicyMsts}" var="row">
+	    				<p:column headerText="Sr No.">
+	    					<h:outputText value="#{sr+1}" />
+	    				</p:column>
+	    				
+	    				<p:column headerText="Application No">
+					        <h:outputText value="#{row.licOblApplicationMst.oblApplNo}" />
+					    </p:column>
+					    
+					    <p:column headerText="Business Date">
+					        <p:calendar value="#{row.licOblApplicationMst.businessDate}" pattern="dd/MM/yyyy" disabled="true" />
+					    </p:column>
+					    
+					    <p:column headerText="Insured Name">
+					        <h:outputText value="#{row.licOblApplicationMst.licInsuredDtls.name}" />
+					    </p:column>
+					    
+					    <p:column headerText="Proposer Name">
+					        <h:outputText value="#{row.licOblApplicationMst.licProposerDtls.name}" />
+					    </p:column>
+					    
+					    <p:column headerText="Branch Name">
+					        <h:outputText value="#{row.licOblApplicationMst.branchMst.branchName}" />
+					    </p:column>
+					    
+					    <p:column headerText="LIC Branch Name">
+					        <h:outputText value="#{row.licOblApplicationMst.picBranchMstId.picBranchName}" />
+					    </p:column>
+					    
+					     <p:column headerText="Sum Assured">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.sumAssured}" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					   	<p:column headerText="Modal Premium">
+					        <h:outputText value="#{row.modalPrem}"  >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					    
+					    
+					    <p:column headerText="Show Details">
+					    	 <p:commandLink value="Show Detail" actionListener="#{oblRejectToApprovalAction.showDetail(row)}" onclick="processDialog.show();" oncomplete="$('.ui-state-error'); processDialog.hide();"/>
+					    </p:column>
+					   
+	    			</p:dataTable>
+	    			
+	    			<f:facet name="footer">
+		    			<p:commandButton value="Reverse" action="#{oblRejectToApprovalAction.onLoad()}" actionListener="#{oblRejectToApprovalAction.save()}" onclick="processDialog.show();" oncomplete="$('.ui-state-error'); processDialog.hide(); confirmDialog.show(); " ajax="false" icon="ui-icon-document" style="font-weight:bolder" />
+		    		</f:facet>
+	    			
+	    			
+		    		
+	    			
+	    		</p:panel>	
+	    	</p:outputPanel>
+	    	
+	    	
+	    	
+	    </h:form>
+    </ui:define>
+</ui:composition>

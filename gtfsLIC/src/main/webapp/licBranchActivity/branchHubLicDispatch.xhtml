@@ -1,0 +1,129 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">        
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	 <p:panel id="search" header="Search Criteria" style="margin-bottom:20px">
+			        <h:panelGrid columns="7" columnClasses="label,value, label2,value, label2,value, label2,value">
+			        	<p:outputLabel for="bnsFromDate" value="Business From Date :"/>
+			        	<p:calendar id="bnsFromDate" value="#{branchHubLicDispatchAction.businessFromDate}" pattern="dd/MM/yyyy" navigator="true" required="true" requiredMessage="Please Enter Business From Date" />
+			        	
+			        	<p:outputLabel for="bnsToDate" value="Business To Date :"/>
+			        	<p:calendar id="bnsToDate" value="#{branchHubLicDispatchAction.businessToDate}" pattern="dd/MM/yyyy" navigator="true" required="true" requiredMessage="Please Enter Business To Date" />
+			        	
+			        	<p:outputLabel for="hubs" value="HUBs :"/>
+			        	<p:selectOneMenu id="hubs" value="#{branchHubLicDispatchAction.hubId}" required="true" requiredMessage="Please Select HUB">
+			        		<f:selectItem itemLabel="Select One" itemValue=""/>
+			        		<f:selectItems value="#{branchHubLicDispatchAction.hubMstList}" var="row" itemLabel="#{row.hubName}" itemValue="#{row.id}"/>
+			        	</p:selectOneMenu>
+			        	
+			        	<p:commandButton value="Search" actionListener="#{branchHubLicDispatchAction.searchForDispatch}" update=":searchForm:listOutputPanel,:searchForm:searchOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+			        </h:panelGrid>
+			    </p:panel>
+			</p:outputPanel>
+		    
+		    <p:outputPanel id="listOutputPanel">
+			    <p:panel id="list" style="margin-bottom:20px" rendered="#{branchHubLicDispatchAction.renderedListPanel}">
+			    	<p:dataTable id="table" value="#{branchHubLicDispatchAction.licOblApplicationMstDtoList}" var="row" rowKey="#{row.id}" selection="#{branchHubLicDispatchAction.selectedList}">
+						
+						<f:facet name="header">
+                    		Dispatch List Generation
+                    	<span style="float: right;">Record(s) Found : #{fn:length(branchHubLicDispatchAction.licOblApplicationMstDtoList)}</span>
+						</f:facet>
+						
+						<p:column selectionMode="multiple" style="width:16px;text-align:center" />
+	            		
+						<p:column headerText="Application No">
+							<h:outputText value="#{row.oblApplNo}" />
+						</p:column>
+						
+						<p:column headerText="Business Date">
+							<h:outputText value="#{row.businessDate}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Insured Name">
+							<h:outputText value="#{row.insuredName}" />
+						</p:column>
+						
+						<p:column headerText="Proposer Name">
+							<h:outputText value="#{row.proposerName}" />
+						</p:column>
+						
+						<p:column headerText="Branch">
+							<h:outputText value="#{row.branchName}" />
+						</p:column>
+						
+						<p:column headerText="Product">
+							<h:outputText value="#{row.prodDesc}" />
+						</p:column>
+						
+						<!-- <p:column headerText="Basic Premium">
+							<h:outputText value="#{row.basicPrem}" >
+								<f:convertNumber pattern="#.##" />
+							</h:outputText>
+						</p:column>						
+						
+						<p:column headerText="Service Tax">
+							<h:outputText value="#{row.taxOnPrem}" >
+								<f:convertNumber pattern="#.##" />
+							</h:outputText>
+						</p:column> -->
+						
+						<p:column headerText="Cash Amount">
+							<h:outputText value="#{row.cashAmount}" >
+								<f:convertNumber pattern="#.##" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Chq/DD Amount">
+							<h:outputText value="#{row.insAmount}" >
+								<f:convertNumber pattern="#.##" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Chq/DD Details">
+							<h:outputText value="#{row.chequeNo}" />
+						</p:column>
+
+						<p:column headerText="Pay Mode">
+							<h:selectOneMenu value="#{row.payMode}" disabled="true">
+	        					<f:selectItem itemLabel="Cash" itemValue="C"/>
+	        					<f:selectItem itemLabel="Cheque" itemValue="Q"/>
+	        					<f:selectItem itemLabel="DD" itemValue="D"/>
+	        					<f:selectItem itemLabel="Both" itemValue="B"/>
+					    	</h:selectOneMenu>
+						</p:column>
+						
+						<p:column headerText="Pay Nature">
+							<h:selectOneMenu value="#{row.payNature}" disabled="true">
+					    		<f:selectItem itemLabel="Yearly" itemValue="Y"/>
+					    		<f:selectItem itemLabel="Half-Yearly" itemValue="H"/>
+					    		<f:selectItem itemLabel="Quaterly" itemValue="Q"/>
+					    		<f:selectItem itemLabel="Monthly" itemValue="M"/>
+					    	</h:selectOneMenu>
+						</p:column>
+						
+						<p:column headerText="Total Received">
+							<h:outputText value="#{row.totalReceived}" style="font-weight:bold">
+								<f:convertNumber pattern="#.##" />
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
+					
+			    	<f:facet name="footer">
+			    		<p:commandButton value="Save" actionListener="#{branchHubLicDispatchAction.save}" update=":searchForm:searchOutputPanel,:searchForm:listOutputPanel" icon="ui-icon-disk" style="font-weight:bolder"/>
+			    	</f:facet>
+			    </p:panel>
+			</p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,128 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	<p:panel id="search" header="Search Criteria for POD Tagging" style="margin-bottom:20px" >
+	        		<h:panelGrid columns="6" columnClasses="label,value, label2,value, label2,value">
+	        			<p:outputLabel value="Business Form Date:" for="bnsFromDate"/>
+	        			<p:calendar id="bnsFromDate" value="#{individualMarkingReportAction.businessFromDate}" pattern="dd/MM/yyyy" required="true" requiredMessage="Please Enter Business From Date" />
+	        			
+	        			<p:outputLabel value="Business To Date:" for="bnsToDate"/>
+	        			<p:calendar id="bnsToDate" value="#{individualMarkingReportAction.businessToDate}" pattern="dd/MM/yyyy" required="true" requiredMessage="Please Enter Business To Date" />
+		        		
+		        		<p:outputLabel for="branch" value="Branch :"/>
+			        	<p:selectOneMenu id="branch" value="#{individualMarkingReportAction.branchId}" >
+			        		<f:selectItem itemLabel="Select One" itemValue=""/>
+			        		<f:selectItems value="#{individualMarkingReportAction.branchList}" var="row" itemLabel="#{row.branchName}" itemValue="#{row.branchId}"/>
+			        	</p:selectOneMenu>
+	        		</h:panelGrid>
+	        		
+	        		<f:facet name="footer">
+	        			<p:commandButton value="Search" actionListener="#{individualMarkingReportAction.search()}" update="searchOutputPanel, listOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+	        		</f:facet>
+	        	</p:panel>
+	    	</p:outputPanel>
+
+	    	<p:outputPanel id="listOutputPanel">
+	    		<p:panel id="indMarkList" style="margin-bottom:20px" rendered="#{individualMarkingReportAction.renderedPanel}">
+	    		
+	    			<p:outputPanel style="text-align: right; margin-bottom: 3px; margin-right: 20px;" layout="block" >
+						<p:commandButton ajax="false" icon="xls" style="background-color: #FFFFFF; " >
+					    	<p:dataExporter  postProcessor="#{individualMarkingReportAction.postProcessXLS}" type="xls" target="table" fileName="indMarkinghReport" />
+						</p:commandButton>
+					</p:outputPanel>
+					
+	    			<p:dataTable id="table" value="#{individualMarkingReportAction.licOblApplicationMstList}" var="row" rowIndexVar="sr" paginator="true" paginatorPosition="bottom" rows="10">
+	    				
+	    				<f:facet name="header">
+                    		Individual Marking Report
+                    	<span style="float: right;">Record(s) Found : #{fn:length(individualMarkingReportAction.licOblApplicationMstList)}</span>
+						</f:facet>
+						
+						<p:column headerText="Sr No.">
+		    					<h:outputText value="#{sr+1}" />
+		    			</p:column>
+											
+	    				<p:column>
+		    				<f:facet name="header">
+                				<h:outputText value="Application No" />
+           					</f:facet>
+					        <h:outputText value="#{row.oblApplNo}" />
+					    </p:column>						   
+					    
+					    <p:column>
+					    	<f:facet name="header">
+                				<h:outputText value="Business Date" />
+           					</f:facet>
+					        <p:calendar value="#{row.businessDate}" pattern="dd/MM/yyyy" disabled="true" size="8"/>
+					    </p:column>
+					    
+					     <p:column>
+					    	<f:facet name="header">
+                				<h:outputText value="Proposer Name" />
+           					</f:facet>
+					        <h:outputText value="#{row.licProposerDtls.name}" />
+					    </p:column>
+					    
+					    <p:column>
+					    	<f:facet name="header">
+                				<h:outputText value="Insured Name" />
+           					</f:facet>
+					        <h:outputText value="#{row.licInsuredDtls.name}" />
+					    </p:column>
+						    
+					    <p:column>
+					    	<f:facet name="header">
+                				<h:outputText value="Branch" />
+           					</f:facet>
+					        <h:outputText value="#{row.branchMst.branchName}" />
+					    </p:column>
+					    
+					    <p:column>
+					    	<f:facet name="header">
+                				<h:outputText value="Product" />
+           					</f:facet>
+					        <h:outputText value="#{row.licProductValueMst.licProductMst.prodDesc}" />
+					    </p:column>
+					    
+					     <p:column>
+					     	<f:facet name="header">
+                				<h:outputText value="Basic Premium" />
+           					</f:facet>
+					        <h:outputText value="#{row.licProductValueMst.basicPrem}" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					    
+					     <p:column>
+					     	<f:facet name="header">
+                				<h:outputText value="Service Tax" />
+           					</f:facet>
+					        <h:outputText value="#{row.licProductValueMst.taxOnPrem}" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					    
+						 <p:column style="font-weight:bold">
+						 	<f:facet name="header">
+                				<h:outputText value="Total" />
+           					</f:facet>
+					        <h:outputText value="#{row.licProductValueMst.totalAmt}" style="font-weight:bold" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>					    
+	    			</p:dataTable>
+	    		</p:panel>
+	    	</p:outputPanel>
+	    </h:form>
+    </ui:define>
+</ui:composition>

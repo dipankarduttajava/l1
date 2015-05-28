@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/template/layout.xhtml">
+
+	<ui:define name="content">
+		<h:form id="roleMstSearchForm">
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			<p:outputPanel id="searchOutputPanel">
+				<p:panel header="Search Criteria" id="searchPanel" style="margin-bottom:20px">
+					<h:panelGrid id="searchPanelGrid" columns="4" styleClass="grid" columnClasses="label,value, label2,value">
+	
+						<p:outputLabel for="roleName" value="Role Name : " />
+						<p:inputText id="roleName" value="#{roleMstAction.roleName}" />
+	
+						<h:panelGroup>
+							<p:commandButton id="search" update=":roleMstSearchForm:searchOutputPanel,:roleListForm:listOutputPanel" value="Search" actionListener="#{roleMstAction.onSearch()}" icon="ui-icon-search" style="font-weight:bolder"/>
+							
+							<p:spacer width="10"/>
+	
+							<p:commandButton update=":roleMstSearchForm:searchOutputPanel,:roleListForm:listOutputPanel" value="Reset" actionListener="#{roleMstAction.onLoad()}" icon="ui-icon-cancel" style="font-weight:bolder"/>
+						</h:panelGroup>
+					</h:panelGrid>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+
+		<h:form id="roleListForm">
+			<p:outputPanel id="listOutputPanel">
+				<p:panel id="roleList" style="margin-bottom:20px">
+					<p:commandButton update=":roleListForm:listOutputPanel" value="Add" actionListener="#{roleMstAction.addNewRoleList()}" icon="ui-icon-plus" style="font-weight:bolder"/>
+					<p:spacer width="10"/>
+					<p:commandButton update=":roleListForm:listOutputPanel" value="Save" actionListener="#{roleMstAction.saveNewRoleList()}" icon="ui-icon-disk" style="font-weight:bolder"/>
+					<p:separator/>
+					
+					<p:dataTable id="roleDataList" value="#{roleMstAction.roleMstList}" rows="15" var="row" paginator="true" 
+								 paginatorPosition="bottom" emptyMessage="No Record(s) Found">
+						<f:facet name="header">
+		                    Role Master List
+		                    <span style="float: right;">Record(s) Found : #{fn:length(roleMstAction.roleMstList)}</span>
+						</f:facet>
+		
+						<p:column sortBy="#{row.roleId}">
+							<f:facet name="header">
+								<h:outputText value="Role ID" />
+							</f:facet>
+							<h:outputText value="#{row.roleId}" />
+						</p:column>
+		
+						<p:column headerText="Role Name">
+							<p:inputText value="#{row.roleName}" readonly="#{row.disabledFlag}"
+								required="true" requiredMessage="Please Enter Role Name"
+								maxlength="50" style="width:98%" />
+						</p:column>
+		
+						<p:column headerText="Action" style="text-align: center">
+							<p:commandLink value="Edit" update=":roleListForm" actionListener="#{roleMstAction.editRoleMst(row)}" style="font-weight:bold;" disabled="#{row.disabledFlag == false}" />
+		
+							<p:spacer width="20" />
+		
+							<p:commandLink value="Delete" update=":roleListForm:display" oncomplete="conf.show();" style="font-weight:bold; font-color:black" rendered="#{roleMstAction.renderedAction}">
+								<f:setPropertyActionListener value="#{row}" target="#{roleMstAction.roleMstDto}" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+
+				<p:dialog header="Are You Sure You Want To Delete..?" widgetVar="conf" resizable="false">
+					<h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">
+	
+						<h:outputText value="Role ID : " style="font-weight:bold;" />
+						<h:outputText value="#{roleMstAction.roleMstDto.roleId}" style="font-weight:bold" />
+	
+						<h:outputText value="Role Name : " style="font-weight:bold" />
+						<h:outputText value="#{roleMstAction.roleMstDto.roleName}" style="font-weight:bold" />
+	
+						<p:commandButton value="Yes" icon="ui-icon-check" actionListener="#{roleMstAction.deleteRoleMst(roleMstAction.roleMstDto)}"
+							action="#{roleMstAction.onSearch()}" oncomplete="conf.hide();" update="roleDataList" />
+	
+						<p:commandButton value="No" icon="ui-icon-close" onclick="conf.hide();" update="roleDataList" />
+					</h:panelGrid>
+				</p:dialog>
+			</p:outputPanel>
+
+			<p:blockUI block="roleDataList" trigger="roleDataList">  
+                LOADING
+            </p:blockUI>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

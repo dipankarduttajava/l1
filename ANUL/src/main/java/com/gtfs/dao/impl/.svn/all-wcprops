@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/1381/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/impl
+END
+UserMstDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/1381/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/impl/UserMstDaoImpl.java
+END
+RoleAccessComboDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1207/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/impl/RoleAccessComboDaoImpl.java
+END
+ProjectMstDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/1379/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/impl/ProjectMstDaoImpl.java
+END
+FlatMstDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/1373/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/impl/FlatMstDaoImpl.java
+END
+ProjectMilestoneDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/1338/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/impl/ProjectMilestoneDaoImpl.java
+END
+RoleMstDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/1207/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/impl/RoleMstDaoImpl.java
+END
+AccessMstDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/1210/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/impl/AccessMstDaoImpl.java
+END
+FlatInvoiceComboDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/1369/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/impl/FlatInvoiceComboDaoImpl.java
+END
+FlatPaySchdDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/1368/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/impl/FlatPaySchdDaoImpl.java
+END
+UserRoleComboDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/1207/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/impl/UserRoleComboDaoImpl.java
+END
+ReceiptDtlsDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/1369/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/impl/ReceiptDtlsDaoImpl.java
+END
+CustomerMstDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/1335/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/impl/CustomerMstDaoImpl.java
+END

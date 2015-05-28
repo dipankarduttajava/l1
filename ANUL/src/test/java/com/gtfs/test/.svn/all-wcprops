@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/1332/trunk/gtfsANUL/ANUL/src/test/java/com/gtfs/test
+END
+UserRoleComboTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1211/trunk/gtfsANUL/ANUL/src/test/java/com/gtfs/test/UserRoleComboTest.java
+END
+AccessMstTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/1211/trunk/gtfsANUL/ANUL/src/test/java/com/gtfs/test/AccessMstTest.java
+END
+RoleMstTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1211/trunk/gtfsANUL/ANUL/src/test/java/com/gtfs/test/RoleMstTest.java
+END
+ProjectMilestoneTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/1306/trunk/gtfsANUL/ANUL/src/test/java/com/gtfs/test/ProjectMilestoneTest.java
+END
+ProjectMstTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/1306/trunk/gtfsANUL/ANUL/src/test/java/com/gtfs/test/ProjectMstTest.java
+END
+FlatMstTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1306/trunk/gtfsANUL/ANUL/src/test/java/com/gtfs/test/FlatMstTest.java
+END
+RoleAccessComboTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/1211/trunk/gtfsANUL/ANUL/src/test/java/com/gtfs/test/RoleAccessComboTest.java
+END
+UserMstTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1211/trunk/gtfsANUL/ANUL/src/test/java/com/gtfs/test/UserMstTest.java
+END
+CustomerMstTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/1332/trunk/gtfsANUL/ANUL/src/test/java/com/gtfs/test/CustomerMstTest.java
+END

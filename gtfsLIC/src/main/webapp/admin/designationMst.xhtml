@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/template/layout.xhtml">
+
+	<ui:define name="content">
+		<h:form>
+			<p:panel id="designationListSearch" header="Search Criteria" style="margin-bottom:20px">
+				<p:inputText id="designationName" label="Designation Name"/> 
+				<p:commandButton id="search" value="Search" actionListener="#{designationMstAction.onSearch()}" update="designationList"/>
+			</p:panel>
+			<p:panel id="designationList" header="Designation Master List"
+				style="margin-bottom:20px">
+				<p:dataTable var="row" value="#{designationMstAction.designationMstList}" emptyMessage="No Record(s) Found" id="table">
+					<p:column headerText="Id">
+						<h:outputText value="#{row.id}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

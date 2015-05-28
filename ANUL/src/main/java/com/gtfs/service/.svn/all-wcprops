@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/1381/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service
+END
+ProjectMstService.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/1239/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/ProjectMstService.java
+END
+FlatMstService.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1354/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/FlatMstService.java
+END
+ProjectMilestoneService.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1328/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/ProjectMilestoneService.java
+END
+RoleMstService.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1199/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/RoleMstService.java
+END
+AccessMstService.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/1362/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/AccessMstService.java
+END
+FlatInvoiceComboService.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1364/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/FlatInvoiceComboService.java
+END
+UserRoleComboService.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/1199/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/UserRoleComboService.java
+END
+ReceiptDtlsService.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/1369/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/ReceiptDtlsService.java
+END
+CustomerMstService.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/1335/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/CustomerMstService.java
+END
+UserMstService.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1380/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/UserMstService.java
+END
+RoleAccessComboService.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/1199/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/RoleAccessComboService.java
+END

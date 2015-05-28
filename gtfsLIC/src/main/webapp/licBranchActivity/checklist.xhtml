@@ -1,0 +1,258 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                xmlns:b="http://bootsfaces.net/ui"
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="checklistForm"> 
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	 <p:panel id="checkList" header="Check List" style="margin-bottom:20px">
+	        	 	<h:panelGrid id="checkListPanelGrid" columns="6" cellpadding="5" columnClasses="label,value, label2,value, label2,value, label2,value, label2,value">
+	        	 		<h:outputLabel for="code" value="Code : " />
+						<p:inputText id="code" value="#{checkListAction.checklistDto.agCode}" required="true" requiredMessage="Please Enter Trainee Code" maxlength="9">
+							<p:ajax event="change" partialSubmit="true"/>
+						</p:inputText>
+						
+						<h:outputLabel for="appNo" value="Application Number : " />
+						<p:inputText id="appNo" maxlength="30" value="#{checkListAction.checklistDto.oblApplNo}" required="true" requiredMessage="Please Enter Application No" style="width: 180px;" validatorMessage="Application No. can contains alphabets,number and underscore character only">
+							<f:validateRegex pattern="[a-z|| ||A-Z||0-9||.||_]*" />
+							<p:ajax event="change" partialSubmit="true"/>
+						</p:inputText>
+						
+						<h:outputLabel for="phase" value="Phase : "  />
+						<p:selectOneMenu id="phase" value="#{checkListAction.checklistDto.phaseId}" required="true" requiredMessage="Please Select Phase">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItems value="#{checkListAction.phases}" var="row" itemLabel="#{row.phaseName}" itemValue="#{row.phaseId}"/>
+							<p:ajax event="change" partialSubmit="true"/>
+						</p:selectOneMenu>
+	        	 		        	 	
+						<h:outputLabel for="proposerName" value="Proposer Name : " />
+						<p:inputText id="proposerName" value="#{checkListAction.checklistDto.proposerName}" required="true" requiredMessage="Please Enter Proposer Name" validatorMessage="Proposer Name Not Valid" onkeyup="value=value.toUpperCase()">
+							<p:ajax event="change" partialSubmit="true"/>
+							<f:validateRegex pattern="[a-z|| ||A-Z]*" />
+						</p:inputText>
+						
+						<h:outputLabel for="proposerDob" value="Proposer DOB : " />
+						<p:calendar id="proposerDob" value="#{checkListAction.checklistDto.proposerDob}" navigator="true" pattern="dd/MM/yyyy" required="true" requiredMessage="Please Enter DOB" style="width: 300px">
+							<p:ajax event="dateSelect" partialSubmit="true" process="proposerDob"/>
+							<p:ajax event="change" partialSubmit="true" process="proposerDob"/>
+							<p:ajax listener="#{checkListAction.proposerDobChangeListener()}" event="change" update=":checklistForm:searchOutputPanel"/>
+							<p:ajax listener="#{checkListAction.proposerDobChangeListener()}" event="dateSelect" update=":checklistForm:searchOutputPanel"/>
+						</p:calendar>
+						
+						<h:outputLabel for="prpInsSameFlag" value="Is Proposer and Insured Person Same..? : " style="display: block; width: 100px;"/>
+						<p:selectBooleanCheckbox id="prpInsSameFlag" value="#{checkListAction.checklistDto.insuredPropSameFlag}" >
+							<p:ajax listener="#{checkListAction.insuredProposerSameFlagListener()}" update=":checklistForm:searchOutputPanel"/>
+						</p:selectBooleanCheckbox>
+						
+						<h:outputLabel for="propYear" value="Year : " />
+						<p:inputText id="propYear" value="#{checkListAction.checklistDto.propYear}" required="true" requiredMessage="Please Enter Year" disabled="true" style="width: 125px"/>
+						
+						<h:outputLabel for="propMonth" value="Month : " />
+						<p:inputText id="propMonth" value="#{checkListAction.checklistDto.propMonth}" required="true" requiredMessage="Please Enter Month" disabled="true" style="width: 125px"/>
+						
+						<h:outputLabel for="propDay" value="Day : " />
+						<p:inputText id="propDay" value="#{checkListAction.checklistDto.propDay}" required="true" requiredMessage="Please Enter Day" disabled="true" style="width: 100px"/>
+					
+						<h:outputLabel for="insuredName" value="Insured Name : " />
+						<p:inputText id="insuredName" value="#{checkListAction.checklistDto.insuredName}" required="true" requiredMessage="Please Enter Insured Name" validatorMessage="Insured Name Not Valid" onkeyup="value=value.toUpperCase()">
+							<p:ajax event="change" partialSubmit="true"/>
+							<f:validateRegex pattern="[a-z|| ||A-Z]*" />
+						</p:inputText>
+						
+						<h:outputLabel for="insuredDob" value="Insured DOB : " />
+						<p:calendar id="insuredDob" value="#{checkListAction.checklistDto.insuredDob}" navigator="true" pattern="dd/MM/yyyy" required="true" requiredMessage="Please Enter Insured DOB" style="width: 300px">
+							<p:ajax listener="#{checkListAction.insuredDobChangeListener()}" event="change" update=":checklistForm:searchOutputPanel"/>
+							<p:ajax listener="#{checkListAction.insuredDobChangeListener()}" event="dateSelect" update=":checklistForm:searchOutputPanel"/>
+						</p:calendar>
+						
+						<h:outputText value="" />
+						<h:outputText value="" />
+						
+						<h:outputLabel for="year" value="Year : " />
+						<p:inputText id="year" value="#{checkListAction.checklistDto.year}" required="true" requiredMessage="Please Enter Year" disabled="true" style="width: 125px"/>
+						
+						<h:outputLabel for="month" value="Month : " />
+						<p:inputText id="month" value="#{checkListAction.checklistDto.month}" required="true" requiredMessage="Please Enter Month" disabled="true" style="width: 125px"/>
+						
+						<h:outputLabel for="day" value="Day : " />
+						<p:inputText id="day" value="#{checkListAction.checklistDto.day}" required="true" requiredMessage="Please Enter Day" disabled="true" style="width: 100px"/>
+						
+						<h:outputLabel for="productName" value="Product Name : " />
+						<p:selectOneMenu id="productName" value="#{checkListAction.checklistDto.productId}" required="true" requiredMessage="Please Enter Product Name" style="width: 200px">
+						 	<p:ajax listener="#{checkListAction.productChangeListener()}" event="change" update=":checklistForm:searchOutputPanel"/>
+						 	<f:selectItem itemLabel="Select One" itemValue="" />
+						 	<f:selectItems value="#{checkListAction.licProductMsts}" var="row" itemLabel="#{row.prodDesc}" itemValue="#{row.id}"/>
+						</p:selectOneMenu>
+						
+						<h:outputLabel for="category" value="Category : " rendered="#{checkListAction.renderedCategory}" />
+						<p:selectOneMenu id="category" value="#{checkListAction.checklistDto.arCategory}" rendered="#{checkListAction.renderedCategory}" required="#{checkListAction.renderedCategory == true}" requiredMessage="Please Select Category">
+							<p:ajax event="change" partialSubmit="true"/>
+							<f:selectItem  itemLabel="Select One" itemValue=""/>
+							<f:selectItems value="#{checkListAction.categoryList}"/>
+						</p:selectOneMenu>
+						
+						<h:outputLabel for="policyTerm" value="Policy Term : " />
+						<p:selectOneMenu id="policyTerm" value="#{checkListAction.checklistDto.policyTerm}" required="true" requiredMessage="Please Select Policy Term">
+							<p:ajax listener="#{checkListAction.policyTermChangeListener()}" event="change" update="premiumPayingTerm"/>
+							<f:selectItem  itemLabel="Select One" itemValue=""/>
+							<f:selectItems value="#{checkListAction.termList}"/>
+						</p:selectOneMenu>
+						
+						<h:outputLabel for="premiumPayingTerm" value="Premium Paying Term : " />
+						<p:selectOneMenu id="premiumPayingTerm" value="#{checkListAction.checklistDto.premiumPayingTerm}" required="true" requiredMessage="Please Select Premium Paying Term">
+							<p:ajax event="change" partialSubmit="true"/>
+							<f:selectItem  itemLabel="Select One" itemValue=""/>
+							<f:selectItems value="#{checkListAction.premumPayingTermList}"/>
+						</p:selectOneMenu>
+
+						<h:outputLabel for="payMode" value="Pay Mode : " />
+						<p:selectOneMenu id="payMode" value="#{checkListAction.checklistDto.payMode}" required="true" requiredMessage="Please Select Pay Mode">
+							<f:selectItem  itemLabel="Select One" itemValue=""/>
+							<f:selectItems value="#{checkListAction.payModeList}" />
+							<p:ajax event="change" partialSubmit="true"/>
+						</p:selectOneMenu>
+						
+						<h:outputLabel for="sumAssured" value="Sum Assured : " />
+						<p:inputText id="sumAssured" value="#{checkListAction.checklistDto.sumAssured}" required="true" requiredMessage="Please Select Sum Assured" style="width: 180px;">
+							<p:ajax listener="#{checkListAction.sumAssuredChangeListener()}" event="change" update=":checklistForm:searchOutputPanel"/>
+							<f:convertNumber pattern="#.##" />
+						</p:inputText>
+						
+						<h:outputLabel for="arRiderFlag" value="ADDB Rider Applicable : "/>
+						<p:selectBooleanCheckbox id="arRiderFlag" value="#{checkListAction.checklistDto.arRiderFlag}" disabled="#{checkListAction.renderedArRider}"/>
+						
+						<h:outputLabel for="wvrRiderFlag" value="WVR Rider Applicable : "/>
+						<p:selectBooleanCheckbox id="wvrRiderFlag" value="#{checkListAction.checklistDto.wvrRiderFlag}" disabled="#{checkListAction.renderedWvrRider}"/>
+				
+						<h:outputLabel for="termRiderFlag" value="Term Rider Applicable : "/>
+						<p:selectBooleanCheckbox id="termRiderFlag" value="#{checkListAction.checklistDto.termRiderFlag}" disabled="#{checkListAction.renderedTermRider}"/>
+				
+				
+						<h:outputLabel for="dobAge" value="DOB And Age Applicable : " />
+						<p:selectBooleanCheckbox id="dobAge" value="#{checkListAction.checklistDto.dobAndAgeApplicable}" />
+						
+						<h:outputLabel for="panNumber" value="PAN Number : " />
+						<p:selectBooleanCheckbox id="panNumber" value="#{checkListAction.checklistDto.panApplicable}" />
+						
+						<h:outputLabel for="bankAcNumber" value="Bank A/C Number : " />
+						<p:selectBooleanCheckbox id="bankAcNumber" value="#{checkListAction.checklistDto.bankAcNoApplicable}" />
+						
+						<h:outputLabel for="photo" value="Photo : " />
+						<p:selectBooleanCheckbox id="photo" value="#{checkListAction.checklistDto.photoApplicable}" />
+						
+						<h:outputLabel for="proposalFormSigned" value="Proposal Form Signed : " />
+						<p:selectBooleanCheckbox id="proposalFormSigned" value="#{checkListAction.checklistDto.proposalFormSigned}" />
+						
+						<h:outputLabel for="biSigned" value="B.I.Signed : " />
+						<p:selectBooleanCheckbox id="biSigned" value="#{checkListAction.checklistDto.biSigned}" />
+						
+						<h:outputLabel for="propFormFillUp" value="Proposal Form Properly Filled Up : " />					
+						<p:selectBooleanCheckbox id="propFormFillUp" value="#{checkListAction.checklistDto.proposalFormProperlyFillup}" />
+						
+						<h:outputLabel for="loading" value="Loading Needed : " />
+						<p:selectBooleanCheckbox id="loading" value="#{checkListAction.checklistDto.loadingNeeded}" />
+						
+						<h:outputLabel for="identity" value="Identity Proof : " />
+						<p:selectBooleanCheckbox id="identity" value="#{checkListAction.checklistDto.identityProof}" disabled="true"/>
+						
+						<h:outputLabel for="addressProof" value="Address Proof (Premium Above Rs. 10000) : " />
+						<p:selectBooleanCheckbox id="addressProof" value="#{checkListAction.checklistDto.addressProof}" />
+						
+						<h:outputLabel for="incomeProof" value="Income Proof (Premium Above Rs. 1 lakh) : " />
+						<p:selectBooleanCheckbox id="incomeProof" value="#{checkListAction.checklistDto.incomeProof}" />
+	                    
+	                    <h:outputLabel for="ageProof" value="Age Proof : " />
+	                    <p:selectOneMenu id="ageProof" value="#{checkListAction.checklistDto.nsapDocId}" required="true" requiredMessage="Please Select Age Proof" style="width: 175px">
+	                    	<f:selectItem itemLabel="Select One" itemValue=""/>
+	                    	<f:selectItems value="#{checkListAction.licNsapDocMsts}" var="row" itemLabel="#{row.docName}" itemValue="#{row.id}"/>
+	                    </p:selectOneMenu>
+	                    
+	                    <h:outputLabel for="bnsDateOf" value="Business Date Of : " rendered="#{checkListAction.renderedBusinessDateOf}"/>
+	                    <p:selectOneMenu value="#{checkListAction.checklistDto.businessDateOf}" id="bnsDateOf" required="true" requiredMessage="Please Select Business Date Of" style="width: 175px" rendered="#{checkListAction.renderedBusinessDateOf}">
+	                    	<f:selectItem itemLabel="Select One" itemValue=""/>
+	                    	<f:selectItem itemLabel="Current Date" itemValue="C"/>
+	                    	<f:selectItem itemLabel="Back Date" itemValue="B"/>
+	                    </p:selectOneMenu>
+					</h:panelGrid>
+					
+					<f:facet name="footer">						
+						<p:commandButton value="Show" id="show" actionListener="#{checkListAction.show}" rendered="true" onclick="processDialog.show();" oncomplete="$('.ui-state-error'); processDialog.hide(); dialog.show(); " update=":checklistForm:searchOutputPanel, :dialogForm:dialogOutputPanel, :processForm:processOutputPanel" icon="ui-icon-clipboard" style="font-weight:bolder" disabled="#{checkListAction.disabledSave}" />
+       	 				
+       	 				<p:spacer width="15"/>
+       	 				
+       	 				<p:commandButton value="Validate" id="validate" actionListener="#{checkListAction.validate}" onclick="processDialog.show();" oncomplete="$('.ui-state-error'); processDialog.hide();" disabled="#{checkListAction.disabledValidate}" rendered="#{checkListAction.renderedSave == false}" update=":checklistForm:searchOutputPanel, :dialogForm:dialogOutputPanel, :processForm:processOutputPanel" icon="ui-icon-check" style="font-weight:bolder" />
+       	 								
+						<p:commandButton value="Save" id="save" actionListener="#{checkListAction.save}" icon="ui-icon-disk" style="font-weight:bolder" rendered="#{checkListAction.renderedSave}" update=":checklistForm:searchOutputPanel, :dialogForm:dialogOutputPanel" />
+							
+						<p:spacer width="15"/>
+							
+						<p:commandButton value="Reload" actionListener="#{checkListAction.onLoad()}" icon="ui-icon-refresh" style="font-weight:bolder" update=":checklistForm:searchOutputPanel" />
+					</f:facet>
+			    </p:panel>
+			</p:outputPanel>
+        </h:form>
+        
+       	<h:form id="dialogForm">
+       		<p:outputPanel id="dialogOutputPanel">
+	    		<p:dialog id="confirmDialog" header="Please Verify Before Saving" global="true" widgetVar="dialog" modal="true" appendTo="@(body)" closeOnEscape="true" resizable="false" draggable="false">
+					<p:panel id="entryPanelDtls" style="width:380px; height:250px;" >
+			        	<h:panelGrid id="display" columns="3" cellpadding="5" >
+							<h:outputLabel value="Tabular Premium "/>
+							<h:outputLabel value=":"/>
+							<h:outputLabel value="#{checkListAction.premiumDto.tabPrem}" >
+								<f:convertNumber pattern="#.##"/>
+							</h:outputLabel>
+							
+							<h:outputLabel value="Tabular Basic Premium "/>
+							<h:outputLabel value=":"/>
+							<h:outputLabel value="#{checkListAction.premiumDto.tabBasicPrem}" >
+								<f:convertNumber pattern="#.##"/>
+							</h:outputLabel>
+							
+							<h:outputLabel value="NSAP Amount "/>
+							<h:outputLabel value=":"/>
+							<h:outputLabel value="#{checkListAction.premiumDto.nsapAmt}" >
+								<f:convertNumber pattern="#.##"/>
+							</h:outputLabel>
+							
+							<h:outputLabel value="High SA Discount Amount "/>
+							<h:outputLabel value=":"/>
+							<h:outputLabel value="#{checkListAction.premiumDto.highSaDiscAmt}" >
+								<f:convertNumber pattern="#.##"/>
+							</h:outputLabel>
+							
+							<h:outputLabel value="Rebate Amount "/>
+							<h:outputLabel value=":"/>
+							<h:outputLabel value="#{checkListAction.premiumDto.rebateAmt}" >
+								<f:convertNumber pattern="#.##" />
+							</h:outputLabel>
+							
+							<h:outputLabel value="Basic Premium "/>
+							<h:outputLabel value=":"/>
+							<h:outputLabel value="#{checkListAction.premiumDto.finalBasicPrem}" >
+								<f:convertNumber pattern="#"/>
+							</h:outputLabel>
+							
+							<h:outputLabel value="Service Tax "/>
+							<h:outputLabel value=":"/>
+							<h:outputLabel value="#{checkListAction.premiumDto.serviceTax}" >
+								<f:convertNumber pattern="#.##"/>
+							</h:outputLabel>
+							
+							<h:outputLabel value="Total Amount "/>
+							<h:outputLabel value=":"/>
+							<h:outputLabel value="#{checkListAction.premiumDto.totalAmt}" >
+								<f:convertNumber pattern="#.##"/>
+							</h:outputLabel>
+						</h:panelGrid>
+					</p:panel>
+		    	</p:dialog>
+			</p:outputPanel>
+	    </h:form>
+    </ui:define>
+</ui:composition>

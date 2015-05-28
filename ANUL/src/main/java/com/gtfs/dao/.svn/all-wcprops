@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/1381/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao
+END
+UserMstDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/1380/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/UserMstDao.java
+END
+RoleAccessComboDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1193/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/RoleAccessComboDao.java
+END
+ProjectMstDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/1239/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/ProjectMstDao.java
+END
+FlatMstDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/1354/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/FlatMstDao.java
+END
+ProjectMilestoneDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/1328/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/ProjectMilestoneDao.java
+END
+RoleMstDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/1193/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/RoleMstDao.java
+END
+AccessMstDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1185/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/AccessMstDao.java
+END
+FlatInvoiceComboDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/1368/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/FlatInvoiceComboDao.java
+END
+FlatPaySchdDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/1368/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/FlatPaySchdDao.java
+END
+UserRoleComboDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/1193/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/UserRoleComboDao.java
+END
+ReceiptDtlsDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/1369/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/ReceiptDtlsDao.java
+END
+CustomerMstDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/1335/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/dao/CustomerMstDao.java
+END

@@ -1,0 +1,552 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	font-family: Trebuchet MS;
+	background:url(../../img/main-bg.gif) 0 0 repeat-x; 
+	margin:0px;
+	font-size:13px;
+}
+a{
+	color:#000;
+	text-decoration:none;
+}
+a:hover{
+	color:#ba9c31
+}
+div, p, ul, h2, img{
+	margin:0px; 
+	padding:0px;
+}
+ul{
+	list-style-type:none;
+}
+select{
+	font:11px "Trebuchet MS";
+}
+input{
+	font:11px "Trebuchet MS";
+}
+.label{
+	font-weight:bold;
+	height:20px;
+}
+#main{
+	width:1003px;
+}
+#top{
+	height:66px;
+	float:left;
+}
+#top .logo{
+	background-image:url(../../img/logo.gif);
+	background-repeat:no-repeat;
+	margin:10px;
+	width:104px;
+	height:40px;
+}
+#menu{
+	width:1003px;
+	float:left;
+	height:21px;
+}
+#menuleft{
+	width:800px;
+	float:left;
+	text-align:left;
+}
+#menuright{
+	width:190px;
+	float:right;
+	text-align:right;
+	padding-top:2px;
+}
+#menuright a{
+	font-weight:bold;
+	font-size:12px;
+	margin-right:10px;
+	margin-left:10px;
+}
+#menuright a:hover{
+	text-decoration:underline;
+	color:#FF0000;
+}
+#userdetails{
+	height:29px;
+	padding-top:5px;
+	font-size:13px;
+	clear:both;
+}
+#userdetails #welcome{
+	float:left;
+}
+#userdetails #logindetails{
+	float:right;
+}
+#main{
+	text-align:left;
+}
+.pageheader{
+	font-size:18px;
+	font-weight:bold;
+	padding:15px 0 5px 0;
+	margin-bottom:15px;
+	border-bottom:2px solid #000;
+}
+.datatable{
+	margin-top:10px;
+	margin-bottom:10px;
+}
+.tableheader{
+	background-color:#ead489; 
+	height:25px; 
+	font-weight:bold; 
+	font-size:13px; 
+	padding-left:5px;
+}
+.darkrow{
+	border-bottom:1px solid #000;
+	font-size:13px; 
+	padding-left:5px;
+}
+.darkrow td{
+	border-bottom:1px dotted #7f7d67;
+}
+.darkrow a{
+	color:#d80000; 
+	text-decoration:none;
+}
+.darkrow a:hover{
+	color:#000
+}
+.lightrow{
+	border-bottom:1px solid #000;
+	font-size:13px; 
+	padding-left:5px;
+}
+.darkrow1{
+	background-color:#ece9dc; 
+	font-size:13px; 
+	padding-left:5px;
+	font-weight:bold;
+	height:23px;
+}
+.darkrow1 a{
+	color:#d80000; 
+	text-decoration:none;
+}
+.darkrow1 a:hover{
+	color:#000
+}
+.lightrow1{
+	font-size:13px; 
+	padding-left:5px;
+	background-color:#f6f5f3;
+	height:23px;
+}
+fieldset{
+	margin-bottom:10px; 
+	padding-top:2px; 
+	padding-bottom:2px;
+}
+legend{
+	padding:5px; 
+	font-weight:bold; 
+	color:#727270
+}
+.button{
+	background-color:#ead489;
+	font-family:;
+	font-weight:bold;
+	font-family: Trebuchet MS;
+}
+/* ------------------------ 
+	DROP DOWN MENU
+   ------------------------ */
+
+.chromestyle{
+	float:left;
+	background-color:#fad658;
+	#margin:0px;
+}
+.chromestyle:after{ /*Add margin between menu and rest of content in Firefox*/
+	content: "."; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+}
+.chromestyle ul{
+	width: 100%;
+	margin: 0;
+	height:20px;
+	text-align: left; /*set value to "left", "center", or "right"*/
+	color:#000;
+	font-size:12px;
+	font-weight:bold;
+	padding-top:2px;
+}
+.chromestyle ul li{
+	display: inline;
+}
+.chromestyle ul li a{
+	color: #000;
+	padding: 2px 15px;
+	margin: 0;
+	text-decoration: none;
+	border-right: 1px solid #fff;
+}
+.chromestyle ul li a:hover, .chromestyle ul li a.selected{ /*script dynamically adds a class of "selected" to the current active menu item*/
+	color:#000;
+}
+/* ######### Style for Drop Down Menu ######### */
+.dropmenudiv{
+	position:absolute;
+	top: 0;
+	border-bottom-width: 0;
+	line-height:18px;
+	z-index:100;
+	background-color:#fad658;
+	border-left:#fff;
+	width: 250px;
+	visibility: hidden;
+	margin-left:-5px;
+	margin-top:-3px;
+}
+.dropmenudiv a{
+	width: auto;
+	display: block;
+	text-indent: 3px;
+	border-bottom: 1px solid #fff; /*THEME CHANGE HERE*/
+	padding: 2px 0;
+	text-decoration: none;
+	color: black;
+	height:18px;
+	font-size:12px;
+}
+* html .dropmenudiv a{ /*IE only hack*/
+	width: 100%;
+}
+.dropmenudiv a:hover{ /*THEME CHANGE HERE*/
+	background-color: #F0F0F0;
+}
+
+
+.title-font
+{
+    FONT-WEIGHT: bold; 
+    FONT-SIZE: 1em; 
+    COLOR: #660099 ; 
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+}
+
+.title-font-small
+{
+    FONT-WEIGHT: bold; 
+    FONT-SIZE: 0.7em; 
+    COLOR: #660099 ; 
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+}
+
+.title-font-small1
+{
+    FONT-WEIGHT: bold; 
+    FONT-SIZE: 1.1em; 
+    COLOR: #000000 ; 
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+}
+.content-font-White-BG
+{
+    FONT-WEIGHT: normal; 
+    FONT-SIZE: 75%;
+    COLOR: #000066;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+    background-color: White;
+}
+.content-font-White-BG:link
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+.content-font-White-BG A:hover
+{ 
+    color: red;
+    TEXT-DECORATION: underline;
+}
+.content-font-White-BG A:visited
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+
+.content-font
+{
+    FONT-WEIGHT: normal; 
+    FONT-SIZE: 75%;
+    COLOR: #000066;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+}
+.content-font A:link
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+.content-font A:hover
+{ 
+    color: red;
+    TEXT-DECORATION: underline;
+}
+.content-font A:visited
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+
+.content-blue-font
+{
+    FONT-WEIGHT: normal; 
+    FONT-SIZE: 75%;
+    COLOR: #000066;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+}
+.content-blue-font A:link
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+.content-blue-font A:hover
+{ 
+    color: red;
+    TEXT-DECORATION: underline;
+}
+.content-blue-font A:visited
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+
+.content-blue-font-bold
+{
+    FONT-WEIGHT: bold; 
+    FONT-SIZE: 75%;
+    COLOR: #000066;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+}
+.content-blue-font-bold A:link
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+.content-blue-font-bold A:hover
+{ 
+    color: red;
+    TEXT-DECORATION: underline;
+}
+.content-blue-font-bold A:visited
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+
+
+.content-font-bold
+{
+    FONT-WEIGHT: bold; 
+    FONT-SIZE: 75%;
+    COLOR: #000066;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+}
+.content-font-bold A:link
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+.content-font-bold A:hover
+{ 
+    color: red;
+    TEXT-DECORATION: underline;
+}
+.content-font-bold A:visited
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+.content-font-bold-White-BG
+{
+    FONT-WEIGHT: bold; 
+    FONT-SIZE: 75%;
+    COLOR: #000066;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+    background-color: White;
+}
+.content-font-bold-White-BG A:link
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+.content-font-bold-White-BG A:hover
+{ 
+    color: red;
+    TEXT-DECORATION: underline;
+}
+.content-font-bold-White-BG A:visited
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+
+
+.error-msg-red
+{
+    FONT-SIZE: 90%;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    COLOR: #ff0011;
+    FONT-WEIGHT:normal;;
+    font-style:normal;
+    WIDTH: 100%;
+    text-align: center;
+}
+
+
+.tbl_border {
+	border-width: 1px;
+	border-spacing: 0px;
+	border-style: solid  ;
+	border-color: gray;
+	border-collapse: separate;        
+	background-color: transparent;
+}
+
+.middle-border
+{
+    border-bottom-style: solid;
+    border-top-style: solid;
+    border-left-style: solid;
+   
+    
+   
+    border-left-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    
+    
+    border-top-color: #000066;
+    border-bottom-color: #000066;
+    border-right-color: #000066;
+    
+        
+}
+
+.left-column-border
+{
+    border-bottom-style: none;
+    border-top-style: solid;
+    border-left-style: solid;
+    border-right-style: none;
+    
+   
+    border-left-width: 1px;
+   
+    border-top-width: 1px;
+    
+    
+    border-top-color: #000066;
+    
+    border-left-color: #000066;
+    
+        
+}
+.right-column-border
+{
+    border-bottom-style: solid;
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: solid;
+    
+   
+   
+    border-right-width: 1px;
+   
+    border-bottom-width: 1px;
+    
+  
+    border-bottom-color: #000066;
+    border-right-color: #000066;
+    
+    
+        
+}
+
+.both-column-border
+{
+    border-bottom-style: solid;
+    border-top-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    
+   
+   border-left-width: 1px;
+   
+    border-top-width: 1px;
+    border-right-width: 1px;
+   
+    border-bottom-width: 1px;
+    
+  
+    border-bottom-color: #000066;
+    border-right-color: #000066;
+    border-top-color: #000066;
+    
+    border-left-color: #000066;
+    
+        
+}
+
+#tblHeader {
+	DISPLAY: none
+}
+#trSearchCriteria {
+	DISPLAY: none
+}
+#trLowerButtons {
+	DISPLAY: none
+}
+#captionOuter {
+	DISPLAY: none
+}
+#trInsBrnchName {
+	DISPLAY: none
+}
+#trMessage {
+	DISPLAY: none
+}
+#trTopHeader {
+	DISPLAY: none
+}
+#trMessageUpper {
+	DISPLAY: none
+}
+#trSearchCriteriaPrnt {
+	DISPLAY: none
+}
+
+.bg-light-blue {
+	BACKGROUND: #d6e0f5;
+	FONT-WEIGHT: bold; 
+        FONT-SIZE: 100%;
+        FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+        COLOR: #306EFF;
+}
+
+.bg-light-light-blue-small {
+	FONT-WEIGHT: bold; 
+	FONT-SIZE: 100%; 
+	BACKGROUND: #eaeffa; 
+	COLOR: #25587E; 
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+}
+
+
+
+
+
+

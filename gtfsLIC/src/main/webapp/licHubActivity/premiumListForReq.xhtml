@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	<p:panel id="search" header="Search Criteria for Premium List Generation of Accepted Applications" style="margin-bottom:20px">
+	        		<h:panelGrid columns="5" styleClass="grid" columnClasses="label,value, label2,value, label2,value">
+	        			<p:outputLabel value="LIC Branch:" for="licBranch"/>
+	        			<p:selectOneMenu id="licBranch" value="#{premiumListReqAction.picBranchId}" required="true" requiredMessage="Please Select Lic Branch">
+	        				<f:selectItem itemLabel="Select One" itemValue=""/>
+	        				<f:selectItems value="#{premiumListReqAction.picBranchMsts}" var="row" itemValue="#{row.picBranchId}" itemLabel="#{row.picBranchName}" />
+	        			</p:selectOneMenu>
+	        			
+	        			<p:outputLabel value="Pay Mode:" for="paymode"/>
+	        			<p:selectOneMenu id="paymode" value="#{premiumListReqAction.payMode}" required="true" requiredMessage="Please Select Pay Mode">
+	        				<f:selectItem itemLabel="Select One" itemValue=""/>
+	        				<f:selectItem itemLabel="Cash" itemValue="C"/>
+	        				<!-- <f:selectItem itemLabel="Cheque" itemValue="Q"/>
+	        				<f:selectItem itemLabel="DD" itemValue="D"/>
+	        				<f:selectItem itemLabel="Both" itemValue="B"/> -->
+	        			</p:selectOneMenu>
+		        		
+		        		<p:commandButton value="Search" actionListener="#{premiumListReqAction.search()}" update=":searchForm:searchOutputPanel,:premiumListForm:premiumListOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+	        		</h:panelGrid>
+	        	</p:panel>
+	    	</p:outputPanel>
+	    </h:form>
+	    
+	    <h:form id="premiumListForm">
+	    	<p:outputPanel id="premiumListOutputPanel">
+		    	<p:panel id="premiumList" style="margin-bottom:20px" rendered="#{premiumListReqAction.renderedPremiumList}">
+		    		<p:dataTable id="table" value="#{premiumListReqAction.licRequirementDtlsList}" var="row" rowKey="#{row.id}" selection="#{premiumListReqAction.selectedList}">
+		    				
+		    				<f:facet name="header">
+                    			Premium List
+                    			<span style="float: right;">Record(s) Found : #{fn:length(premiumListReqAction.licRequirementDtlsList)}</span>
+							</f:facet>
+						
+							<p:column selectionMode="multiple" style="width:16px;text-align:center" />
+						
+		    				<p:column headerText="Application No">
+						        <h:outputText value="#{row.licOblApplicationMst.oblApplNo}" />
+						    </p:column>
+						    
+						    <p:column headerText="Business Date">
+						        <p:calendar value="#{row.licOblApplicationMst.businessDate}" pattern="dd/MM/yyyy" disabled="true"/>
+						    </p:column>
+						    
+						    <p:column headerText="Insured Name">
+						        <h:outputText value="#{row.licOblApplicationMst.licInsuredDtls.name}" />
+						    </p:column>
+						    
+						    <p:column headerText="Proposer Name">
+						        <h:outputText value="#{row.licOblApplicationMst.licProposerDtls.name}" />
+						    </p:column>
+						    
+						    <p:column headerText="Branch">
+						        <h:outputText value="#{row.licOblApplicationMst.branchMst.branchName}" />
+						    </p:column>
+						    
+						    <p:column headerText="Product">
+						        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.licProductMst.prodDesc}" />
+						    </p:column>
+						    
+						    <p:column headerText="Mode">
+							    <p:selectOneMenu id="mode" value="#{row.licOblApplicationMst.licProductValueMst.payNature}" disabled="true">
+			        				<f:selectItem itemLabel="Half-Yearly" itemValue="H"/>
+			        				<f:selectItem itemLabel="Yearly" itemValue="Y"/>
+		        				</p:selectOneMenu>
+						    </p:column>
+						    
+						    <p:column headerText="Sum Assured">
+						        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.sumAssured}" >
+						        	<f:convertNumber pattern="#.##" />
+						        </h:outputText>
+						    </p:column>
+						    
+						    <p:column headerText="Policy Term">
+						        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.policyTerm}" />
+						    </p:column>
+						    
+							 <p:column headerText="Total Short Premium Received" style="font-weight:bold">
+						        <h:outputText value="#{row.amount}" style="font-weight:bold">
+						        	<f:convertNumber pattern="#.##" />
+						        </h:outputText>
+						    </p:column>
+		    		</p:dataTable>
+		    		
+		    		<f:facet name="footer">
+		    			<p:commandButton value="Save" actionListener="#{premiumListReqAction.save()}" update=":searchForm:searchOutputPanel,:premiumListForm:premiumListOutputPanel" icon="ui-icon-disk" style="font-weight:bolder"/>
+		    		</f:facet>
+		    	</p:panel>
+			</p:outputPanel>
+	    </h:form>
+    </ui:define>
+</ui:composition>

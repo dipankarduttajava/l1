@@ -1,0 +1,99 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/template/layout.xhtml">
+
+	<ui:define name="content">
+		<h:form id="printformSearch">
+			<p:messages showDetail="true" autoUpdate="true" closable="true" />
+			<p:panel id="printSearchPanel" header="Search Application">
+				<h:panelGrid columns="5" columnClasses="label,value, label2,value, label2,value">
+					<p:outputLabel for="businessDate" value="Business Date:" />
+					<p:calendar id="businessDate" pattern="dd/MM/yyyy" value="#{licPrintReceiptAction.businessDate}"/>
+
+					<p:outputLabel for="applNo" value="Application Number:" />
+					<p:inputText id="applNo" value="#{licPrintReceiptAction.applicationNo}"/>
+
+					<p:commandButton value="Search" actionListener="#{licPrintReceiptAction.search}" icon="ui-icon-search" update=":printFormList:printListoutputPanel" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+
+		<h:form id="printFormList">
+			<p:outputPanel id="printListoutputPanel">
+				<p:panel id="printListPanel" rendered="#{licPrintReceiptAction.renderedListPanel}">
+					<p:dataTable var="row" value="#{licPrintReceiptAction.licOblApplicationMstDtoList}">
+				
+						<f:facet name="header">
+	                    	Print Receipt List
+	                    	<span style="float: right;">Record(s) Found : #{fn:length(licPrintReceiptAction.licOblApplicationMstDtoList)}</span>
+						</f:facet>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Application No" />
+							</f:facet>
+							<h:outputText value="#{row.oblApplNo}" />
+						</p:column>
+	
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Business Date" />
+							</f:facet>
+							<h:outputText value="#{row.businessDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>
+	
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Insured Name" />
+							</f:facet>
+							<h:outputText value="#{row.insuredName}" />
+						</p:column>
+	
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Proposer Name" />
+							</f:facet>
+							<h:outputText value="#{row.proposerName}" />
+						</p:column>
+	
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Product Name" />
+							</f:facet>
+							<h:outputText value="#{row.prodDesc}" />
+						</p:column>
+	
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Total Amount Received" />
+							</f:facet>
+							<h:outputText value="#{row.totalReceived}" />
+						</p:column>
+	
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Print Status" />
+							</f:facet>
+							<h:selectOneMenu value="#{row.printFlag}" disabled="true">
+								<f:selectItem itemLabel="Yes" itemValue="Y" />
+								<f:selectItem itemLabel="No" itemValue="N" />
+							</h:selectOneMenu>
+						</p:column>
+	
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Print" />
+							</f:facet>
+							<p:commandLink value="Print" style="font-weight:bold" action="#{licPrintReceiptAction.printPage(row)}" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

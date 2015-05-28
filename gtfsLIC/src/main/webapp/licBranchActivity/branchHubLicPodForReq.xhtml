@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="form">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	 <p:panel id="search" header="Search Criteria" style="margin-bottom:20px">
+			        <h:panelGrid columns="10" columnClasses="label,value, label2,value, label2,value, label2,value, label2,value">
+			        	
+			        	<p:outputLabel value="Dispatch List No:" for="dispatchListNo"/>
+			        	<p:selectOneMenu id="dispatchListNo" value="#{branchHubLicPodForReqAction.dispatchListNo}" required="true" requiredMessage="Please Select Dispatch List Number" disabled="#{branchHubLicPodForReqAction.renderedListPanel}">
+			        		<p:ajax event="change" partialSubmit="true"/>
+			        		<f:selectItem itemLabel="Please Select" itemValue=""/>
+			        		<f:selectItems value="#{branchHubLicPodForReqAction.dispatchLists}"/>
+			        	</p:selectOneMenu>	
+			        	
+			        	<p:outputLabel value="Mode of Delivery:" for="deliveryMode"/>
+			        	<p:selectOneMenu id="deliveryMode" value="#{branchHubLicPodForReqAction.deliveryMode}" required="true" requiredMessage="Please Select Delivery Mode" disabled="#{branchHubLicPodForReqAction.renderedListPanel}">
+			        		<f:selectItem itemLabel="Please Select" itemValue=""/>
+			        		<f:selectItem itemLabel="By Hand" itemValue="H" />
+			        		<f:selectItem itemLabel="By Post" itemValue="P"/>
+			        		<p:ajax listener="#{branchHubLicPodForReqAction.deliveryModeChange()}" event="change" update="search" />
+			        	</p:selectOneMenu>
+			        	
+			        	<p:outputLabel value="Employee Code:" for="empCode" rendered="#{branchHubLicPodForReqAction.handFlag}"/>
+			        	<p:inputText id="empCode" value="#{branchHubLicPodForReqAction.empCode}"  rendered="#{branchHubLicPodForReqAction.handFlag}" required="true" requiredMessage="Please Enter Employee Code" style="width: 150px" disabled="#{branchHubLicPodForReqAction.renderedListPanel}">
+			        		<p:ajax listener="#{branchHubLicPodForReqAction.findEmployee()}" event="change" update="empName" />
+			        	</p:inputText>
+			        	
+			        	<p:outputLabel value="Employee Name:" rendered="#{branchHubLicPodForReqAction.handFlag}"/>
+			        	<p:outputLabel id="empName" value="#{branchHubLicPodForReqAction.empName}" rendered="#{branchHubLicPodForReqAction.handFlag}" disabled="true" />
+			        	
+			        	<p:outputLabel value="Pod No:" for="podNo" rendered="#{branchHubLicPodForReqAction.courierFlag}"/>
+			        	<p:inputText id="podNo" value="#{branchHubLicPodForReqAction.podNo}" rendered="#{branchHubLicPodForReqAction.courierFlag}" required="true" requiredMessage="Please Enter POD No" style="width: 150px" disabled="#{branchHubLicPodForReqAction.renderedListPanel}"/>
+			        	
+			        	<p:outputLabel value="Courier Name:" for="courierName" rendered="#{branchHubLicPodForReqAction.courierFlag}"/>
+			        	<p:inputText id="courierName" value="#{branchHubLicPodForReqAction.courierName}" rendered="#{branchHubLicPodForReqAction.courierFlag}" required="true" requiredMessage="Please Enter Courier Name" style="width: 150px" disabled="#{branchHubLicPodForReqAction.renderedListPanel}"/>
+			        	
+			        	<p:commandButton value="Generate" actionListener="#{branchHubLicPodForReqAction.searchForPod()}" update=":form:searchOutputPanel,:formList:listOutputPanel" icon="ui-icon-clipboard" style="font-weight:bolder" disabled="#{branchHubLicPodForReqAction.renderedListPanel}" />
+			        </h:panelGrid>
+			    </p:panel>
+			</p:outputPanel>
+	    </h:form>
+	    
+	    <h:form id="formList">
+	    	<p:outputPanel id="listOutputPanel">
+			    <p:panel id="list" header="Dispatch List Generation" style="margin-bottom:20px" rendered="#{branchHubLicPodForReqAction.renderedListPanel}">
+			    	<p:dataTable id="table" value="#{branchHubLicPodForReqAction.licBranchReqRcvMsts}" var="row" rowKey="#{row.id}" selection="#{branchHubLicPodForReqAction.selectedList}">
+							
+							<f:facet name="header">
+	                    		Dispatch List Generation
+	                    	<span style="float: right;">Record(s) Found : #{fn:length(branchHubLicPodForReqAction.licBranchReqRcvMsts)}</span>
+							</f:facet>
+							
+							<p:column selectionMode="multiple" style="width:16px;text-align:center" />
+							
+							<p:column headerText="Application No">
+						        <h:outputText value="#{row.licRequirementDtls.licOblApplicationMst.oblApplNo}" />
+						    </p:column>
+						    
+						    <p:column headerText="Business Date">
+						        <p:calendar value="#{row.licRequirementDtls.licOblApplicationMst.businessDate}" pattern="dd/MM/yyyy" disabled="true"/>
+						    </p:column>
+						    
+						    <p:column headerText="Insured Name">
+						        <h:outputText value="#{row.licRequirementDtls.licOblApplicationMst.licInsuredDtls.name}" />
+						    </p:column>
+						    
+						    <p:column headerText="Proposer Name">
+						        <h:outputText value="#{row.licRequirementDtls.licOblApplicationMst.licProposerDtls.name}" />
+						    </p:column>
+						    
+						    <p:column headerText="Branch">
+						        <h:outputText value="#{row.licRequirementDtls.licOblApplicationMst.branchMst.branchName}" />
+						    </p:column>
+						    
+						    <p:column headerText="Product">
+						        <h:outputText value="#{row.licRequirementDtls.licOblApplicationMst.licProductValueMst.licProductMst.prodDesc}" />
+						    </p:column>
+						    
+						    <p:column headerText="Basic Premium">
+						        <h:outputText value="#{row.licRequirementDtls.licOblApplicationMst.licProductValueMst.basicPrem}" >
+						        	<f:convertNumber pattern="#.##" />
+						        </h:outputText>
+						    </p:column>
+						    
+							<p:column headerText="Service Tax">
+						        <h:outputText value="#{row.licRequirementDtls.licOblApplicationMst.licProductValueMst.taxOnPrem}" >
+						        	<f:convertNumber pattern="#.##" />
+						        </h:outputText>
+						    </p:column>
+							
+							<p:column headerText="Total Amount" style="font-weight:bold">
+						        <h:outputText value="#{row.licRequirementDtls.licOblApplicationMst.licProductValueMst.totalAmt}" style="font-weight:bold" >
+						        	<f:convertNumber pattern="#.##" />
+						        </h:outputText>
+						    </p:column>
+			    	</p:dataTable>
+			    	
+			    	<f:facet name="footer">
+			    		<p:commandButton value="Save" actionListener="#{branchHubLicPodForReqAction.save()}" update=":form:searchOutputPanel,:formList:listOutputPanel" icon="ui-icon-disk" style="font-weight:bolder" />
+			    	</f:facet>
+			    </p:panel>
+			</p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

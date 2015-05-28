@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">        
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	 <p:panel id="search" header="Search Criteria" style="margin-bottom:20px">
+			        <h:panelGrid columns="7" columnClasses="label,value, label2,value, label2,value, label2,value">
+			        	<p:outputLabel for="bnsFromDate" value="Business From Date :"/>
+			        	<p:calendar id="bnsFromDate" value="#{branchHubLicReqDispatchAction.businessFromDate}" pattern="dd/MM/yyyy" required="true" requiredMessage="Please Enter Business From Date" />
+			        	
+			        	<p:outputLabel for="bnsToDate" value="Business To Date :"/>
+			        	<p:calendar id="bnsToDate" value="#{branchHubLicReqDispatchAction.businessToDate}" pattern="dd/MM/yyyy" required="true" requiredMessage="Please Enter Business To Date" />
+			        	
+			        	<p:outputLabel for="hubs" value="HUBs :"/>
+			        	<p:selectOneMenu id="hubs" value="#{branchHubLicReqDispatchAction.hubId}" required="true" requiredMessage="Please Select HUB">
+			        		<f:selectItem itemLabel="Select One" itemValue=""/>
+			        		<f:selectItems value="#{branchHubLicReqDispatchAction.hubMstList}" var="row" itemLabel="#{row.hubName}" itemValue="#{row.id}"/>
+			        	</p:selectOneMenu>
+			        	
+			        	<p:commandButton value="Search" actionListener="#{branchHubLicReqDispatchAction.searchForDispatch}" update=":searchForm:listOutputPanel,:searchForm:searchOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+			        </h:panelGrid>
+			    </p:panel>
+			</p:outputPanel>
+		    
+		    <p:outputPanel id="listOutputPanel">
+			    <p:panel id="list" style="margin-bottom:20px" rendered="#{branchHubLicReqDispatchAction.renderedListPanel}">
+			    	<p:dataTable id="table" value="#{branchHubLicReqDispatchAction.licBranchReqRcvMsts}" var="row" rowKey="#{row.id}" selection="#{branchHubLicReqDispatchAction.selectedList}">
+						
+						<f:facet name="header">
+                    		Dispatch List Generation
+                    	<span style="float: right;">Record(s) Found : #{fn:length(branchHubLicReqDispatchAction.licBranchReqRcvMsts)}</span>
+						</f:facet>
+						
+						<p:column selectionMode="multiple" style="width:16px;text-align:center" />
+	            		
+						<p:column headerText="Application No">
+							<h:outputText value="#{row.licRequirementDtls.licOblApplicationMst.oblApplNo}" />
+						</p:column>
+						
+						<p:column headerText="Business Date">
+							<p:calendar value="#{row.licRequirementDtls.licOblApplicationMst.businessDate}" pattern="dd/MM/yyyy" disabled="true" />
+						</p:column>
+						
+						<p:column headerText="Insured Name">
+							<h:outputText value="#{row.licRequirementDtls.licOblApplicationMst.licInsuredDtls.name}" />
+						</p:column>
+						
+						<p:column headerText="Proposer Name">
+							<h:outputText value="#{row.licRequirementDtls.licOblApplicationMst.licProposerDtls.name}" />
+						</p:column>
+						
+						<p:column headerText="Branch">
+							<h:outputText value="#{row.licRequirementDtls.licOblApplicationMst.branchMst.branchName}" />
+						</p:column>
+						
+						<p:column headerText="Product">
+							<h:outputText
+								value="#{row.licRequirementDtls.licOblApplicationMst.licProductValueMst.licProductMst.prodDesc}" />
+						</p:column>
+						
+						<p:column headerText="Basic Premium">
+							<h:outputText value="#{row.licRequirementDtls.licOblApplicationMst.licProductValueMst.basicPrem}" >
+								<f:convertNumber pattern="#.##" />
+							</h:outputText>
+						</p:column>						
+						
+						<p:column headerText="Service Tax">
+							<h:outputText value="#{row.licRequirementDtls.licOblApplicationMst.licProductValueMst.taxOnPrem}" >
+								<f:convertNumber pattern="#.##" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Total Amount" style="font-weight:bold">
+							<h:outputText value="#{row.licRequirementDtls.licOblApplicationMst.licProductValueMst.totalAmt}" style="font-weight:bold">
+								<f:convertNumber pattern="#.##" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Document">
+							<h:outputText value="#{row.licRequirementDtls.document}" />
+						</p:column>
+					</p:dataTable>
+					
+			    	<f:facet name="footer">
+			    		<p:commandButton value="Save" actionListener="#{branchHubLicReqDispatchAction.save}" update=":searchForm:searchOutputPanel,:searchForm:listOutputPanel" icon="ui-icon-disk" style="font-weight:bolder"/>
+			    	</f:facet>
+			    </p:panel>
+			</p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

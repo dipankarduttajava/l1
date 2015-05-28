@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-schema="AMSADMIN" match-name="ACCESS_LIST"/>
+  <table-filter match-schema="AMSADMIN" match-name="AGENT_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="AGENT_RLNS"/>
+  <table-filter match-schema="AMSADMIN" match-name="BRANCH_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="CAMP_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="DESIGNATION_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="DIVISION_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="HO_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="JOIN_PROD_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="LIC_ADDRESS_DTLS"/>
+  <table-filter match-schema="AMSADMIN" match-name="LIC_HUB_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="LIC_INSURED_ADDRESS_MAPPING"/>
+  <table-filter match-schema="AMSADMIN" match-name="LIC_INSURED_DTLS"/>
+  <table-filter match-schema="AMSADMIN" match-name="LIC_NOMINEE_ADDRESS_MAPPING"/>
+  <table-filter match-schema="AMSADMIN" match-name="LIC_NOMINEE_DTLS"/>
+  <table-filter match-schema="AMSADMIN" match-name="LIC_OBL_APPLICATION_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="LIC_OBL_CHECKLIST"/>
+  <table-filter match-schema="AMSADMIN" match-name="LIC_PRODUCT_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="LIC_PRODUCT_VALUE_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="LIC_PROPOSER_ADDRESS_MAPPING"/>
+  <table-filter match-schema="AMSADMIN" match-name="LIC_PROPOSER_DTLS"/>
+  <table-filter match-schema="AMSADMIN" match-name="PARENT_COMPY_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="PHASE_BA_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="PHASE_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="PIC_BRANCH_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="REGION_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="ROLE_ACCESS_RLNS"/>
+  <table-filter match-schema="AMSADMIN" match-name="ROLE_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="SCHEME_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="STATE_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="TIEUP_COMPY_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="USER_LOGIN_DTLS"/>
+  <table-filter match-schema="AMSADMIN" match-name="USER_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="USER_ROLE_RLNS"/>
+  <table-filter match-schema="AMSADMIN" match-name="RANK_MST"/>
+  <table-filter match-schema="AMSADMIN" match-name="WRKFLW_APPRV_MST"/>
+</hibernate-reverse-engineering>

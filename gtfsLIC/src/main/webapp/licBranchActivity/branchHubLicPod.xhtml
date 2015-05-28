@@ -1,0 +1,168 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="form">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	 <p:panel id="search" header="Search Criteria" style="margin-bottom:20px">
+			        <h:panelGrid columns="8" columnClasses="label,value, label2,value, label2,value, label2,value, label2,value">
+			        	
+			        	<p:outputLabel value="Dispatch List No:" for="dispatchListNo"/>
+			        	<p:selectOneMenu id="dispatchListNo" value="#{branchHubLicPodAction.dispatchListNo}" disabled="#{branchHubLicPodAction.renderedListPanel}">
+			        		<p:ajax event="change" partialSubmit="true"/>
+			        		<f:selectItem itemLabel="Please Select" itemValue=""/>
+			        		<f:selectItems value="#{branchHubLicPodAction.dispatchLists}"/>
+			        	</p:selectOneMenu>
+			        	
+			        	<p:outputLabel for="bnsFromDate" value="Business From Date :"/>
+			        	<p:calendar id="bnsFromDate" value="#{branchHubLicPodAction.businessFromDate}" pattern="dd/MM/yyyy" navigator="true" disabled="#{branchHubLicPodAction.renderedListPanel}">
+			        		<p:ajax event="dateSelect" partialSubmit="true" process="bnsFromDate"/>
+							<p:ajax event="change" partialSubmit="true" process="bnsFromDate"/>
+			        	</p:calendar>
+			        	
+			        	<p:outputLabel for="bnsToDate" value="Business To Date :"/>
+			        	<p:calendar id="bnsToDate" value="#{branchHubLicPodAction.businessToDate}" pattern="dd/MM/yyyy" navigator="true" disabled="#{branchHubLicPodAction.renderedListPanel}">
+			        		<p:ajax event="dateSelect" partialSubmit="true" process="bnsToDate"/>
+							<p:ajax event="change" partialSubmit="true" process="bnsToDate"/>
+			        	</p:calendar>
+			        	
+			        	
+			        	<p:outputLabel value="Mode of Delivery:" for="deliveryMode"/>
+			        	<p:selectOneMenu id="deliveryMode" value="#{branchHubLicPodAction.deliveryMode}" required="true" requiredMessage="Please Select Delivery Mode" disabled="#{branchHubLicPodAction.renderedListPanel}">
+			        		<f:selectItem itemLabel="Please Select" itemValue=""/>
+			        		<f:selectItem itemLabel="By Hand" itemValue="H" />
+			        		<f:selectItem itemLabel="By Post" itemValue="P"/>
+			        		<p:ajax listener="#{branchHubLicPodAction.deliveryModeChange()}" event="change" update="search" />
+			        	</p:selectOneMenu>
+			        	
+			        	<p:outputLabel value="Employee Code:" for="empCode" rendered="#{branchHubLicPodAction.handFlag}"/>
+			        	<p:inputText id="empCode" value="#{branchHubLicPodAction.empCode}"  rendered="#{branchHubLicPodAction.handFlag}" required="true" requiredMessage="Please Enter Employee Code" style="width: 150px" disabled="#{branchHubLicPodAction.renderedListPanel}">
+			        		<p:ajax listener="#{branchHubLicPodAction.findEmployee()}" event="change" update="empName" />
+			        	</p:inputText>
+			        	
+			        	<p:outputLabel value="Employee Name:" rendered="#{branchHubLicPodAction.handFlag}"/>
+			        	<p:outputLabel id="empName" value="#{branchHubLicPodAction.empName}" rendered="#{branchHubLicPodAction.handFlag}" disabled="true" />
+			        	
+			        	<p:outputLabel value="Pod No:" for="podNo" rendered="#{branchHubLicPodAction.courierFlag}"/>
+			        	<p:inputText id="podNo" value="#{branchHubLicPodAction.podNo}" rendered="#{branchHubLicPodAction.courierFlag}" required="true" requiredMessage="Please Enter POD No" style="width: 150px" disabled="#{branchHubLicPodAction.renderedListPanel}"/>
+			        	
+			        	<p:outputLabel value="Courier Name:" for="courierName" rendered="#{branchHubLicPodAction.courierFlag}"/>
+			        	<p:inputText id="courierName" value="#{branchHubLicPodAction.courierName}" rendered="#{branchHubLicPodAction.courierFlag}" required="true" requiredMessage="Please Enter Courier Name" style="width: 150px" disabled="#{branchHubLicPodAction.renderedListPanel}"/>
+			        </h:panelGrid>
+			        
+			        <f:facet name="footer">
+			        	<p:commandButton value="Generate" actionListener="#{branchHubLicPodAction.searchForPod()}" update=":form:searchOutputPanel,:formList:listOutputPanel" icon="ui-icon-clipboard" style="font-weight:bolder" disabled="#{branchHubLicPodAction.renderedListPanel}" />
+			       	</f:facet>
+			    </p:panel>
+			</p:outputPanel>
+	    </h:form>
+	    
+	    <h:form id="formList">
+	    	<p:outputPanel id="listOutputPanel">
+			    <p:panel id="list" header="Dispatch List Generation" style="margin-bottom:20px" rendered="#{branchHubLicPodAction.renderedListPanel}">
+			    	<p:dataTable id="table" value="#{branchHubLicPodAction.licOblApplicationMstDtoList}" var="row" rowKey="#{row.id}" selection="#{branchHubLicPodAction.selectedList}">
+							
+							<f:facet name="header">
+	                    		Dispatch List Generation
+	                    	<span style="float: right;">Record(s) Found : #{fn:length(branchHubLicPodAction.licOblApplicationMstDtoList)}</span>
+							</f:facet>
+							
+							<p:column selectionMode="multiple" style="width:16px;text-align:center" />
+							
+							<p:column headerText="Dispatch No.">
+						        <h:outputText value="#{row.dispatchListNo}" />
+						    </p:column>
+						    
+							<p:column headerText="Application No.">
+						        <h:outputText value="#{row.oblApplNo}" />
+						    </p:column>
+						    
+						    <p:column headerText="Business Date">
+						        <h:outputText value="#{row.businessDate}" >
+						        	<f:convertDateTime pattern="dd/MM/yyyy"/>
+						        </h:outputText>
+						    </p:column>
+						    
+						    <p:column headerText="Insured Name">
+						        <h:outputText value="#{row.insuredName}" />
+						    </p:column>
+						    
+						    <p:column headerText="Proposer Name">
+						        <h:outputText value="#{row.proposerName}" />
+						    </p:column>
+						    
+						    <p:column headerText="Branch">
+						        <h:outputText value="#{row.branchName}" />
+						    </p:column>
+						    
+						    <p:column headerText="Product">
+						        <h:outputText value="#{row.prodDesc}" />
+						    </p:column>
+						    
+						    <!-- <p:column headerText="Basic Premium">
+						        <h:outputText value="#{row.basicPrem}" >
+						        	<f:convertNumber pattern="#.##" />
+						        </h:outputText>
+						    </p:column>
+						    
+							<p:column headerText="Service Tax">
+						        <h:outputText value="#{row.taxOnPrem}" >
+						        	<f:convertNumber pattern="#.##" />
+						        </h:outputText>
+						    </p:column> -->
+						    
+						    <p:column headerText="Cash Amount">
+								<h:outputText value="#{row.cashAmount}" >
+									<f:convertNumber pattern="#.##" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column headerText="Chq/DD Amount">
+								<h:outputText value="#{row.insAmount}" >
+									<f:convertNumber pattern="#.##" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column headerText="Chq/DD Details">
+								<h:outputText value="#{row.chequeNo}" />
+							</p:column>
+						    
+						    <p:column headerText="Pay Mode">
+								<h:selectOneMenu value="#{row.payMode}" disabled="true">
+		        					<f:selectItem itemLabel="Cash" itemValue="C"/>
+		        					<f:selectItem itemLabel="Cheque" itemValue="Q"/>
+		        					<f:selectItem itemLabel="DD" itemValue="D"/>
+		        					<f:selectItem itemLabel="Both" itemValue="B"/>
+						    	</h:selectOneMenu>
+							</p:column>
+							
+							<p:column headerText="Pay Nature">
+								<h:selectOneMenu value="#{row.payNature}" disabled="true">
+						    		<f:selectItem itemLabel="Yearly" itemValue="Y"/>
+						    		<f:selectItem itemLabel="Half-Yearly" itemValue="H"/>
+						    		<f:selectItem itemLabel="Quaterly" itemValue="Q"/>
+						    		<f:selectItem itemLabel="Monthly" itemValue="M"/>
+						    	</h:selectOneMenu>
+							</p:column>
+							
+							<p:column headerText="Total Received" style="font-weight:bold">
+						        <h:outputText value="#{row.totalReceived}" style="font-weight:bold">
+						        	<f:convertNumber pattern="#.##" />
+						        </h:outputText>
+						    </p:column>
+			    	</p:dataTable>
+			    	
+			    	<f:facet name="footer">
+			    		<p:commandButton value="Save" actionListener="#{branchHubLicPodAction.save()}" update=":form:searchOutputPanel,:formList:listOutputPanel" icon="ui-icon-disk" style="font-weight:bolder"/>
+			    	</f:facet>
+			    </p:panel>
+			</p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

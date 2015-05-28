@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <ui:insert name="style.xhtml">
+            <ui:include src="/template/style.xhtml" /> 
+            <style type="text/css">
+                .ui-messages-error,.ui-messages-info,ui-corner-all {
+                    font-family: sans-serif;
+                    font-size: 14px;
+                    width: 50% !important;
+                }
+            </style>
+        </ui:insert>
+        <h:body>
+            <p:layout fullPage="true">
+                <p:layoutUnit id="center" position="center">
+					
+                    <p:spacer height="130" />
+					
+                    <h:form id="loginForm" prependId="false">
+                        <div align="center" style="margin-top: 5%">
+                            <p:messages autoUpdate="true" showDetail="true" />
+                             <p:commandButton value="Designation Mst" id="designationMst" action="#{designationMstAction.onLoad()}" ajax="false" />
+                             <p:commandButton value="Access List" id="accessList" action="#{accessListAction.onLoad()}" ajax="false" />
+                        </div>
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

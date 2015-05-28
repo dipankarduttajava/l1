@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	<p:panel id="search" header="Search Criteria for POD Tagging" style="margin-bottom:20px" >
+	        		<h:panelGrid columns="7" styleClass="grid" columnClasses="label,value, label2,value, label2,value, label2,value">
+	        			<p:outputLabel value="Policy Form Date :" for="policyFromDate"/>
+	        			<p:calendar id="policyFromDate" value="#{licRenewalPosViewRejectionAction.policyFromDate}" pattern="dd/MM/yyyy" navigator="true" required="true" requiredMessage="Please Enter Policy From Date" />
+	        			
+	        			<p:outputLabel value="Policy To Date :" for="policyToDate"/>
+	        			<p:calendar id="policyToDate" value="#{licRenewalPosViewRejectionAction.policyToDate}" pattern="dd/MM/yyyy" navigator="true" required="true" requiredMessage="Please Enter Policy To Date" />
+		        		
+		        		<p:outputLabel value="Branch :" for="branch"/>
+	        			<p:selectOneMenu id="branch" value="#{licRenewalPosViewRejectionAction.branchId}">
+	        				<f:selectItem itemLabel="Select One" itemValue=""/>
+	        				<f:selectItems value="#{licRenewalPosViewRejectionAction.branchMstList}" var="row" itemValue="#{row.branchId}" itemLabel="#{row.branchName}" />
+	        			</p:selectOneMenu>
+	        			
+		        		<p:commandButton value="Search" actionListener="#{licRenewalPosViewRejectionAction.onSearch()}" update="searchOutputPanel, renewalHtlhValidOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+	        		</h:panelGrid>
+	        	</p:panel>
+	    	</p:outputPanel>
+
+			<p:outputPanel id="renewalHtlhValidOutputPanel">
+			    <p:panel id="list" style="margin-bottom:20px" rendered="#{licRenewalPosViewRejectionAction.renderedListPanel}">
+			    	<p:dataTable id="table" value="#{licRenewalPosViewRejectionAction.licPolicyDtlsDtoList}" var="row" rowKey="#{row.policyNo}" selection="#{licRenewalPosViewRejectionAction.selectedList}">
+			    	
+			    		<f:facet name="header">
+	                    		Renewal POS Rejection List
+	                    <span style="float: right;">Record(s) Found : #{fn:length(licRenewalPosViewRejectionAction.licPolicyDtlsDtoList)}</span>
+						</f:facet>
+						
+						<p:column selectionMode="multiple" style="width:16px;text-align:center" />
+														
+						<p:column headerText="Policy No.">
+							<h:outputText value="#{row.policyNo}" />
+						</p:column>
+						
+						<p:column headerText="No of Due Years">
+							<h:outputText value="#{row.dueYears}" />
+						</p:column>
+						
+						<p:column headerText="From Due Date">
+						        <p:calendar value="#{row.fromDueDate}" pattern="dd/MM/yyyy" disabled="true"/>
+					    </p:column>
+					    
+					    <p:column headerText="To Due Date">
+						        <p:calendar value="#{row.toDueDate}" pattern="dd/MM/yyyy" disabled="true"/>
+					    </p:column>
+					    
+					    <p:column headerText="Pay Nature">
+						        <h:outputText value="#{row.payNature}"/>
+					    </p:column>
+						
+						<p:column headerText="Pay Date">
+						        <p:calendar value="#{row.payDate}" pattern="dd/MM/yyyy" disabled="true"/>
+					    </p:column>					    
+					    
+					    <p:column headerText="Insured Name">
+					        <h:outputText value="#{row.insuredName}" />
+					    </p:column>
+					    
+					    <p:column headerText="Proposer Name">
+					        <h:outputText value="#{row.proposerName}" />
+					    </p:column>					    
+					    
+					    <p:column headerText="Product">
+					        <h:outputText value="#{row.product}" />
+					    </p:column>
+					    
+					    <p:column headerText="Health Flag">
+					        <h:outputText value="#{row.healthFlag}" />
+					    </p:column>
+					    
+						<p:column headerText="Pay Mode">
+					        <h:outputText value="#{row.payMode}" />
+					    </p:column>						
+					</p:dataTable>
+					
+			    	<f:facet name="footer">
+			    		<p:commandButton value="Save" actionListener="#{licRenewalPosViewRejectionAction.onSave()}" update="searchOutputPanel, renewalHtlhValidOutputPanel" rendered="#{licRenewalPosViewRejectionAction.renderedSave}" icon="ui-icon-disk" style="font-weight:bolder"/>
+			    	</f:facet>
+			    </p:panel>
+			</p:outputPanel>
+	    </h:form>
+    </ui:define>
+</ui:composition>

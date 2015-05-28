@@ -1,0 +1,182 @@
+body {
+	font-size: 75%;
+	width: 100%;
+}
+
+/* Icon */
+
+.xls {
+	background-image: url('../resources/images/xls.png') !important;
+}
+
+.ui-layout-north {
+	z-index: 20 !important;
+	overflow: visible !important;;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+}
+
+.ui-layout-west .ui-layout-unit-content {
+	overflow: visible !important;
+}
+
+.ui-widget-header {
+	color: black !important;
+	font-family: Arial !important;
+	font-weight: bold !important;
+	text-shadow: none !important;
+}
+
+.ui-layout-west {
+	z-index: 19 !important;
+}
+
+.ui-inputtext {
+	width: 220px;
+}
+
+.ui-password {
+	width: 220px;
+}
+
+.ui-autocomplete-input {
+	width: 220px;
+}
+
+input[readonly="readonly"] {
+	color: gray;
+}
+
+.ui-panel,.ui-panel-footer {
+	background-color: #f7f7f7 !important;
+}
+.ui-panelgrid td,tr {
+	border: none !important;
+}
+
+.readOnlyInput {
+	box-shadow: none !important;
+	background-color: #faf7f7 !important;
+}
+
+.ui-layout-container {
+	background-color: lightgray !important;
+}
+
+.ui-state-default {
+	font-size: 0.9em !important;
+}
+
+.ui-panel, .ui-panel-footer {
+    background-color: #F7F7F7;
+    margin: 0 20px 10px;
+    padding: 0.2em;
+}
+
+.ui-corner-all {
+	border-radius: 3px;
+}
+
+.menuBorder {
+	border: 0px !important;
+}
+
+.label {
+	vertical-align: middle;
+}
+
+.value {
+	vertical-align: middle;
+	padding-right: 20px;
+}
+
+.label2 {
+	vertical-align: middle;
+	padding-left: 20px;
+	border-left: 1px #2E6E9E dashed;
+	margin-left: 20px;
+}
+
+.ui-state-error, .ui-chkbox-box{
+    background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #fef1ec;
+    border: 1px solid #cd0a0a;
+    color: #cd0a0a;
+}
+
+.colBgColor{
+    background-color:white !important;
+}
+
+.ui-widget {
+    font-size: 13px !important;
+}
+
+
+/* ################################## Print Receipt Style (By Shyam) ################################## */
+
+.title-font
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 1em; 
+    COLOR: #660099 ; 
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+}
+
+.content-blue-font
+{
+    FONT-WEIGHT: normal; 
+    FONT-SIZE: 75%;
+    COLOR: #000066;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+}
+.content-blue-font A:link
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+.content-blue-font A:hover
+{ 
+    color: red;
+    TEXT-DECORATION: underline;
+}
+.content-blue-font A:visited
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+
+.content-blue-font-bold
+{
+    FONT-WEIGHT: bold; 
+    FONT-SIZE: 75%;
+    COLOR: #000066;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+}
+.content-blue-font-bold A:link
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+.content-blue-font-bold A:hover
+{ 
+    color: red;
+    TEXT-DECORATION: underline;
+}
+.content-blue-font-bold A:visited
+{ 
+    color: #000066;
+    TEXT-DECORATION: underline;
+}
+
+.borderRemover {
+    border: none;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.ui-outputlabel-rfi{
+	color: black;
+	font-weight: bolder;
+}

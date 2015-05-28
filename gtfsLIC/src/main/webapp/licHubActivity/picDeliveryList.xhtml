@@ -1,0 +1,172 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	<p:panel id="search" header="Search Criteria" style="margin-bottom:20px" rendered="#{picDeliveryListAction.premiumSearchRendered}">
+	        		<h:panelGrid columns="3" styleClass="grid" columnClasses="label,value, label2,value">
+	        			
+	        			<p:outputLabel value="Premium List Number:" for="premiumListNo"/>
+	        			<p:selectOneMenu id="premiumListNo" value="#{picDeliveryListAction.premListNo}" required="true" requiredMessage="Please Select Premium List No">
+	        				<f:selectItem itemLabel="Select One" itemValue=""/>
+	        				<f:selectItems value="#{picDeliveryListAction.premList}"  />
+	        			</p:selectOneMenu>
+		        		
+		        		<p:commandButton value="Search" actionListener="#{picDeliveryListAction.search()}" update="searchForm,:deliveryDtlsForm:deliveryDtlsOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+	        		</h:panelGrid>
+	        	</p:panel>
+	    	</p:outputPanel>
+	    </h:form>
+	    
+	    <h:form id="deliveryDtlsForm">
+	    	<p:outputPanel id="deliveryDtlsOutputPanel">
+		    	<p:panel id="deliveryDtls" header="Delivery Details" style="margin-bottom:20px" rendered="#{picDeliveryListAction.searchRendered}">
+			    	
+			    	<p:panel id="filter" header="Search Criteria" style="margin-bottom:20px">
+			    		<h:panelGrid columns="3" styleClass="grid" columnClasses="label,value, label2,value">
+			    			
+			    			<p:outputLabel value="Application No:" for="applNo"/>
+			    			<p:inputText value="#{picDeliveryListAction.applNo}" id="applNo" />
+			    			
+			    			<p:commandButton value="Search" actionListener="#{picDeliveryListAction.searchToAdd()}" update=":deliveryDtlsForm:list" icon="ui-icon-search" style="font-weight:bolder"/>
+			    		</h:panelGrid>
+			    	</p:panel>
+			    	
+			    	<p:panel id="list" style="margin-bottom:20px" >
+			    		<p:dataTable id="table" value="#{picDeliveryListAction.searchLicOblApplicationMsts}" var="row" rowIndexVar="sr" rows="20">
+			    				
+			    				<f:facet name="header">
+                    				PIC Search List
+                    				<span style="float: right;">Record(s) Found : #{fn:length(picDeliveryListAction.searchLicOblApplicationMsts)}</span>
+								</f:facet>
+							
+			    				<p:column headerText="Sr No.">
+			    					<h:outputText value="#{sr+1}" />
+			    				</p:column>
+			    				
+			    				<p:column headerText="Application No">
+							        <h:outputText value="#{row.oblApplNo}" />
+							    </p:column>
+							    
+							    <p:column headerText="BOC Details">
+							        <p:dataTable value="#{row.licApplBocMappings}" var="dtls">	
+									    <p:column headerText="BOC No.">
+									        <h:outputText value="#{dtls.licBocDetailEntry.boc}" />
+									    </p:column>
+									    <p:column headerText="BOC Date">
+									         <p:calendar value="#{dtls.licBocDetailEntry.bocDate}" pattern="dd/MM/yyyy" disabled="true" size="8"/>
+									    </p:column>
+									</p:dataTable>
+							    </p:column>							   
+							    
+							    <p:column headerText="Business Date">
+							        <p:calendar value="#{row.businessDate}" pattern="dd/MM/yyyy" disabled="true" size="8"/>
+							    </p:column>
+							    
+							    <p:column headerText="Insured Name">
+							        <h:outputText value="#{row.licInsuredDtls.name}" />
+							    </p:column>
+							   
+							    <p:column headerText="Proposer Name">
+							        <h:outputText value="#{row.licProposerDtls.name}" />
+							    </p:column>
+							    
+							    <p:column headerText="HUB Name">
+							        <h:outputText value="#{row.oblHubMst.hubName}" />
+							    </p:column>
+							    
+							    <p:column headerText="Branch Name">
+							        <h:outputText value="#{row.branchMst.branchName}" />
+							    </p:column>
+							    
+							    <p:column headerText="LIC Branch Name">
+							        <h:outputText value="#{row.picBranchMstId.picBranchName}" />
+							    </p:column>
+							    
+							     <p:column headerText="Sum Assured">
+							        <h:outputText value="#{row.licProductValueMst.sumAssured}" >
+							        	<f:convertNumber pattern="#.##" />
+							        </h:outputText>
+							    </p:column>
+							
+							    <p:column headerText="Total Received" style="font-weight:bold">
+							        <h:outputText value="#{row.licBusinessTxn.licPaymentMst.totalReceived}" style="font-weight:bold" >
+							        	<f:convertNumber pattern="#.##" />
+							        </h:outputText>
+							    </p:column>
+							    
+							   
+							    
+							    <p:column headerText="Add">
+							       <p:commandLink value="Add" actionListener="#{picDeliveryListAction.add(row)}" update=":deliveryDtlsForm:addedList,:deliveryDtlsForm:table" style="font-weight:bold"/>
+							    </p:column>							    
+			    		</p:dataTable>
+			    	</p:panel>
+			    	
+			    	<p:panel id="addedList" header="Dispatch List" style="margin-bottom:20px">
+			    		<p:dataTable id="addTable" value="#{picDeliveryListAction.addedLicOblApplicationMsts}" var="row" rowIndexVar="sr" rows="20">
+			    				<p:column headerText="Sr No.">
+			    					<h:outputText value="#{sr+1}" />
+			    				</p:column>
+			    				<p:column headerText="Application No">
+							        <h:outputText value="#{row.oblApplNo}" />
+							    </p:column>
+							     <p:column headerText="BOC Details">
+							        <p:dataTable value="#{row.licApplBocMappings}" var="dtls">	
+									    <p:column headerText="BOC No.">
+									        <h:outputText value="#{dtls.licBocDetailEntry.boc}" />
+									    </p:column>
+									    <p:column headerText="BOC Date">
+									         <p:calendar value="#{dtls.licBocDetailEntry.bocDate}" disabled="true" size="8"/>
+									    </p:column>
+									</p:dataTable>
+							    </p:column>
+							    <p:column headerText="Business Date">
+							        <p:calendar value="#{row.businessDate}" pattern="dd/MM/yyyy" disabled="true"/>
+							    </p:column>
+							    <p:column headerText="Insured Name">
+							        <h:outputText value="#{row.licInsuredDtls.name}" />
+							    </p:column>
+							    <p:column headerText="Proposer Name">
+							        <h:outputText value="#{row.licProposerDtls.name}" />
+							    </p:column>
+							    <p:column headerText="HUB Name">
+							        <h:outputText value="#{row.oblHubMst.hubName}" />
+							    </p:column>
+							    <p:column headerText="Branch Name">
+							        <h:outputText value="#{row.branchMst.branchName}" />
+							    </p:column>
+							    <p:column headerText="LIC Branch Name">
+							        <h:outputText value="#{row.picBranchMstId.picBranchName}" />
+							    </p:column>
+							    
+							    <p:column headerText="Sum Assured">
+							        <h:outputText value="#{row.licProductValueMst.sumAssured}" >
+							        	<f:convertNumber pattern="#.##" />
+							        </h:outputText>
+							    </p:column>
+							   
+							    <p:column headerText="Total Received" style="font-weight:bold">
+							        <h:outputText value="#{row.licBusinessTxn.licPaymentMst.totalReceived}" style="font-weight:bold" >
+							        	<f:convertNumber pattern="#.##" />
+							        </h:outputText>
+							    </p:column>
+							    							   
+			    		</p:dataTable>
+			    	</p:panel>
+			    	
+			    	<f:facet name="footer">
+			    		<p:commandButton value="Save" actionListener="#{picDeliveryListAction.save()}" update=":searchForm:searchOutputPanel,:deliveryDtlsForm:deliveryDtlsOutputPanel" icon="ui-icon-disk" style="font-weight:bolder"/>
+			    	</f:facet>
+		    	</p:panel>
+		    </p:outputPanel>
+	    </h:form>
+    </ui:define>
+</ui:composition>

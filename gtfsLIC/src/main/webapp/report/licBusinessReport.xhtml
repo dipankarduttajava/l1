@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/template/layout.xhtml">
+
+	<ui:define name="content">
+		<h:form id="searchForm">
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+		 	<p:outputPanel id="searchOutputPanel">
+				<p:panel id="accessListSearch" header="Search Criteria" style="margin-bottom:20px">
+					<h:panelGrid id="searchPanelGrid" columns="4" styleClass="grid" columnClasses="label,value, label2,value">
+						
+						
+	
+						<h:panelGroup>
+							<p:commandButton id="search" value="Search" actionListener="#{licBusinessReportAction.onSearch()}" update=":searchForm:searchOutputPanel,:listForm:listOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+							
+						</h:panelGroup>
+					</h:panelGrid>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+		
+		<h:form id="listForm">
+			<p:outputPanel id="listOutputPanel">
+				<p:panel id="panelList" style="margin-bottom:20px">
+					
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

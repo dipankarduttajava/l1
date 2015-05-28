@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	 <p:panel id="search" header="Search Criteria" style="margin-bottom:20px">
+			        <h:panelGrid columns="13" styleClass="grid" columnClasses="label,value, label2,value, label2,value, label2,value, label2,value, label2,value, label2,value">
+			        	<p:outputLabel value="Dispatch List No:" for="dispatchListNo"/>
+			        	<p:selectOneMenu id="dispatchListNo" value="#{hubPicLicPodForReqAction.dispatchListNo}" required="true" requiredMessage="Please Select Dispatch List Number" disabled="#{hubPicLicPodForReqAction.renderedListPanel}">
+			        		<p:ajax event="change" partialSubmit="true"/>
+			        		<f:selectItem itemLabel="Please Select" itemValue=""/>
+			        		<f:selectItems value="#{hubPicLicPodForReqAction.dispatchLists}"/>
+			  				<f:selectItems />
+			        	</p:selectOneMenu>	
+			        	
+			        	<p:outputLabel value="Mode of Delivery:" for="deliveryMode"/>
+			        	<p:selectOneMenu id="deliveryMode" value="#{hubPicLicPodForReqAction.deliveryMode}" required="true" requiredMessage="Please Select Delivery Mode" disabled="#{hubPicLicPodForReqAction.renderedListPanel}">
+			        		<f:selectItem itemLabel="Please Select" itemValue=""/>
+			        		<f:selectItem itemLabel="By Hand" itemValue="H" />
+			        		<f:selectItem itemLabel="By Post" itemValue="P"/>
+			        		<p:ajax listener="#{hubPicLicPodForReqAction.deliveryModeChange()}" event="change" update="search" />
+			        	</p:selectOneMenu>
+			        	
+			        	<p:outputLabel value="Employee Code:" for="empCode" rendered="#{hubPicLicPodForReqAction.handFlag}"/>
+			        	<p:inputText id="empCode" value="#{hubPicLicPodForReqAction.empCode}"  rendered="#{hubPicLicPodForReqAction.handFlag}" required="true" requiredMessage="Please Enter Employee Code" style="width:150px" disabled="#{hubPicLicPodForReqAction.renderedListPanel}">
+			        		<p:ajax listener="#{hubPicLicPodForReqAction.findEmployee()}" event="change" update="empName" />
+			        	</p:inputText>
+			        	
+			        	<p:outputLabel value="Employee Name:" rendered="#{hubPicLicPodForReqAction.handFlag}"/>
+			        	<p:outputLabel id="empName" value="#{hubPicLicPodForReqAction.empName}" rendered="#{hubPicLicPodForReqAction.handFlag}" disabled="#{hubPicLicPodForReqAction.renderListPanel}" />
+			        	
+			        	<p:outputLabel value="Pod No:" for="podNo" rendered="#{hubPicLicPodForReqAction.courierFlag}"/>
+			        	<p:inputText id="podNo" value="#{hubPicLicPodForReqAction.podNo}" rendered="#{hubPicLicPodForReqAction.courierFlag}" required="true" requiredMessage="Please Enter POD No" disabled="#{hubPicLicPodForReqAction.renderedListPanel}" />
+			        	
+			        	<p:outputLabel value="Courier Name:" for="courierName" rendered="#{hubPicLicPodForReqAction.courierFlag}"/>
+			        	<p:inputText id="courierName" value="#{hubPicLicPodForReqAction.courierName}" rendered="#{hubPicLicPodForReqAction.courierFlag}" required="true" requiredMessage="Please Enter Courier Name" disabled="#{hubPicLicPodForReqAction.renderedListPanel}" />
+			        	
+			        	<p:commandButton value="Generate" actionListener="#{hubPicLicPodForReqAction.searchForPod()}" update=":searchForm:searchOutputPanel,:formList:list, :formList:formListOutputPanel" icon="ui-icon-clipboard" style="font-weight:bolder" disabled="#{hubPicLicPodForReqAction.renderedListPanel}" />
+			        </h:panelGrid>
+			    </p:panel>
+			</p:outputPanel>
+	    </h:form>
+	    
+	    <h:form id="formList">
+	    	<p:outputPanel id="formListOutputPanel">
+		    <p:panel id="list" header="Dispatch List Generation" style="margin-bottom:20px" rendered="#{hubPicLicPodForReqAction.renderedListPanel}">
+		    	<p:dataTable id="table" value="#{hubPicLicPodForReqAction.licRequirementDtlsList}" var="row">
+						<p:column headerText="Application No">
+					        <h:outputText value="#{row.licOblApplicationMst.oblApplNo}" />
+					    </p:column>
+					    <p:column headerText="Business Date">
+					        <p:calendar value="#{row.licOblApplicationMst.businessDate}" pattern="dd/MM/yyyy" disabled="true"/>
+					    </p:column>
+					    <p:column headerText="Insured Name">
+					        <h:outputText value="#{row.licOblApplicationMst.licInsuredDtls.name}" />
+					    </p:column>
+					    <p:column headerText="Proposer Name">
+					        <h:outputText value="#{row.licOblApplicationMst.licProposerDtls.name}" />
+					    </p:column>
+					    <p:column headerText="Branch">
+					        <h:outputText value="#{row.licOblApplicationMst.branchMst.branchName}" />
+					    </p:column>
+					    <p:column headerText="Product">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.licProductMst.prodDesc}" />
+					    </p:column>
+					     <p:column headerText="Base Premium">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.basicPrem}" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					     <p:column headerText="Service Tax">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.taxOnPrem}" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+						 <p:column headerText="Total" style="font-weight:bold">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.totalAmt}" style="font-weight:bold"/>
+					    </p:column>
+		    	</p:dataTable>
+		    	
+		    	<f:facet name="footer">
+		    		<p:commandButton value="Save" actionListener="#{hubPicLicPodForReqAction.save()}" update=":formList:formListOutputPanel,:searchForm:searchOutputPanel" icon="ui-icon-disk" style="font-weight:bolder"/>
+		    	</f:facet>
+		    </p:panel>
+		    </p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/template/layout.xhtml">
+
+	<ui:define name="content">
+		<h:form id="printformSearch">
+			<p:messages showDetail="true" autoUpdate="true" closable="true" />
+			<p:panel id="printSearchPanel" header="Search Application" style="margin-bottom:20px">
+				<h:panelGrid columns="7" columnClasses="label,value, label2,value, label2,value">
+					<p:outputLabel for="businessDate" value="Business Date:" />
+					<p:calendar id="businessDate" pattern="dd/MM/yyyy" value="#{licPosPrintReceiptAction.businessDate}"/>
+
+					<p:outputLabel for="applNo" value="Application Number:" />
+					<p:inputText id="applNo" value="#{licPosPrintReceiptAction.applicationNo}"/>
+					
+					<p:outputLabel for="branchId" value="Branch :" />
+					<p:selectOneMenu id="branchId" value="#{licPosPrintReceiptAction.branchId}">
+						<f:selectItem itemLabel="Select One" itemValue=""/>
+						<f:selectItems value="#{licPosPrintReceiptAction.branchMsts}" var="row" itemLabel="#{row.branchName}" itemValue="#{row.branchId}"/>
+					</p:selectOneMenu>
+
+					<p:commandButton value="Search" actionListener="#{licPosPrintReceiptAction.search}" icon="ui-icon-search" update=":printFormList:printListoutputPanel" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+
+		<h:form id="printFormList">
+			<p:outputPanel id="printListoutputPanel">
+				<p:panel id="printListPanel" style="margin-bottom:20px" rendered="#{licPosPrintReceiptAction.renderedListPanel}">
+					<p:dataTable var="row" value="#{licPosPrintReceiptAction.licRequirementDtlsList}">
+				
+						<f:facet name="header">
+	                    	Print Receipt List
+	                    	<span style="float: right;">Record(s) Found : #{fn:length(licPosPrintReceiptAction.licRequirementDtlsList)}</span>
+						</f:facet>
+						
+						<p:column headerText="Application No">
+							<h:outputText value="#{row.licOblApplicationMst.oblApplNo}" />
+						</p:column>
+	
+						<p:column headerText="Business Date">
+							<h:outputText value="#{row.licOblApplicationMst.businessDate}"  >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>
+	
+						<p:column headerText="Insured Name" width="40px">
+							<h:outputText value="#{row.licOblApplicationMst.licInsuredDtls.name}" />
+						</p:column>
+	
+						<p:column headerText="Proposer Name">
+							<h:outputText value="#{row.licOblApplicationMst.licProposerDtls.name}" />
+						</p:column>
+	
+						<p:column headerText="Product Name">
+							<h:outputText value="#{row.licOblApplicationMst.licProductValueMst.licProductMst.prodDesc}" />
+						</p:column>
+	
+						<p:column headerText="Short Premium Amount">
+							<h:outputText value="#{row.amount}" />
+						</p:column>
+	
+						<p:column headerText="Print Status">
+							<p:selectOneMenu value="#{row.printFlag}" disabled="true">
+								<f:selectItem itemLabel="Yes" itemValue="Y" />
+								<f:selectItem itemLabel="No" itemValue="N" />
+							</p:selectOneMenu>
+						</p:column>
+	
+						<p:column headerText="Print" >
+							<p:commandLink value="Print" style="font-weight:bold" action="#{licPosPrintReceiptAction.printPage(row)}" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

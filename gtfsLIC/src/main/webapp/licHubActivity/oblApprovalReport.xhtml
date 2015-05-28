@@ -1,0 +1,117 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	<p:panel id="search" header="Search Criteria" style="margin-bottom:20px">
+	        		<h:panelGrid columns="6" cellpadding="6" columnClasses="label,value, label2,value, label2,value" >
+	        			<p:outputLabel value="Form Date:" for="fromDate"/>
+	        			<p:calendar id="fromDate" value="#{oblApprovalReportAction.fromDate}" navigator="true" pattern="dd/MM/yyyy" />
+	        			
+	        			<p:outputLabel value="To Date:" for="toDate"/>
+	        			<p:calendar id="toDate" value="#{oblApprovalReportAction.toDate}" navigator="true" pattern="dd/MM/yyyy" />
+	        			
+	        			<p:outputLabel value="Applicant Name:" for="applicantName"/>
+	        			<p:inputText id="applicantName" value="#{oblApprovalReportAction.applicantName}"/>
+	        			
+	        			<p:outputLabel value="Premium:" for="premium"/>
+	        			<p:inputText id="premium" value="#{oblApprovalReportAction.premium}"/>
+	        			
+	        			<p:outputLabel value="Sum Assured:" for="sumAssured"/>
+	        			<p:inputText id="sumAssured" value="#{oblApprovalReportAction.sumAssured}" >
+	        				<f:convertNumber pattern="#.##" />
+	        			</p:inputText>
+	        			
+	        			<p:outputLabel value="Term:" for="term"/>
+	        			<p:inputText id="term" value="#{oblApprovalReportAction.term}"/>
+	        			
+	        			<p:outputLabel value="Application No:" for="applicationNo"/>
+	        			<p:inputText id="applicationNo" value="#{oblApprovalReportAction.applicationNo}"/>	
+	        			
+	        			<p:outputLabel value="Policy No:" for="policyNo"/>
+	        			<p:inputText id="policyNo" value="#{oblApprovalReportAction.policyNo}"/>
+	        			
+	        			<p:outputLabel value="Proposal No :" for="proposalNo" />
+		    			<p:inputText id="proposalNo" value="#{oblApprovalReportAction.proposalNo}"/>
+	        			
+	        		</h:panelGrid>
+	        		
+	        		<f:facet name="footer">
+	        			<p:commandButton value="Search" actionListener="#{oblApprovalReportAction.onSearchApplStatusReport()}" update=":listForm:listOutputPanel,:searchForm:searchOutputPanel" icon="ui-icon-search" style="font-weight:bolder" onclick="processDialog.show();" oncomplete="$('.ui-state-error'); processDialog.hide();"/>
+	        		</f:facet>
+	        	</p:panel>
+	    	</p:outputPanel>
+	    </h:form>
+	    
+	    <h:form id="listForm">
+	    	<p:outputPanel id="listOutputPanel">
+	    		<p:panel id="listPanel" style="margin-bottom:20px" rendered="#{oblApprovalReportAction.renderedList}">
+	    			<p:dataTable id="table" value="#{oblApprovalReportAction.licPolicyMsts}" var="row" rowIndexVar="sr" paginatorPosition="bottom" paginator="true" rows="10">
+	    				
+	    				<f:facet name="header">
+                   				Application Status Report
+                   				<span style="float: right;">Record(s) Found : #{fn:length(oblApprovalReportAction.licPolicyMsts)}</span>
+							</f:facet>
+	    				
+	    				<p:column headerText="Serial No.">
+	    					<h:outputText value="#{sr+1}" />
+	    				</p:column>
+	    				
+	    				<p:column headerText="Application No">
+					        <h:outputText value="#{row.licOblApplicationMst.oblApplNo}" />
+					    </p:column>
+					    
+					    <p:column headerText="Business Date">
+					        <p:calendar value="#{row.licOblApplicationMst.businessDate}" pattern="dd/MM/yyyy" disabled="true" />
+					    </p:column>
+					    
+					    <p:column headerText="Insured Name">
+					        <h:outputText value="#{row.licOblApplicationMst.licInsuredDtls.name}" />
+					    </p:column>
+					    
+					    <p:column headerText="Proposer Name">
+					        <h:outputText value="#{row.licOblApplicationMst.licProposerDtls.name}" />
+					    </p:column>
+					    
+					    <p:column headerText="Branch Name">
+					        <h:outputText value="#{row.licOblApplicationMst.branchMst.branchName}" />
+					    </p:column>
+					    
+					    <p:column headerText="LIC Branch Name">
+					        <h:outputText value="#{row.licOblApplicationMst.picBranchMstId.picBranchName}" />
+					    </p:column>
+					    
+					     <p:column headerText="Sum Assured">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.sumAssured}" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					   	
+					    <p:column headerText="Short Premium">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.shortAmount}"  >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					    
+					    <p:column headerText="Total Premium">
+					        <h:outputText value="#{row.licOblApplicationMst.licProductValueMst.basicPrem + row.licOblApplicationMst.licProductValueMst.shortAmount + row.licOblApplicationMst.licProductValueMst.taxOnPrem}" >
+					        	<f:convertNumber pattern="#.##" />
+					        </h:outputText>
+					    </p:column>
+					    
+					    <p:column headerText="Show Details">
+					    	 <p:commandLink value="Show Detail" actionListener="#{oblApprovalReportAction.showDetail(row)}" onclick="processDialog.show();" oncomplete="$('.ui-state-error'); processDialog.hide();"/>
+					    </p:column>
+	    			</p:dataTable>
+	    		</p:panel>
+	    	</p:outputPanel>
+	    </h:form>
+    </ui:define>
+</ui:composition>

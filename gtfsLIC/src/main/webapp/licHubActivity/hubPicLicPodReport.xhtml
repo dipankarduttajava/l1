@@ -1,0 +1,132 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="searchForm">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	<p:panel id="search" header="Search Criteria" style="margin-bottom:20px">
+	        		 <h:panelGrid columns="7" columnClasses="label,value, label2,value, label2,value, label2,value">
+			        	<p:outputLabel for="bnsFromDate" value="Business From Date :"/>
+			        	<p:calendar id="bnsFromDate" value="#{hubPicLicPodReportAction.businessFromDate}" pattern="dd/MM/yyyy" navigator="true" required="true" requiredMessage="Please Enter Business From Date" />
+			        	
+			        	<p:outputLabel for="bnsToDate" value="Business To Date :"/>
+			        	<p:calendar id="bnsToDate" value="#{hubPicLicPodReportAction.businessToDate}" pattern="dd/MM/yyyy" navigator="true" required="true" requiredMessage="Please Enter Business To Date" />
+			        	
+			        	<p:commandButton value="Search" actionListener="#{hubPicLicPodReportAction.onSearch()}" update="searchOutputPanel, listOutputPanel"  icon="ui-icon-search" style="font-weight:bolder" />
+			        </h:panelGrid>
+	        	</p:panel>
+	    	</p:outputPanel>
+
+	    	<p:outputPanel id="listOutputPanel">
+    			<p:outputPanel style="text-align: right; margin-bottom: 3px; margin-right: 20px;" layout="block" >
+					<p:commandButton ajax="false" icon="xls" style="background-color: #FFFFFF; " >
+				    	<p:dataExporter type="xls" target="table" fileName="PicPodReport" />
+					</p:commandButton>
+				</p:outputPanel>
+		    	<p:panel id="list" style="margin-bottom:20px" rendered="#{hubPicLicPodReportAction.renderedPanel}">
+		    		<p:dataTable id="table" value="#{hubPicLicPodReportAction.licOblApplicationMstList}" var="row" rowIndexVar="sr" rows="10" paginator="true" paginatorPosition="bottom">
+		    				
+		    				<f:facet name="header">
+                   				PIC POD Report List
+                   				<span style="float: right;">Record(s) Found : #{fn:length(hubPicLicPodReportAction.licOblApplicationMstList)}</span>
+							</f:facet>
+						
+		    				<p:column>
+		    					<f:facet name="header">
+	                				<h:outputText value="Sl. No." />
+	           					</f:facet>
+		    					<h:outputText value="#{sr+1}" />
+		    				</p:column>
+		    				
+		    				<p:column>
+								<f:facet name="header">
+	                				<h:outputText value="Dispatch No" />
+	           					</f:facet>
+								<h:outputText value="#{row.hubPicMapDtls.id}" />
+							</p:column>
+							
+							<p:column>
+								<f:facet name="header">
+	                				<h:outputText value="Pod No" />
+	           					</f:facet>
+									<h:outputText value="#{row.brnhHubPodDtls.id}" />
+							</p:column>
+		    				
+		    				<p:column>
+			    				<f:facet name="header">
+	                				<h:outputText value="Application No" />
+	           					</f:facet>
+						        <h:outputText value="#{row.oblApplNo}" />
+						    </p:column>
+						    
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="Business Date" />
+	           					</f:facet>
+						        <p:calendar value="#{row.businessDate}" pattern="dd/MM/yyyy" disabled="true" size="8"/>
+						    </p:column>
+						    
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="Insured Name" />
+	           					</f:facet>
+						        <h:outputText value="#{row.licInsuredDtls.name}" />
+						    </p:column>
+						   
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="Proposer Name" />
+	           					</f:facet>
+						        <h:outputText value="#{row.licProposerDtls.name}" />
+						    </p:column>
+						    
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="HUB Name" />
+	           					</f:facet>
+						        <h:outputText value="#{row.oblHubMst.hubName}" />
+						    </p:column>
+						    
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="Branch Name" />
+	           					</f:facet>
+						        <h:outputText value="#{row.branchMst.branchName}" />
+						    </p:column>
+						    
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="LIC Branch Name" />
+	           					</f:facet>
+						        <h:outputText value="#{row.picBranchMstId.picBranchName}" />
+						    </p:column>
+						   
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="Total Received" style="font-weight:bold" />
+	           					</f:facet>
+						        <h:outputText value="#{row.licBusinessTxn.licPaymentMst.totalReceived}" style="font-weight:bold" >
+						        	<f:convertNumber pattern="#.##" />
+						        </h:outputText>
+						    </p:column>
+						    
+						    <p:column>
+						    	<f:facet name="header">
+	                				<h:outputText value="Sum Assured" />
+	           					</f:facet>
+						        <h:outputText value="#{row.licProductValueMst.sumAssured}" >
+						        	<f:convertNumber pattern="#.##" />
+						        </h:outputText>
+						    </p:column>
+		    		</p:dataTable>
+		    	</p:panel>
+		    </p:outputPanel>
+	    </h:form>
+    </ui:define>
+</ui:composition>

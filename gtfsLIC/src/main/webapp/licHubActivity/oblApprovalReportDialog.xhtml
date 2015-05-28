@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core">
+     
+    <h:head>
+        <title>Modify Dialog</title>
+                <style type="text/css">
+            .ui-widget {
+                font-size: 85%;
+            }
+        </style>
+    </h:head>
+     
+    <h:body>
+     <h:form id="dialogForm">
+	     <p:outputPanel id="dialogOutputPanel">
+	       	 <p:panel id="policyDtls" style="margin-bottom:20px">
+		        	<h:panelGrid columns="4" columnClasses="label,value, label2,value">
+		        		<h:outputLabel for="applNo" value="Application No :"/>
+		        		<h:outputText id="applNo" value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.oblApplNo}"/>
+		        		
+		        		<h:outputLabel for="businessDate" value="Business Date :"/>
+		        		<h:outputText id="businessDate" value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.businessDate}" >
+		        			<f:convertDateTime pattern="dd/MM/yyyy"/>
+		        		</h:outputText>
+		        		
+		        		<h:outputLabel for="prodDesc" value="Plan Name :"/>
+		        		<h:outputText id="prodDesc" value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.licProductValueMst.licProductMst.prodDesc}"/>
+		        				        		
+		        		<h:outputLabel for="insuredName" value="Insured Name :"/>
+		        		<h:outputText id="insuredName" value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.licInsuredDtls.name}"/>
+		        		
+		        		<h:outputLabel for="insuredDob" value="Insured DOB :"/>
+		        		<h:outputText id="insuredDob" value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.licInsuredDtls.dob}">
+		        			<f:convertDateTime pattern="dd/MM/yyyy" />
+		        		</h:outputText>
+		        				        		
+		        		<h:outputLabel for="proposerName" value="Proposer Name :"/>
+		        		<h:outputText id="proposerName" value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.licProposerDtls.name}"/>
+		        		
+		        		<h:outputLabel for="branchName" value="Branch Name :"/>
+		        		<h:outputText id="branchName" value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.branchMst.branchName}" />
+		        		
+		        		<h:outputLabel for="licBranchName" value="LIC Branch Name :"/>
+		        		<h:outputText id="licBranchName" value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.picBranchMstId.picBranchName}" />
+		        		
+		        		<h:outputLabel for="sumAssured" value="Sum Assured :"/>
+		        		<h:outputText id="sumAssured" value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.licProductValueMst.sumAssured}" />
+		        		
+		        		<h:outputLabel for="shortPrem" value="Short Premium :"/>
+		        		<h:outputText id="shortPrem" value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.licProductValueMst.shortAmount}"/>
+		        		
+		        		<h:outputLabel for="totalPrem" value="Total Premium :"/>
+		        		<h:outputText id="totalPrem" value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.licProductValueMst.basicPrem + oblApprovalAction.licPolicyMstDialog.licOblApplicationMst.licProductValueMst.shortAmount + oblApprovalAction.licPolicyMstDialog.licOblApplicationMst.licProductValueMst.taxOnPrem}"/>
+		        		
+		        		<h:outputLabel for="policyTerm" value="Policy Term :"/>
+		        		<h:outputText id="policyTerm" value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.licProductValueMst.policyTerm}" />
+		        		
+		        		<h:outputLabel for="payNature" value="Pay Nature :"/>
+		        		<h:outputText id="payNature" value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.licProductValueMst.payNature}" />
+		        		
+		        		<h:outputLabel for="policyNo" value="Policy No :"/>
+		        		<h:outputText id="policyNo" value="#{oblApprovalReportAction.licPolicyMstDialog.policyNo}"/>
+		        		
+		        		<h:outputLabel for="acceptDate" value="Accepted Date :"/>
+		        		<h:outputText id="acceptDate" value="#{oblApprovalReportAction.licPolicyMstDialog.acceptDate}">
+		        			<f:convertDateTime pattern="dd/MM/yyyy"/>
+		        		</h:outputText>
+		        		
+		        		<h:outputLabel for="riskStartDate" value="Risk Start Date :"/>
+		        		<h:outputText id="riskStartDate" value="#{oblApprovalReportAction.licPolicyMstDialog.riskStartDate}" >
+		        			<f:convertDateTime pattern="dd/MM/yyyy"/>
+		        		</h:outputText>
+		        		
+		        		<h:outputLabel for="proposalNo" value="Proposal No :"/>
+		        		<h:outputText id="proposalNo" value="#{oblApprovalReportAction.licPolicyMstDialog.proposalNo}"/>
+		        		
+		        		<h:outputLabel for="policyStatus" value="Policy Status :"/>
+		        		<h:outputText id="policyStatus" value="#{oblApprovalReportAction.licPolicyMstDialog.policyStatus}"/>
+		        		
+		        		<h:outputLabel for="fprFlag" value="FPR Tag Done :"/>
+		        		<h:outputText id="fprFlag" value="#{oblApprovalReportAction.licPolicyMstDialog.fprFlag}"/>
+		        		
+		        		<h:outputLabel for="bondFlag" value="Bond Tag Done :"/>
+		        		<h:outputText id="bondFlag" value="#{oblApprovalReportAction.licPolicyMstDialog.bondFlag}"/>
+		        		
+		        		
+		        	</h:panelGrid>	
+		        	
+		        	<p:separator style="width:100%"/>
+		        	
+		        	<h:dataTable  value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.licNomineeDtlses}" var="row"
+		        		border="1">
+		        		<h:column>
+		    				<f:facet name="header">Nominee Name</f:facet>
+		    				<h:outputText value="#{row.nomineeName}"/>
+		    			</h:column>
+		    			<h:column>
+		    				<f:facet name="header">Nominee Rlns</f:facet>
+		    				<h:outputText value="#{row.nomineeRlnshp}" />
+		    			</h:column>
+		    			<h:column>
+		    				<f:facet name="header">Nominee DOB</f:facet>
+		    				<h:outputText value="#{row.nomineeDob}">
+		    					<f:convertDateTime pattern="dd/MM/yyyy"/>
+		    				</h:outputText>
+		    			</h:column>
+		        	</h:dataTable>
+		        	
+		        	<p:separator style="width:100%"/>
+		        	
+		        	<h:dataTable  value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.licInsuredDtls.licInsuredAddressMappings}" var="row"
+		        		border="1">
+		        		<h:column>
+		    				<f:facet name="header">Address1</f:facet>
+		    				<h:outputText value="#{row.licAddressDtls.address1}"/>
+		    			</h:column>
+		    			<h:column>
+		    				<f:facet name="header">Address2</f:facet>
+		    				<h:outputText value="#{row.licAddressDtls.address2}" />
+		    			</h:column>
+		        	</h:dataTable>
+		        	
+		        	<p:separator style="width:100%"/>
+		        	
+		        	<h:dataTable  value="#{oblApprovalReportAction.licPolicyMstDialog.licOblApplicationMst.licApplBocMappings}" var="row"
+		        		border="1">
+		        		<h:column>
+		    				<f:facet name="header">Boc</f:facet>
+		    				<h:outputText value="#{row.licBocDetailEntry.boc}"/>
+		    			</h:column>
+		    			<h:column>
+		    				<f:facet name="header">Boc Date</f:facet>
+		    				<h:outputText value="#{row.licBocDetailEntry.bocDate}">
+		    					<f:convertDateTime pattern="dd/MM/yyyy"/>
+		    				</h:outputText>
+		    			</h:column>
+		        	</h:dataTable>
+		        	
+		        	<p:separator style="width:100%"/>
+		        	
+		        	<h:dataTable  value="#{oblApprovalReportAction.licReqBocMappings}" var="row"
+		        		border="1">
+		        		<h:column>
+		    				<f:facet name="header">Short Premium Boc</f:facet>
+		    				<h:outputText value="#{row.licBocDetailEntry.boc}"/>
+		    			</h:column>
+		    			<h:column>
+		    				<f:facet name="header">Short Premium Boc Date</f:facet>
+		    				<h:outputText value="#{row.licBocDetailEntry.bocDate}">
+		    					<f:convertDateTime pattern="dd/MM/yyyy"/>
+		    				</h:outputText>
+		    			</h:column>
+		        	</h:dataTable>
+		        	
+	       	 </p:panel>
+		 </p:outputPanel>
+	 </h:form>
+    </h:body>
+     
+</html>

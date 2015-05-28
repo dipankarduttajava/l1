@@ -1,0 +1,412 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/template/layout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="formSearch">
+        	<p:messages showDetail="true" autoUpdate="true" closable="true" />
+        	<p:outputPanel id="searchOutputPanel">
+	        	 <p:panel id="searchPanel" header="Search Application" rendered="#{licSecondaryDataEntryAction.renderedsearchPanel}">
+			        <h:panelGrid columns="5" columnClasses="label,value, label2,value, label2,value">
+						<p:outputLabel value="Date:" for="applDate"/>
+						<p:calendar id="applDate" pattern="dd/MM/yyyy" value="#{licSecondaryDataEntryAction.applicationDate}" navigator="true" />
+						
+						<p:outputLabel value="Application Number:" for="applNo"/>
+						<p:inputText id="applNo" value="#{licSecondaryDataEntryAction.applicationNo}" />
+							
+						<p:commandButton value="Search" actionListener="#{licSecondaryDataEntryAction.search}" update=":formSearch:searchOutputPanel,:formList:listOutputPanel" icon="ui-icon-search" style="font-weight:bolder" />
+					</h:panelGrid>
+			    </p:panel>
+			</p:outputPanel>
+        </h:form>
+        
+        <h:form id="formList">
+        	<p:outputPanel id="listOutputPanel">
+        	 	<p:panel id="listPanel" rendered="#{licSecondaryDataEntryAction.renderedListPanel}">
+			       <p:dataTable var="row" value="#{licSecondaryDataEntryAction.licOblApplicationMstList}">
+			       
+			       		<f:facet name="header">
+	                    	Secondary Data Entry List
+	                    	<span style="float: right;">Record(s) Found : #{fn:length(licSecondaryDataEntryAction.licOblApplicationMstList)}</span>
+						</f:facet>
+						
+					    <p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Application No" />
+					    	</f:facet>
+					        <h:outputText value="#{row.oblApplNo}" />
+					    </p:column>
+					    
+					    <p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Business Date" />
+					    	</f:facet>
+					        <h:outputText value="#{row.businessDate}">
+					        	<f:convertDateTime pattern="dd/MM/yyyy"/>
+					        </h:outputText>
+					    </p:column>
+					 	
+					 	<p:column>
+					 		<f:facet name="header">
+					    		<h:outputText value="Insured Name" />
+					    	</f:facet>
+					        <h:outputText value="#{row.licInsuredDtls.name}" />
+					    </p:column>
+					    
+					    <p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Proposer Name" />
+					    	</f:facet>
+					        <h:outputText value="#{row.licProposerDtls.name}" />
+					    </p:column>
+					    
+					    <p:column>
+					   		<f:facet name="header">
+					    		<h:outputText value="Product Name" />
+					    	</f:facet>
+					        <h:outputText value="#{row.licProductValueMst.licProductMst.prodDesc}" />
+					    </p:column>
+					    
+					    <p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Total Received" />
+					    	</f:facet>
+					        <h:outputText value="#{row.licBusinessTxn.licPaymentMst.totalReceived}" style="font-weight: bold" >
+					        	<f:convertNumber pattern="#.##"/>
+					        </h:outputText>
+					    </p:column>
+					    
+					    <p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Already Modified" />
+					    	</f:facet>
+					        <h:selectOneMenu value="#{row.secondaryEntryFlag}" disabled="true">
+								<f:selectItem itemLabel="Yes" itemValue="Y" />
+								<f:selectItem itemLabel="No" itemValue="N" />
+							</h:selectOneMenu>
+					    </p:column>
+					    
+					    <p:column>
+					    	<f:facet name="header">
+					    		<h:outputText value="Click Here" />
+					    	</f:facet>
+					       <p:commandLink value="Click Here" actionListener="#{licSecondaryDataEntryAction.editDetail(row)}" update=":detailForm:listOutputPanel,:formSearch:searchOutputPanel,:formList:listOutputPanel" style="font-weight:bolder; color:black" />
+					    </p:column>
+					</p:dataTable>
+		     	</p:panel>
+		     </p:outputPanel>
+        </h:form>
+        
+        <h:form id="detailForm">
+        	<p:outputPanel id="listOutputPanel">
+        	 	<p:panel id="showDetails" header="Detail Data Entry" style="margin-bottom:20px" rendered="#{licSecondaryDataEntryAction.renderedDetailForm}" toggleable="true" toggleSpeed="500">
+        	 		<p:panel id="personalDetail" header="Personal Details" style="margin-bottom:20px">
+        	 			<h:panelGrid columns="8" styleClass="grid"  columnClasses="label,value, label2,value, label2,value, label2,value">
+        	 				<p:outputLabel value="Agent Code" for="agentCode"/>
+							<p:outputLabel id="agentCode" value="#{licSecondaryDataEntryAction.licOblApplicationMst.agentMst.agCode}" />
+        	 				
+        	 				<p:outputLabel value="Insured Name :"/>
+							<p:outputLabel value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.name}" />
+							
+							<p:outputLabel value="Insured Date Of Birth :"/>
+							<p:outputLabel id="insuredDob" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.dob}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Proposer Name :"/>
+							<p:outputLabel id="proposerName" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licProposerDtls.name}" />
+							
+							<p:outputLabel value="Proposer Date Of Birth :"/>
+							<p:outputLabel id="proposerDob" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licProposerDtls.dob}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</p:outputLabel>
+							
+							<p:outputLabel value="Application Number :"/>
+							<p:outputLabel id="applicationNo" value="#{licSecondaryDataEntryAction.licOblApplicationMst.oblApplNo}" />
+							
+							<p:outputLabel value="Product Name :"/>
+							<p:outputLabel id="productName" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licProductValueMst.licProductMst.prodDesc}" />
+							
+							<p:outputLabel value="Total Received :" style="font-weight: bold" />
+							<p:outputLabel id="premiumAmt" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licBusinessTxn.licPaymentMst.totalReceived}" style="font-weight: bold" >
+								<f:convertNumber pattern="#.##"/>
+							</p:outputLabel>
+        	 			</h:panelGrid>
+        	 		</p:panel>
+        	 	
+	        	 	<p:panel id="insuredDetail" header="Insured Details" style="margin-bottom:20px" toggleable="true" toggleSpeed="500">
+	        	 			<h:panelGrid columns="6" styleClass="grid" columnClasses="label,value, label2,value, label2,value">
+	        	 				<p:outputLabel value="Salutation : " for="salutation"/>
+								<p:selectOneMenu id="salutation" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.salutation}" required="true" requiredMessage="Please Select">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									 <f:selectItem itemLabel="Mr." itemValue="Mr." />
+									 <f:selectItem itemLabel="Ms." itemValue="Ms." />
+									 <f:selectItem itemLabel="Mrs." itemValue="Mrs." />
+									 <p:ajax event="change" partialSubmit="true"/>
+								</p:selectOneMenu>
+								
+								<p:outputLabel value="Marital Status : " for="maritalStatus"/>
+								<p:selectOneMenu id="maritalStatus" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.maritalStatus}" required="true" requiredMessage="Please Select Marital Status">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									 <f:selectItem itemLabel="Married" itemValue="Married" />
+									 <f:selectItem itemLabel="UnMarried" itemValue="UnMarried" />
+									 <p:ajax listener="#{licSecondaryDataEntryAction.maritalStatusChangeListener()}" event="change" update=":detailForm:insuredDetail" />
+									 <p:ajax listener="#{licSecondaryDataEntryAction.maritalStatusChangeListener()}" event="blur" update=":detailForm:insuredDetail" />
+								</p:selectOneMenu>
+								
+								<p:outputLabel value="Name Of Life Insured :" for="insuredName"/>
+								<p:outputLabel id="insuredName" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.name}" />
+								
+								<p:outputLabel value="DOB Of Insured :" for="dobOfInsured"/>
+								<p:calendar id="dobOfInsured" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.dob}" pattern="dd/MM/yyyy" disabled="true"/>
+								
+								<p:outputLabel value="Father's Name :" for="fatherName"/>
+								<p:inputText id="fatherName" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.fatherName}" validatorMessage="Father Name Not Valid" required="true" requiredMessage="Please Enter Father's name">
+									<f:validateRegex pattern="[a-z|| ||A-Z]*" />
+								</p:inputText>
+								
+								<p:outputLabel for="hunbandName" value="Husband's Name :" />
+								<p:inputText id="hunbandName" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.husbandName}" validatorMessage="Husband Name Not Valid" required="#{licSecondaryDataEntryAction.requiredHusband}" requiredMessage="Please Enter Husband Name">
+									<f:validateRegex pattern="[a-z|| ||A-Z]*" />
+								</p:inputText>
+								
+								<p:outputLabel value="MOBILE / PHONE NO :" for="phoneNo"/>
+								<p:inputText id="phoneNo" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.phoneNo}" style="width: 120px" maxlength="11" required="true" requiredMessage="Please Enter MOBILE / PHONE NO">
+									<f:convertNumber type="number" />
+								</p:inputText>
+								
+								<p:outputLabel value="Address 1 :" for="address1"/>
+								<p:inputTextarea id="address1"  rows="7" cols="28" value="#{licSecondaryDataEntryAction.licAddressDtls.address1}" required="true" requiredMessage="Please Enter Address" >
+									<p:ajax event="change" partialSubmit="true"/>
+								</p:inputTextarea>
+								
+								<p:outputLabel value="Address 2 :" for="address2"/>
+								<p:inputTextarea id="address2" rows="7" cols="28" value="#{licSecondaryDataEntryAction.licAddressDtls.address2}" >
+									<p:ajax event="change" partialSubmit="true"/>
+								</p:inputTextarea>
+								
+								<p:outputLabel value="City/Village :" for="cityVillage"/>
+								<p:selectOneMenu id="cityVillage" value="#{licSecondaryDataEntryAction.licAddressDtls.cityVillageFlag}">
+									<f:selectItem itemLabel="Select One " itemValue="" />
+									<f:selectItem itemLabel="CITY" itemValue="C"/>
+									<f:selectItem itemLabel="VILLAGE" itemValue="V"/>
+								</p:selectOneMenu>
+								
+								<p:outputLabel value="State :" for="state"/>
+								<p:selectOneMenu id="state" value="#{licSecondaryDataEntryAction.licAddressDtls.stateMst}" converter="#{stateMstConverter}" required="true" requiredMessage="Please Select State">
+									<f:selectItem itemLabel="Select One " itemValue="#{null}" />
+									<f:selectItems itemLabel="#{row.stateName}" itemValue="#{row}" value="#{licSecondaryDataEntryAction.stateMsts}" var="row" />
+								</p:selectOneMenu>
+								
+								<p:outputLabel value="Pin :" for="pin"/>
+								<p:inputText id="pin" value="#{licSecondaryDataEntryAction.licAddressDtls.pin}" required="true" requiredMessage="Enter Valid Pin Code" style="width: 120px" validatorMessage="Pin Code Not Valid" maxlength="6" >
+									<f:validateRegex pattern="[0-9]*" />
+									<f:validateLength maximum="6" minimum="6"/>
+								</p:inputText>
+								
+								<!-- <p:outputLabel value="Mobile No :" for="mobileNo"/>
+								<p:inputText id="mobileNo" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.mobileNo}" maxlength="10" style="width: 120px" validatorMessage="Mobile Number Not Valid">
+									<f:convertNumber type="number" />
+								</p:inputText> -->
+								
+								<p:outputLabel value="Height(cm) :" for="height"/>
+								<p:inputText id="height" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.height}" style="width: 120px" required="true" requiredMessage="Please Enter Height" maxlength="3" >
+									<f:validateLength minimum="2" maximum="3" />
+								</p:inputText>
+	        	 				
+	        	 				<p:outputLabel value="Weight(Kg) :" for="weight"/>
+								<p:inputText id="weight" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.weight}" style="width: 120px" required="true" requiredMessage="Please Enter Weight" maxlength="3">
+									<f:validateLength maximum="3" />
+								</p:inputText>
+	        	 			
+<!-- 	        	 				<p:outputLabel value="Nature Of Age Proof :" for="ageProofNature"/> -->
+<!-- 								<p:selectOneMenu id="ageProofNature" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.ageProofNature}" converter="#{licProofMstConverter}" style="width: 120px"> -->
+<!-- 									<f:selectItem itemLabel="Select One" itemValue="" /> -->
+<!-- 									<f:selectItems value="#{licSecondaryDataEntryAction.ageProofList}" var="row" itemLabel="#{row.proofName}" itemValue="#{row}"/> -->
+<!-- 								</p:selectOneMenu> -->
+								
+								<p:outputLabel value="Identity Proof :" for="identityProof"/>
+								<p:selectOneMenu id="identityProof" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.identityProof}" converter="#{licProofMstConverter}">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{licSecondaryDataEntryAction.identityProofList}" var="row" itemLabel="#{row.proofName}" itemValue="#{row}" style="width: 120px"/>
+								</p:selectOneMenu>
+								
+								<p:outputLabel value="Address Proof :" for="ageProof"/>
+								<p:selectOneMenu id="ageProof" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.addrProof}" style="width: 120px" converter="#{licProofMstConverter}">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{licSecondaryDataEntryAction.addrProofList}" var="row" itemLabel="#{row.proofName}" itemValue="#{row}"/>
+								</p:selectOneMenu>
+								
+								<p:outputLabel value="Income Proof :" for="incomeProof"/>
+								<p:selectOneMenu id="incomeProof" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.incomeProof}" style="width: 120px" converter="#{licProofMstConverter}">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{licSecondaryDataEntryAction.incomeProofList}" var="row" itemLabel="#{row.proofName}" itemValue="#{row}"/>
+								</p:selectOneMenu>
+								
+								<p:outputLabel for="insNomFlag" value="Is Insured And Nominee Address Same ?:" style="display: block; width: 100px;"/>
+								<p:selectBooleanCheckbox id="insNomFlag" value="#{licSecondaryDataEntryAction.insuredNomineeAddressSameFlag}" >
+									<p:ajax listener="#{licSecondaryDataEntryAction.insuredNomineeAddressSameFlagListener()}" update=":detailForm:nomineeDetail"/>
+								</p:selectBooleanCheckbox>
+	        	 			</h:panelGrid>
+	        	 			<p:spacer height="10"/>
+	        	 	</p:panel>
+        	 	
+	        	 	<p:panel id="bankDetail" header="Bank Details" style="margin-bottom:20px" toggleable="true" toggleSpeed="500">        	 		
+	        	 		<h:panelGrid columns="6" styleClass="grid" columnClasses="label,value, label2,value, label2,value">
+	        	 			<p:outputLabel value="IFSC Code:" for="ifscCode"/>
+	        	 			<p:inputText id="ifscCode" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredBankDtls.ifsCode}">
+	        	 				<p:ajax listener="#{licSecondaryDataEntryAction.searchByIfscCode()}" event="blur" update="bankDetail"/>
+	        	 			</p:inputText>
+	        	 			
+	        	 			<p:outputLabel value="Account No:" for="acctNo"/>
+	        	 			<p:inputText id="acctNo" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredBankDtls.acctNo}" required="#{licSecondaryDataEntryAction.requiredAccountNo}" requiredMessage="Please Enter Account Number"/>
+	        	 			
+	        	 			<p:outputLabel value="Bank Name:" for="bankName"/>
+	        	 			<p:inputText id="bankName" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredBankDtls.bankName}" disabled="true"/>
+	        	 			
+	        	 			<p:outputLabel value="Branch Name:" for="branchName"/>
+	        	 			<p:inputText id="branchName" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredBankDtls.bankBranch}" disabled="true"/>
+	        	 			
+	        	 			<p:outputLabel value="MICR Code:" for="micrCode"/>
+	        	 			<p:inputText id="micrCode" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredBankDtls.micrCode}" disabled="true"/>
+	        	 		</h:panelGrid>
+	        	 	</p:panel>
+        	 	
+	        	 	<p:panel id="nomineeDetail" header="Nominee Details" style="margin-bottom:20px" toggleable="true" toggleSpeed="500">
+	        	 		<h:panelGrid columns="4" styleClass="grid" columnClasses="label,value, label2,value, label2,value">
+	        	 			<p:outputLabel value="Nominee Name :" for="nomineeName"/>
+	        	 			<p:inputText id="nomineeName" value="#{licSecondaryDataEntryAction.licNomineeDtls.nomineeName}" required="true" requiredMessage="Please Enter Name" validatorMessage="Nominee Name Not Valid">
+	        	 				<f:validateRegex pattern="[a-z|| ||A-Z]*" />
+	        	 			</p:inputText>
+	        	 			
+	        	 			<p:outputLabel value="Relationship With Nominee :" for="nomineeRlns"/>
+	        	 			<p:selectOneMenu id="nomineeRlns" value="#{licSecondaryDataEntryAction.licNomineeDtls.nomineeRlnshp}" required="true" requiredMessage="Please Select Nominee Relationship">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItem itemLabel="Aunt" itemValue="Aunt"/>
+									<f:selectItem itemLabel="Brother" itemValue="Brother"/>
+									<f:selectItem itemLabel="Brother-in-law" itemValue="Brother-in-law"/>
+									<f:selectItem itemLabel="Daughter" itemValue="Daughter"/>
+									<f:selectItem itemLabel="Grand Mother" itemValue="Grand Mother"/>
+									<f:selectItem itemLabel="Father" itemValue="Father"/>
+									<f:selectItem itemLabel="Father-in-law" itemValue="Father-in-law"/>
+									<f:selectItem itemLabel="Friend" itemValue="Friend"/>
+									<f:selectItem itemLabel="Grand Father" itemValue="Grand Father"/>
+									<f:selectItem itemLabel="Grand Mother" itemValue="Grand Mother"/>
+									<f:selectItem itemLabel="Husband" itemValue="Husband"/>
+									<f:selectItem itemLabel="Mother" itemValue="Mother"/>
+									<f:selectItem itemLabel="Mother-in-law" itemValue="Mother-in-law"/>
+									<f:selectItem itemLabel="Nephew" itemValue="Nephew"/>
+									<f:selectItem itemLabel="Niece" itemValue="Niece"/>
+									<f:selectItem itemLabel="Sister" itemValue="Sister"/>
+									<f:selectItem itemLabel="Sister-in-law" itemValue="Sister-in-law"/>
+									<f:selectItem itemLabel="Uncle" itemValue="Uncle"/>
+									<f:selectItem itemLabel="Wife" itemValue="Wife"/>
+								</p:selectOneMenu>
+								
+								<p:outputLabel value="Nominee Date Of Birth :" for="nomineeDob"/>
+								<p:calendar id="nomineeDob" value="#{licSecondaryDataEntryAction.licNomineeDtls.nomineeDob}" pattern="dd/MM/yyyy" navigator="true" required="true" requiredMessage="Please Enter Nominee DOB" >
+									<p:ajax listener="#{licSecondaryDataEntryAction.validateApointee()}" event="dateSelect" update=":detailForm:apointeeDetail"/>
+									<p:ajax listener="#{licSecondaryDataEntryAction.validateApointee()}" event="blur" update=":detailForm:apointeeDetail"/>
+								</p:calendar>
+								
+								<p:outputLabel value="Nominee Address :" for="nomineeAddress"/>
+								<p:inputTextarea id="nomineeAddress" rows="7" cols="35" value="#{licSecondaryDataEntryAction.licNomineeDtls.nomineeAddress}" />
+	        	 		</h:panelGrid>
+	        	 	</p:panel>
+	        	 	
+	        	 	<p:panel id="apointeeDetail" header="Apointee Details" style="margin-bottom:20px" toggleable="true" toggleSpeed="500">
+	        	 		<h:panelGrid columns="6" columnClasses="label,value, label2,value, label2,value">
+        	 				<p:outputLabel value="Appointee Name :" for="appointeeName"/>
+        	 				<p:inputText id="appointeeName" value="#{licSecondaryDataEntryAction.licNomineeDtls.appointeeName}" required="#{licSecondaryDataEntryAction.requiredApointee}" requiredMessage="Please Enter Appointee Name" >
+        	 					<f:validateRegex pattern="[a-z|| ||A-Z]*" />
+        	 				</p:inputText>
+        	 				
+        	 				<p:outputLabel value="Appointee Relation :" for="appointeeRelation"/>
+        	 				<p:selectOneMenu id="appointeeRelation" value="#{licSecondaryDataEntryAction.licNomineeDtls.appointeeRlnshp}" required="#{licSecondaryDataEntryAction.requiredApointee}" requiredMessage="Please Enter Appointee Relation">
+        	 					<f:selectItem itemLabel="Select One" itemValue="" />
+								<f:selectItem itemLabel="Aunt" itemValue="Aunt"/>
+								<f:selectItem itemLabel="Brother" itemValue="Brother"/>
+								<f:selectItem itemLabel="Father" itemValue="Father"/>
+								<f:selectItem itemLabel="Grand Father" itemValue="Grand Father"/>
+								<f:selectItem itemLabel="Grand Mother" itemValue="Grand Mother"/>
+								<f:selectItem itemLabel="Mother" itemValue="Mother"/>
+								<f:selectItem itemLabel="Sister" itemValue="Sister"/>
+								<f:selectItem itemLabel="Uncle" itemValue="Uncle"/>
+        	 				</p:selectOneMenu>
+							
+							<p:outputLabel value="Appointee Date Of Birth :" for="appointeeDob"/>
+							<p:calendar id="appointeeDob" value="#{licSecondaryDataEntryAction.licNomineeDtls.appointeeDob}" pattern="dd/MM/yyyy" navigator="true" required="#{licSecondaryDataEntryAction.requiredApointee}" requiredMessage="Please Enter Appointee Date Of Birth"/>
+        	 				
+<!--         	 				<p:outputLabel value="Appointee Educational Qualification :" for="appointeeEduQual"/> -->
+<!--         	 				<p:inputText id="appointeeEduQual" value="#{licSecondaryDataEntryAction.licNomineeDtls.appointeeEduQual}"/> -->
+	        	 		</h:panelGrid>
+	        	 	</p:panel>
+        	 	
+	        	 	<p:panel id="otherDetail" header="Other Details" style="margin-bottom:20px" toggleable="true" toggleSpeed="500">
+	        	 		<h:panelGrid columns="6" styleClass="grid" columnClasses="label,value, label2,value, label2,value">
+	        	 			<p:outputLabel value="Nationality :" for="nationality"/>
+							<p:inputText id="nationality" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.nationality}" style="width: 130px" validatorMessage="Nationality Not Valid">
+								<f:validateRegex pattern="[a-z|| ||A-Z]*" />
+	        	 			</p:inputText>
+							
+							<p:outputLabel value="Educational Qualification Of The Insured :" for="insuredQual"/>
+							<p:inputText id="insuredQual" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.eduQual}" required="true" requiredMessage="Please Enter Education Qualification of the Insured" />
+							
+							<p:outputLabel value="PAN Number :" for="panNumber"/>
+							<p:inputText id="panNumber" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.pan}" style="width: 130px">
+								<f:validateRegex pattern="[a-z|| ||A-Z||0-9]*" />
+							</p:inputText>
+							
+							<p:outputLabel value="E-Mail Address :" for="emailAddress"/>
+							<p:inputText id="emailAddress" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.email}" validatorMessage="E-Mail Address Not Valid">
+								<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+							</p:inputText>
+							
+							<p:outputLabel value="Occupation :" for="occupation"/>
+							<p:inputText id="occupation" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.occupation}" required="true" requiredMessage="Please Enter Occupation" />
+							
+							<p:outputLabel value="Annual Income :" for="annualIncome"/>
+							<p:inputText id="annualIncome" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.annualIncome}" style="width: 130px" required="true" requiredMessage="Please Enter Annual Income">
+								<f:convertNumber pattern="#.##" />
+							</p:inputText>
+	        	 			
+	        	 			<p:outputLabel value="Prefix :" for="prefix"/>
+	        	 			<p:selectOneMenu value="#{licSecondaryDataEntryAction.licPrintRcptDtls.prefix}" id="prefix" required="true" requiredMessage="Please Select Prefix" disabled="#{licSecondaryDataEntryAction.licOblApplicationMst.secondaryEntryFlag == 'Y'}">
+	        	 				<f:selectItem itemLabel="Please Select" itemValue=""/>
+	        	 				<f:selectItems value="#{licSecondaryDataEntryAction.prefixs}"/>
+	        	 			</p:selectOneMenu>
+	        	 			
+	        	 			<p:outputLabel value="Receipt No :" for="receiptNo"/>
+	        	 			<p:inputText id="receiptNo" value="#{licSecondaryDataEntryAction.licPrintRcptDtls.receiptNo}" required="true" requiredMessage="Please Enter Receipt No." disabled="#{licSecondaryDataEntryAction.licOblApplicationMst.secondaryEntryFlag == 'Y'}" >
+	        	 				<f:convertNumber type="number" integerOnly="true"/>
+	        	 			</p:inputText>
+	        	 			
+	        	 			<p:outputLabel value="Company Name :" for="companyName"/>
+							<p:inputText id="companyName" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.companyName}" style="width: 130px" />
+	        	 			
+	        	 			<p:outputLabel value="Company Address :" for="companyAddress"/>
+							<p:inputText id="companyAddress" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.companyAddr}" style="width: 130px" />
+							
+							<p:outputLabel value="Business Nature :" for="businessNature"/>
+							<p:inputText id="businessNature" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.businessNature}" style="width: 130px" />
+							
+							<p:outputLabel value="Designation :" for="designation"/>
+							<p:inputText id="designation" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.designation}" style="width: 130px" />
+							
+							<p:outputLabel value="Salary :" for="salary"/>
+							<p:inputText id="salary" value="#{licSecondaryDataEntryAction.licOblApplicationMst.licInsuredDtls.salary}" style="width: 130px" />							
+	        	 		</h:panelGrid>
+	        	 	</p:panel>
+        	 		
+        	 		<f:facet name="footer">
+        	 			<p:commandButton value="Process" id="process" actionListener="#{licSecondaryDataEntryAction.process()}" update=":formSearch:searchOutputPanel,:formList:listOutputPanel,:detailForm:listOutputPanel" icon="ui-icon-document" style="font-weight:bolder" />
+        	 		</f:facet>
+        	 	</p:panel>
+        	 </p:outputPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

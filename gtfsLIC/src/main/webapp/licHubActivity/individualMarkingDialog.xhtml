@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core">
+     
+    <h:head>
+        <title>Modify Dialog</title>
+                <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+     
+    <h:body>
+     <h:form id="dialogForm">
+     <p:messages showDetail="true" autoUpdate="true" closable="true" />
+	     <p:outputPanel id="dialogSearchOutputPanel">
+	       	 <p:panel id="individualPanel" header="Individual Marking" style="margin-bottom:20px">
+		        	<h:panelGrid columns="4" columnClasses="label,value, label2,value">
+		        		<p:outputLabel value="Insured Name:" for="insuredName"/>
+	        			<p:inputText id="insuredName" value="#{individualMarkingAction.licOblApplicationMst.licInsuredDtls.name}" required="true" requiredMessage="Please Enter Insured Name" />
+	        			<p:outputLabel value="Proposer Name:" for="proposerName"/>
+	        			<p:inputText id="proposerName" value="#{individualMarkingAction.licOblApplicationMst.licProposerDtls.name}" required="true" requiredMessage="Please Enter Proposer Name" />
+	        			<p:outputLabel value="Height(cm) :" for="height"/>
+						<p:inputText id="height" value="#{individualMarkingAction.licOblApplicationMst.licInsuredDtls.height}" style="width: 120px" required="true" requiredMessage="Please Enter Height" maxlength="3" >
+							<f:validateLength minimum="2" maximum="3" />
+						</p:inputText>
+       	 				<p:outputLabel value="Weight(Kg) :" for="weight"/>
+						<p:inputText id="weight" value="#{individualMarkingAction.licOblApplicationMst.licInsuredDtls.weight}" style="width: 120px" required="true" requiredMessage="Please Enter Weight" maxlength="3">
+							<f:validateLength maximum="3" />
+						</p:inputText>
+						<p:outputLabel value="MOBILE / PHONE NO :" for="phoneNo"/>
+						<p:inputText id="phoneNo" value="#{individualMarkingAction.licOblApplicationMst.licInsuredDtls.phoneNo}" style="width: 120px" maxlength="11" required="true" requiredMessage="Please Enter MOBILE / PHONE NO">
+							<f:convertNumber type="number" />
+						</p:inputText>
+						<p:outputLabel value="Address 1 :" for="address1"/>
+						<p:inputText id="address1" value="#{individualMarkingAction.licAddressDtls.address1}" required="true" requiredMessage="Please Enter Address" >
+						</p:inputText>
+						
+						<p:outputLabel value="Address 2 :" for="address2"/>
+						<p:inputText id="address2" value="#{individualMarkingAction.licAddressDtls.address2}" >
+						</p:inputText>
+						
+						<p:outputLabel value="City/Village :" for="cityVillage"/>
+						<p:selectOneMenu id="cityVillage" value="#{individualMarkingAction.licAddressDtls.cityVillageFlag}">
+							<f:selectItem itemLabel="Select One " itemValue="" />
+							<f:selectItem itemLabel="CITY" itemValue="C"/>
+							<f:selectItem itemLabel="VILLAGE" itemValue="V"/>
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="State :" for="state"/>
+						<p:selectOneMenu id="state" value="#{individualMarkingAction.licAddressDtls.stateMst}" converter="#{stateMstConverter}" required="true" requiredMessage="Please Select State">
+							<f:selectItem itemLabel="Select One " itemValue="#{null}" />
+							<f:selectItems itemLabel="#{row.stateName}" itemValue="#{row}" value="#{individualMarkingAction.stateMsts}" var="row" />
+						</p:selectOneMenu>
+						
+						<p:outputLabel value="Pin :" for="pin"/>
+						<p:inputText id="pin" value="#{individualMarkingAction.licAddressDtls.pin}" required="true" requiredMessage="Enter Valid Pin Code" style="width: 120px" validatorMessage="Pin Code Not Valid" maxlength="6" >
+							<f:validateRegex pattern="[0-9]*" />
+							<f:validateLength maximum="6" minimum="6"/>
+						</p:inputText>
+						<p:outputLabel value="Nominee Name :" for="nomineeName"/>
+        	 			<p:inputText id="nomineeName" value="#{individualMarkingAction.licNomineeDtls.nomineeName}" required="true" requiredMessage="Please Enter Name" validatorMessage="Nominee Name Not Valid">
+        	 				<f:validateRegex pattern="[a-z|| ||A-Z]*" />
+        	 			</p:inputText>
+        	 			
+        	 			<p:outputLabel value="Relationship With Nominee :" for="nomineeRlns"/>
+        	 			<p:selectOneMenu id="nomineeRlns" value="#{individualMarkingAction.licNomineeDtls.nomineeRlnshp}" required="true" requiredMessage="Please Select Nominee Relationship">
+								<f:selectItem itemLabel="Select One" itemValue="" />
+								<f:selectItem itemLabel="Aunt" itemValue="Aunt"/>
+								<f:selectItem itemLabel="Brother" itemValue="Brother"/>
+								<f:selectItem itemLabel="Brother-in-law" itemValue="Brother-in-law"/>
+								<f:selectItem itemLabel="Daughter" itemValue="Daughter"/>
+								<f:selectItem itemLabel="Grand Mother" itemValue="Grand Mother"/>
+								<f:selectItem itemLabel="Father" itemValue="Father"/>
+								<f:selectItem itemLabel="Father-in-law" itemValue="Father-in-law"/>
+								<f:selectItem itemLabel="Friend" itemValue="Friend"/>
+								<f:selectItem itemLabel="Grand Father" itemValue="Grand Father"/>
+								<f:selectItem itemLabel="Grand Mother" itemValue="Grand Mother"/>
+								<f:selectItem itemLabel="Husband" itemValue="Husband"/>
+								<f:selectItem itemLabel="Mother" itemValue="Mother"/>
+								<f:selectItem itemLabel="Mother-in-law" itemValue="Mother-in-law"/>
+								<f:selectItem itemLabel="Nephew" itemValue="Nephew"/>
+								<f:selectItem itemLabel="Niece" itemValue="Niece"/>
+								<f:selectItem itemLabel="Sister" itemValue="Sister"/>
+								<f:selectItem itemLabel="Sister-in-law" itemValue="Sister-in-law"/>
+								<f:selectItem itemLabel="Uncle" itemValue="Uncle"/>
+								<f:selectItem itemLabel="Wife" itemValue="Wife"/>
+							</p:selectOneMenu>
+							
+							<p:outputLabel value="Nominee Date Of Birth :" for="nomineeDob"/>
+							<p:calendar id="nomineeDob" value="#{individualMarkingAction.licNomineeDtls.nomineeDob}" pattern="dd/MM/yyyy" navigator="true" required="true" requiredMessage="Please Enter Nominee DOB" >
+							</p:calendar>
+							
+							<p:outputLabel value="Nominee Address :" for="nomineeAddress"/>
+							<p:inputText id="nomineeAddress" value="#{individualMarkingAction.licNomineeDtls.nomineeAddress}" />	
+							<p:outputLabel value="Appointee Name :" for="appointeeName"/>
+        	 				<p:inputText id="appointeeName" value="#{individualMarkingAction.licNomineeDtls.appointeeName}" >
+        	 					<f:validateRegex pattern="[a-z|| ||A-Z]*" />
+        	 				</p:inputText>
+        	 				
+        	 				<p:outputLabel value="Appointee Relation :" for="appointeeRelation"/>
+        	 				<p:selectOneMenu id="appointeeRelation" value="#{individualMarkingAction.licNomineeDtls.appointeeRlnshp}" >
+        	 					<f:selectItem itemLabel="Select One" itemValue="" />
+								<f:selectItem itemLabel="Aunt" itemValue="Aunt"/>
+								<f:selectItem itemLabel="Brother" itemValue="Brother"/>
+								<f:selectItem itemLabel="Father" itemValue="Father"/>
+								<f:selectItem itemLabel="Grand Father" itemValue="Grand Father"/>
+								<f:selectItem itemLabel="Grand Mother" itemValue="Grand Mother"/>
+								<f:selectItem itemLabel="Mother" itemValue="Mother"/>
+								<f:selectItem itemLabel="Sister" itemValue="Sister"/>
+								<f:selectItem itemLabel="Uncle" itemValue="Uncle"/>
+        	 				</p:selectOneMenu>
+							
+							<p:outputLabel value="Appointee Date Of Birth :" for="appointeeDob"/>
+							<p:calendar id="appointeeDob" value="#{individualMarkingAction.licNomineeDtls.appointeeDob}" pattern="dd/MM/yyyy" navigator="true" />
+        	 					
+		        	</h:panelGrid>	
+		        	<f:facet name="footer">
+        	 			<p:commandButton value="Update" id="updateDetails" actionListener="#{individualMarkingAction.updateDetails()}" icon="ui-icon-document" style="font-weight:bolder" />
+        	 		</f:facet>	
+	       	 </p:panel>
+		 </p:outputPanel>
+	 </h:form>
+    </h:body>
+     
+</html>

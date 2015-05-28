@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/1381/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/impl
+END
+ProjectMstServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/1379/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/impl/ProjectMstServiceImpl.java
+END
+FlatMstServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1357/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/impl/FlatMstServiceImpl.java
+END
+ProjectMilestoneServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/1328/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/impl/ProjectMilestoneServiceImpl.java
+END
+RoleMstServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1207/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/impl/RoleMstServiceImpl.java
+END
+AccessMstServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1200/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/impl/AccessMstServiceImpl.java
+END
+FlatInvoiceComboServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/1364/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/impl/FlatInvoiceComboServiceImpl.java
+END
+UserRoleComboServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/1204/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/impl/UserRoleComboServiceImpl.java
+END
+ReceiptDtlsServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/1374/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/impl/ReceiptDtlsServiceImpl.java
+END
+CustomerMstServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/1335/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/impl/CustomerMstServiceImpl.java
+END
+UserMstServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1381/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/impl/UserMstServiceImpl.java
+END
+RoleAccessComboServiceImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/1203/trunk/gtfsANUL/ANUL/src/main/java/com/gtfs/service/impl/RoleAccessComboServiceImpl.java
+END

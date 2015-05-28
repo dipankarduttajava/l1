@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core">
+     
+    <h:head>
+        <title>Please Verify Before Saving</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+     
+    <h:body>
+    	<h:form id="dialogForm">
+    		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			<p:outputPanel id="dialogOutputPanel">
+				<p:panel id="entryPanelDtls" style="width:600px; height:320px;" >
+	        		<h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;" >
+						
+						<p:outputLabel value="Tabular Premium : "/>
+						<p:outputLabel value="#{checkListAction.premiumDto.tabPrem}">
+							<f:convertNumber pattern="#.##"/>
+						</p:outputLabel>
+						
+						<p:outputLabel value="Tabular Basic Premium : "/>
+						<p:outputLabel value="#{checkListAction.premiumDto.tabBasicPrem}">
+							<f:convertNumber pattern="#.##"/>
+						</p:outputLabel>
+						
+						<p:outputLabel value="NSAP Amount : "/>
+						<p:outputLabel value="#{checkListAction.premiumDto.nsapAmt}">
+							<f:convertNumber pattern="#.##"/>
+						</p:outputLabel>
+						
+						<p:outputLabel value="High SA Discount Amount : "/>
+						<p:outputLabel value="#{checkListAction.premiumDto.highSaDiscAmt}">
+							<f:convertNumber pattern="#.##"/>
+						</p:outputLabel>
+						
+						<p:outputLabel value="Rider Amount : "/>
+						<p:outputLabel value="#{checkListAction.premiumDto.riderAmt}">
+							<f:convertNumber pattern="#.##"/>
+						</p:outputLabel>
+						
+						<p:outputLabel value="Rebate Amount : "/>
+						<p:outputLabel value="#{checkListAction.premiumDto.rebateAmt}">
+							<f:convertNumber pattern="#.##"/>
+						</p:outputLabel>
+						
+						<p:outputLabel value="Basic Premium : "/>
+						<p:outputLabel value="#{checkListAction.premiumDto.finalBasicPrem}">
+							<f:convertNumber pattern="#.##"/>
+						</p:outputLabel>
+						
+						<p:outputLabel value="Service Tax : "/>
+						<p:outputLabel value="#{checkListAction.premiumDto.serviceTax}">
+							<f:convertNumber pattern="#.##"/>
+						</p:outputLabel>
+						
+						<p:outputLabel value="Total Amount : "/>
+						<p:outputLabel value="#{checkListAction.premiumDto.totalAmt}">
+							<f:convertNumber pattern="#.##"/>
+						</p:outputLabel>
+						
+						<f:facet name="footer">
+							<p:commandButton value="Save" icon="ui-icon-disk" actionListener="#{checkListAction.save}" disabled="#{checkListAction.disableSave}" update=":dialogForm:dialogOutputPanel" />
+							<p:spacer width="10" />
+							<p:commandButton value="Close" icon="ui-icon-cancel" disabled="#{checkListAction.disableClose}" actionListener="#{checkListAction.closeDialog}" update=":dialogForm:dialogOutputPanel"/>
+						</f:facet>
+					</h:panelGrid>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+    </h:body>
+</html>
